@@ -13,20 +13,17 @@
 
 </head>
 <body>
-<table border="1" cellspacing="0" cellpadding="2">
-    <tr>
-        <td>id</td>
-        <td>model</td>
-        <td>price</td>
-    </tr>
-<c:forEach items="${phones}" var="phone">
-    <tr>
-        <td>${phone.getId()}</td>
-        <td>${phone.getModel()}</td>
-        <td>${phone.getPrice()}</td>
-    </tr>
-    </c:forEach>
-
+    <table border="1" cellspacing="0" cellpadding="2">
+        <tr>
+            <td>id</td>v
+            <td>name</td>
+        </tr>
+        <c:forEach items="${objectTypes}" var="objectType">
+        <tr>
+            <td>${objectType.getId()}</td>
+            <td>${objectType.getName()}</td>
+        </tr>
+        </c:forEach>
 </body>
 </html>
 
