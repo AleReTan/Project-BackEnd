@@ -2,14 +2,14 @@ package ru.vsu.dao.daoImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import ru.vsu.dao.Dao;
 import ru.vsu.entity.ObjectEntity;
 import ru.vsu.entity.mappers.ObjectMapper;
 
 import java.util.List;
 
-@Component
+@Repository
 public class ObjectDao implements Dao<ObjectEntity> {
     private final JdbcTemplate jdbcTemplate;
 
