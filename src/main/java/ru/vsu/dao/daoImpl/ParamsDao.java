@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.vsu.dao.Dao;
+import ru.vsu.entity.AttributeEntity;
+import ru.vsu.entity.ObjectEntity;
 import ru.vsu.entity.ParamsEntity;
 import ru.vsu.entity.mappers.ParamsMapper;
 
@@ -40,6 +42,22 @@ public class ParamsDao implements Dao<ParamsEntity> {
     public List<ParamsEntity> getAll() {
         String sql = "SELECT * FROM  eav.params";
         List<ParamsEntity> list = jdbcTemplate.query(sql, new ParamsMapper());
+        return list;
+    }
+//мб некст 2 метода должны быть where p.object_id=? и p.attr_id=? соответственно
+    public List<ParamsEntity> getParamsByObjectId(ObjectEntity obj) {
+        String sql = "SELECT p.* FROM  eav.params p " +
+                "JOIN eav.object o ON p.object_id = o.id " +
+                "WHERE o.id = ?";
+        List<ParamsEntity> list = jdbcTemplate.query(sql, new ParamsMapper(), obj.getId());
+        return list;
+    }
+
+    public List<ParamsEntity> getParamsByAtributeId(AttributeEntity obj) {
+        String sql = "SELECT p.* FROM  eav.params p " +
+                "JOIN eav.attribute a ON p.attr_id = a.id " +
+                "WHERE a.id = ?";
+        List<ParamsEntity> list = jdbcTemplate.query(sql, new ParamsMapper(), obj.getId());
         return list;
     }
 }

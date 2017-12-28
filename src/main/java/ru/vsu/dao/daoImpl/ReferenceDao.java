@@ -41,4 +41,5 @@ public class ReferenceDao implements Dao<ReferenceEntity> {
         List<ReferenceEntity> list = jdbcTemplate.query(sql, new ReferenceMapper());
         return list;
     }
+
 }

@@ -5,6 +5,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.vsu.dao.Dao;
 import ru.vsu.entity.AttributeEntity;
+import ru.vsu.entity.ObjectEntity;
+import ru.vsu.entity.ObjectTypeEntity;
+import ru.vsu.entity.ReferenceEntity;
 import ru.vsu.entity.mappers.AttributeMapper;
 
 import java.util.List;
@@ -40,6 +43,30 @@ public class AttributeDao implements Dao<AttributeEntity> {
     public List<AttributeEntity> getAll() {
         String sql = "SELECT * FROM  eav.attribute";
         List<AttributeEntity> list = jdbcTemplate.query(sql, new AttributeMapper());
+        return list;
+    }
+
+    public List<AttributeEntity> getAttributesByObjectTypeId(ObjectTypeEntity obj) {
+        String sql = "SELECT a.* FROM  eav.attribute a " +
+                "JOIN eav.object_type ot ON a.object_type_id = ot.id " +
+                "WHERE ot.id = ?";
+        List<AttributeEntity> list = jdbcTemplate.query(sql, new AttributeMapper(), obj.getId());
+        return list;
+    }
+
+    public List<AttributeEntity> getAttributesByObjectId(ObjectEntity obj) {
+        String sql = "SELECT a.* FROM  eav.attribute a " +
+                "JOIN eav.object_type ot ON a.object_type_id = ot.id " +
+                "JOIN eav.object o ON ot.id = o.type_id " +
+                "WHERE o.id = ?";
+        List<AttributeEntity> list = jdbcTemplate.query(sql, new AttributeMapper(), obj.getId());
+        return list;
+    }
+    public List<AttributeEntity> getAttributesByReferenceRefId(ReferenceEntity obj) {
+        String sql = "SELECT a.* FROM  eav.attribute a " +
+                "JOIN eav.reference r ON a.id = r.attr_id " +
+                "WHERE r.reference = ?";
+        List<AttributeEntity> list = jdbcTemplate.query(sql, new AttributeMapper(), obj.getReference());
         return list;
     }
 }

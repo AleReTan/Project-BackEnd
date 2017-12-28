@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.vsu.dao.Dao;
+import ru.vsu.entity.AttributeEntity;
+import ru.vsu.entity.ObjectEntity;
 import ru.vsu.entity.ObjectTypeEntity;
 import ru.vsu.entity.mappers.ObjectTypeMapper;
 
@@ -40,6 +42,20 @@ public class ObjectTypeDao implements Dao<ObjectTypeEntity> {
     public List<ObjectTypeEntity> getAll() {
         String sql = "SELECT * FROM  eav.object_type";
         List<ObjectTypeEntity> list = jdbcTemplate.query(sql, new ObjectTypeMapper());
+        return list;
+    }
+    public List<ObjectTypeEntity> getObjectTypesByObjectId(ObjectEntity obj) {
+        String sql = "SELECT * FROM  eav.object_type ot " +
+                "JOIN eav.object o ON ot.id = o.type_id" +
+                " WHERE o.id = ?";
+        List<ObjectTypeEntity> list = jdbcTemplate.query(sql, new ObjectTypeMapper(),obj.getId());
+        return list;
+    }
+    public List<ObjectTypeEntity> getObjectTypesByAttributeId(AttributeEntity obj) {
+        String sql = "SELECT * FROM  eav.object_type ot " +
+                "JOIN eav.attribute a ON ot.id = a.object_type_id" +
+                " WHERE a.id = ?";
+        List<ObjectTypeEntity> list = jdbcTemplate.query(sql, new ObjectTypeMapper(),obj.getId());
         return list;
     }
 }
