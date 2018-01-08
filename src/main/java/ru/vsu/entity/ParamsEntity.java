@@ -51,11 +51,10 @@ public class ParamsEntity {
     @Override
     public String toString() {
         return ParamsEntity.class.getSimpleName() +
-                "id=" + id +
+                " id=" + id +
                 ", attrId=" + attrId +
                 ", objectId=" + objectId +
-                ", value='" + value + '\'' +
-                '}';
+                ", value='" + value;
     }
 
     @Override

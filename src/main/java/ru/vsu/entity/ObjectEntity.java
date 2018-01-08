@@ -41,10 +41,9 @@ public class ObjectEntity {
     @Override
     public String toString() {
         return ObjectEntity.class.getSimpleName() +
-                "id=" + id +
+                " id=" + id +
                 ", name='" + name + '\'' +
-                ", typeId=" + typeId +
-                '}';
+                ", typeId=" + typeId;
     }
 
     @Override

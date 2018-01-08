@@ -54,10 +54,9 @@ public class ReferenceEntity {
     @Override
     public String toString() {
         return ReferenceEntity.class.getSimpleName() +
-                "reference=" + reference +
+                " reference=" + reference +
                 ", objectId=" + objectId +
-                ", attrId=" + attrId +
-                '}';
+                ", attrId=" + attrId;
     }
 
     @Override

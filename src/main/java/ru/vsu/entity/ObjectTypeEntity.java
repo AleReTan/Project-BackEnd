@@ -7,6 +7,9 @@ public class ObjectTypeEntity {
     BigInteger id;
     String name;
 
+    public ObjectTypeEntity() {
+    }
+
     public ObjectTypeEntity(BigInteger id, String name) {
         this.id = id;
         this.name = name;
@@ -31,9 +34,8 @@ public class ObjectTypeEntity {
     @Override
     public String toString() {
         return ObjectEntity.class.getSimpleName() +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+                " id=" + id +
+                ", name='" + name;
     }
 
     @Override

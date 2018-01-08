@@ -62,12 +62,11 @@ public class AttributeEntity {
     @Override
     public String toString() {
         return AttributeEntity.class.getSimpleName() +
-                "id=" + id +
+                " id=" + id +
                 ", name='" + name + '\'' +
                 ", objectTypeId=" + objectTypeId +
                 ", valueType='" + valueType + '\'' +
-                ", require=" + require +
-                '}';
+                ", require=" + require;
     }
 
     @Override

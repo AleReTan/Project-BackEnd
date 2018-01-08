@@ -5,16 +5,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import ru.vsu.entity.OrderEntity;
 import ru.vsu.services.MyService;
 
 import java.util.List;
 
 @RestController
-public class ObjectTypeRESTController {
+public class OrderRESTController {
     private MyService objectTypeService;
 
     @Autowired
-    public ObjectTypeRESTController(MyService objectTypeService){
+    public OrderRESTController(MyService objectTypeService) {
         this.objectTypeService = objectTypeService;
     }
 
@@ -24,8 +25,9 @@ public class ObjectTypeRESTController {
         return objectTypeService.getAll();
     }
 
-    @RequestMapping(value = "ot/c", method = RequestMethod.PUT)
-    public void setOT(@RequestBody String ot){
-        System.out.println(ot);
+    @RequestMapping(value = "ot/c", method = RequestMethod.POST)
+    public OrderEntity setOT(@RequestBody OrderEntity o) {
+        System.out.println(o.toString());
+        return o;
     }
 }
