@@ -70,4 +70,5 @@ public class ObjectDao implements Dao<ObjectEntity> {
         List<ObjectEntity> list = jdbcTemplate.query(sql, new ObjectMapper(),obj.getReference());
         return list;
     }
+
 }

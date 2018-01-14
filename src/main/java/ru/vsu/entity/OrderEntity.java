@@ -1,34 +1,50 @@
 package ru.vsu.entity;
 
 
+import ru.vsu.annotation.AttributeId;
+import ru.vsu.annotation.ObjectTypeId;
+
+import java.math.BigInteger;
 import java.util.Objects;
 
-public class OrderEntity {
+@ObjectTypeId(id = 1)
+public class OrderEntity extends ObjectEntity {
 
-    private long id;
-
+    @AttributeId(id = 1)
     private String firstName;
 
+    @AttributeId(id = 2)
     private String lastName;
 
+    @AttributeId(id = 3)
     private String address;
 
+    @AttributeId(id = 4)
     private String mobPhone;
 
+    @AttributeId(id = 5)
     private String modelCar;
 
+    @AttributeId(id = 6)
     private String color;
 
+    @AttributeId(id = 7)
     private String numberAuto;
 
-    private String email;
+    //private String orderCost;
+    //private String orderStartTime;
+    //private String orderEndTime;
+    //private String statusOrder;
+
+    @AttributeId(id = 8)
+    private String email;//delete
 
     public OrderEntity() {
-        id = 0;
+
     }
 
-    public OrderEntity(long id, String firstName, String lastName, String address, String mobPhone, String modelCar, String color, String numberAuto, String email) {
-        this.id = id;
+    public OrderEntity(BigInteger id, String name, BigInteger typeId, String firstName, String lastName, String address, String mobPhone, String modelCar, String color, String numberAuto, String email) {
+        super(id, name, typeId);
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -39,13 +55,6 @@ public class OrderEntity {
         this.email = email;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getFirstName() {
         return firstName;
