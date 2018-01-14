@@ -14,6 +14,9 @@ public class ObjectEntity {
         this.typeId = typeId;
     }
 
+    public ObjectEntity() {
+    }
+
     public BigInteger getId() {
         return id;
     }
