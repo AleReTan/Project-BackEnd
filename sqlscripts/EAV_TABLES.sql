@@ -1,15 +1,15 @@
 CREATE SEQUENCE object_type_sequence
-  start 1
-  increment 1;
+  START 1
+  INCREMENT 1;
 CREATE SEQUENCE attribute_sequence
-  start 1
-  increment 1;
+  START 1
+  INCREMENT 1;
 CREATE SEQUENCE object_sequence
-  start 1
-  increment 1;
+  START 1
+  INCREMENT 1;
 CREATE SEQUENCE params_sequence
-  start 1
-  increment 1;
+  START 1
+  INCREMENT 1;
 
 CREATE TABLE object_type
 (
@@ -39,11 +39,11 @@ CREATE TABLE attribute
 
 CREATE TABLE object
 (
-  id      BIGINT DEFAULT nextval('object_sequence' :: REGCLASS) NOT NULL
+  id             BIGINT DEFAULT nextval('object_sequence' :: REGCLASS) NOT NULL
     CONSTRAINT object_pkey
     PRIMARY KEY,
-  name    VARCHAR(150)                                          NOT NULL,
-  type_id BIGINT                                                NOT NULL
+  name           VARCHAR(150)                                          NOT NULL,
+  object_type_id BIGINT                                                NOT NULL
     CONSTRAINT object_object_type_id_fk
     REFERENCES object_type
     ON UPDATE CASCADE ON DELETE CASCADE
@@ -79,6 +79,3 @@ CREATE TABLE reference
     REFERENCES attribute
     ON UPDATE CASCADE ON DELETE CASCADE
 );
-
-
-
