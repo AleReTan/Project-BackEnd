@@ -1,6 +1,5 @@
 package ru.vsu.entity;
 
-import java.math.BigInteger;
 import java.util.Objects;
 
 /**
@@ -10,44 +9,44 @@ import java.util.Objects;
  * Поле objectId ссылается на второй объект
  * Поле attrId ссылается на атрибут характерный 1 объекту и указывающий его связь с объектом 2
  * Пример:  Объект person - reference
- *          Объект car - objectId
- *          Атрибут driver - attrId
+ * Объект car - objectId
+ * Атрибут driver - attrId
  * Таким образом, person является driver для машины car.
  * Из таблицы можно вытащить для какой машины person является driver
  * Можно вытащить кто driver для данной car
  */
 public class ReferenceEntity {
-    BigInteger reference;
-    BigInteger objectId;
-    BigInteger attrId;
+    long reference;
+    long objectId;
+    long attrId;
 
-    public ReferenceEntity(BigInteger reference, BigInteger objId, BigInteger attrId) {
+    public ReferenceEntity(long reference, long objId, long attrId) {
         this.reference = reference;
         this.objectId = objId;
         this.attrId = attrId;
     }
 
-    public BigInteger getReference() {
+    public long getReference() {
         return reference;
     }
 
-    public void setReference(BigInteger reference) {
+    public void setReference(long reference) {
         this.reference = reference;
     }
 
-    public BigInteger getObjectId() {
+    public long getObjectId() {
         return objectId;
     }
 
-    public void setObjectId(BigInteger objectId) {
+    public void setObjectId(long objectId) {
         this.objectId = objectId;
     }
 
-    public BigInteger getAttrId() {
+    public long getAttrId() {
         return attrId;
     }
 
-    public void setAttrId(BigInteger attrId) {
+    public void setAttrId(long attrId) {
         this.attrId = attrId;
     }
 

@@ -45,19 +45,25 @@ public class ParamsDao implements Dao<ParamsEntity> {
         return list;
     }
 //мб некст 2 метода должны быть where p.object_id=? и p.attr_id=? соответственно
-    public List<ParamsEntity> getParamsByObjectId(ObjectEntity obj) {
+public List<ParamsEntity> getParamsByEntityObjectId(ObjectEntity obj) {
         String sql = "SELECT p.* FROM  eav.params p " +
                 "JOIN eav.object o ON p.object_id = o.id " +
-                "WHERE o.id = ?";
+                "WHERE p.object_id = ?";
         List<ParamsEntity> list = jdbcTemplate.query(sql, new ParamsMapper(), obj.getId());
         return list;
     }
 
-    public List<ParamsEntity> getParamsByAtributeId(AttributeEntity obj) {
+    public List<ParamsEntity> getParamsByEntityAtributeId(AttributeEntity obj) {
         String sql = "SELECT p.* FROM  eav.params p " +
                 "JOIN eav.attribute a ON p.attr_id = a.id " +
-                "WHERE a.id = ?";
+                "WHERE p.attr_id = ?";
         List<ParamsEntity> list = jdbcTemplate.query(sql, new ParamsMapper(), obj.getId());
         return list;
+    }
+
+    public ParamsEntity getParamsEntityByObjectIdAndAttributeId(long objectId, long attrId) {
+        String sql = "SELECT * FROM  eav.params p WHERE p.object_id = ? AND p.attr_id = ?";
+        ParamsEntity paramsEntity = jdbcTemplate.queryForObject(sql, new ParamsMapper(), objectId, attrId);
+        return paramsEntity;
     }
 }

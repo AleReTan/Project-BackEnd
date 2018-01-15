@@ -36,4 +36,8 @@ public class ObjectService implements MyService<ObjectEntity>{
     public List<ObjectEntity> getAll() {
         return objectDao.getAll();
     }
+
+    public ObjectEntity getObjectEntityById(long id) {
+        return objectDao.getObjectEntityById(id);
+    }
 }

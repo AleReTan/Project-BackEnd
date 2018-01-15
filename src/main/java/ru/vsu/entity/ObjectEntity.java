@@ -1,14 +1,13 @@
 package ru.vsu.entity;
 
-import java.math.BigInteger;
 import java.util.Objects;
 
 public class ObjectEntity {
-    BigInteger id;
+    long id;
     String name;
-    BigInteger typeId;
+    long typeId;
 
-    public ObjectEntity(BigInteger id, String name, BigInteger typeId) {
+    public ObjectEntity(long id, String name, long typeId) {
         this.id = id;
         this.name = name;
         this.typeId = typeId;
@@ -17,11 +16,11 @@ public class ObjectEntity {
     public ObjectEntity() {
     }
 
-    public BigInteger getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -33,11 +32,11 @@ public class ObjectEntity {
         this.name = name;
     }
 
-    public BigInteger getTypeId() {
+    public long getTypeId() {
         return typeId;
     }
 
-    public void setTypeId(BigInteger typeId) {
+    public void setTypeId(long typeId) {
         this.typeId = typeId;
     }
 

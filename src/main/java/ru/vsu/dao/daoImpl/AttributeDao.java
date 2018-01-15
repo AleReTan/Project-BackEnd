@@ -46,7 +46,13 @@ public class AttributeDao implements Dao<AttributeEntity> {
         return list;
     }
 
-    public List<AttributeEntity> getAttributesByObjectTypeId(ObjectTypeEntity obj) {
+    public AttributeEntity getAttributeEntityById(long id) {
+        String sql = "SELECT * FROM  eav.attribute WHERE eav.attribute.id = ?";
+        AttributeEntity attributeEntity = jdbcTemplate.queryForObject(sql, new AttributeMapper(), id);
+        return attributeEntity;
+    }
+
+    public List<AttributeEntity> getAttributesByEntityObjectTypeId(ObjectTypeEntity obj) {
         String sql = "SELECT a.* FROM  eav.attribute a " +
                 "JOIN eav.object_type ot ON a.object_type_id = ot.id " +
                 "WHERE ot.id = ?";
@@ -54,15 +60,16 @@ public class AttributeDao implements Dao<AttributeEntity> {
         return list;
     }
 
-    public List<AttributeEntity> getAttributesByObjectId(ObjectEntity obj) {
+    public List<AttributeEntity> getAttributesByEntityObjectId(ObjectEntity obj) {
         String sql = "SELECT a.* FROM  eav.attribute a " +
                 "JOIN eav.object_type ot ON a.object_type_id = ot.id " +
-                "JOIN eav.object o ON ot.id = o.type_id " +
+                "JOIN eav.object o ON ot.id = o.object_type_id " +
                 "WHERE o.id = ?";
         List<AttributeEntity> list = jdbcTemplate.query(sql, new AttributeMapper(), obj.getId());
         return list;
     }
-    public List<AttributeEntity> getAttributesByReferenceRefId(ReferenceEntity obj) {
+
+    public List<AttributeEntity> getAttributesByEntityReferenceRefId(ReferenceEntity obj) {
         String sql = "SELECT a.* FROM  eav.attribute a " +
                 "JOIN eav.reference r ON a.id = r.attr_id " +
                 "WHERE r.reference = ?";

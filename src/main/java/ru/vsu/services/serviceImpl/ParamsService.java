@@ -36,4 +36,8 @@ public class ParamsService implements MyService<ParamsEntity> {
     public List<ParamsEntity> getAll() {
         return paramsDao.getAll();
     }
+
+    public ParamsEntity getParamsEntityByObjectIdAndAttributeId(long objectId, long attrId) {
+        return paramsDao.getParamsEntityByObjectIdAndAttributeId(objectId, attrId);
+    }
 }

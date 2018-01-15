@@ -44,14 +44,16 @@ public class ObjectTypeDao implements Dao<ObjectTypeEntity> {
         List<ObjectTypeEntity> list = jdbcTemplate.query(sql, new ObjectTypeMapper());
         return list;
     }
-    public List<ObjectTypeEntity> getObjectTypesByObjectId(ObjectEntity obj) {
+
+    public List<ObjectTypeEntity> getObjectTypesByEntityObjectId(ObjectEntity obj) {
         String sql = "SELECT * FROM  eav.object_type ot " +
-                "JOIN eav.object o ON ot.id = o.type_id" +
+                "JOIN eav.object o ON ot.id = o.object_type_id" +
                 " WHERE o.id = ?";
         List<ObjectTypeEntity> list = jdbcTemplate.query(sql, new ObjectTypeMapper(),obj.getId());
         return list;
     }
-    public List<ObjectTypeEntity> getObjectTypesByAttributeId(AttributeEntity obj) {
+
+    public List<ObjectTypeEntity> getObjectTypesByEntityAttributeId(AttributeEntity obj) {
         String sql = "SELECT * FROM  eav.object_type ot " +
                 "JOIN eav.attribute a ON ot.id = a.object_type_id" +
                 " WHERE a.id = ?";

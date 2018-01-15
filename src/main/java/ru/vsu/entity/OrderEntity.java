@@ -4,10 +4,9 @@ package ru.vsu.entity;
 import ru.vsu.annotation.AttributeId;
 import ru.vsu.annotation.ObjectTypeId;
 
-import java.math.BigInteger;
 import java.util.Objects;
 
-@ObjectTypeId(id = 1)
+@ObjectTypeId(id = 6)
 public class OrderEntity extends ObjectEntity {
 
     @AttributeId(id = 1)
@@ -31,19 +30,24 @@ public class OrderEntity extends ObjectEntity {
     @AttributeId(id = 7)
     private String numberAuto;
 
-    //private String orderCost;
-    //private String orderStartTime;
-    //private String orderEndTime;
-    //private String statusOrder;
-
     @AttributeId(id = 8)
-    private String email;//delete
+    private String orderCost;
+
+    @AttributeId(id = 9)
+    private String orderStartTime;
+
+    @AttributeId(id = 10)
+    private String orderEndTime;
+
+    @AttributeId(id = 11)
+    private String statusOrder;
+
 
     public OrderEntity() {
 
     }
 
-    public OrderEntity(BigInteger id, String name, BigInteger typeId, String firstName, String lastName, String address, String mobPhone, String modelCar, String color, String numberAuto, String email) {
+    public OrderEntity(long id, String name, long typeId, String firstName, String lastName, String address, String mobPhone, String modelCar, String color, String numberAuto, String orderCost, String orderStartTime, String orderEndTime, String statusOrder) {
         super(id, name, typeId);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -52,9 +56,11 @@ public class OrderEntity extends ObjectEntity {
         this.modelCar = modelCar;
         this.color = color;
         this.numberAuto = numberAuto;
-        this.email = email;
+        this.orderCost = orderCost;
+        this.orderStartTime = orderStartTime;
+        this.orderEndTime = orderEndTime;
+        this.statusOrder = statusOrder;
     }
-
 
     public String getFirstName() {
         return firstName;
@@ -112,40 +118,69 @@ public class OrderEntity extends ObjectEntity {
         this.numberAuto = numberAuto;
     }
 
-    public String getEmail() {
-        return email;
+    public String getOrderCost() {
+        return orderCost;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setOrderCost(String orderCost) {
+        this.orderCost = orderCost;
+    }
+
+    public String getOrderStartTime() {
+        return orderStartTime;
+    }
+
+    public void setOrderStartTime(String orderStartTime) {
+        this.orderStartTime = orderStartTime;
+    }
+
+    public String getOrderEndTime() {
+        return orderEndTime;
+    }
+
+    public void setOrderEndTime(String orderEndTime) {
+        this.orderEndTime = orderEndTime;
+    }
+
+    public String getStatusOrder() {
+        return statusOrder;
+    }
+
+    public void setStatusOrder(String statusOrder) {
+        this.statusOrder = statusOrder;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         OrderEntity that = (OrderEntity) o;
-        return getId() == that.getId() &&
-                Objects.equals(getFirstName(), that.getFirstName()) &&
+        return Objects.equals(getFirstName(), that.getFirstName()) &&
                 Objects.equals(getLastName(), that.getLastName()) &&
                 Objects.equals(getAddress(), that.getAddress()) &&
                 Objects.equals(getMobPhone(), that.getMobPhone()) &&
                 Objects.equals(getModelCar(), that.getModelCar()) &&
                 Objects.equals(getColor(), that.getColor()) &&
                 Objects.equals(getNumberAuto(), that.getNumberAuto()) &&
-                Objects.equals(getEmail(), that.getEmail());
+                Objects.equals(getOrderCost(), that.getOrderCost()) &&
+                Objects.equals(getOrderStartTime(), that.getOrderStartTime()) &&
+                Objects.equals(getOrderEndTime(), that.getOrderEndTime()) &&
+                Objects.equals(getStatusOrder(), that.getStatusOrder());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(getId(), getFirstName(), getLastName(), getAddress(), getMobPhone(), getModelCar(), getColor(), getNumberAuto(), getEmail());
+        return Objects.hash(super.hashCode(), getFirstName(), getLastName(), getAddress(), getMobPhone(), getModelCar(), getColor(), getNumberAuto(), getOrderCost(), getOrderStartTime(), getOrderEndTime(), getStatusOrder());
     }
 
     @Override
     public String toString() {
         return OrderEntity.class.getSimpleName() +
                 " id=" + id +
+                ", name='" + name + '\'' +
+                ", typeId=" + typeId + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", address='" + address + '\'' +
@@ -153,7 +188,9 @@ public class OrderEntity extends ObjectEntity {
                 ", modelCar='" + modelCar + '\'' +
                 ", color='" + color + '\'' +
                 ", numberAuto='" + numberAuto + '\'' +
-                ", email='" + email;
+                ", orderCost='" + orderCost + '\'' +
+                ", orderStartTime='" + orderStartTime + '\'' +
+                ", orderEndTime='" + orderEndTime + '\'' +
+                ", statusOrder='" + statusOrder + '\'';
     }
-
 }
