@@ -9,8 +9,9 @@ import ru.vsu.services.MyService;
 import java.util.List;
 
 @Service
-public class AttributeService implements MyService<AttributeEntity>{
+public class AttributeService implements MyService<AttributeEntity> {
     private AttributeDao attributeDao;
+
 
     @Autowired
     public AttributeService(AttributeDao attributeDao) {
@@ -35,5 +36,11 @@ public class AttributeService implements MyService<AttributeEntity>{
     @Override
     public List<AttributeEntity> getAll() {
         return attributeDao.getAll();
+    }
+
+    public AttributeEntity getAttributeEntityById(long id)
+
+    {
+        return attributeDao.getAttributeEntityById(id);
     }
 }

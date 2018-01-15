@@ -1,25 +1,24 @@
 package ru.vsu.entity;
 
-import java.math.BigInteger;
 import java.util.Objects;
 
 public class ObjectTypeEntity {
-    BigInteger id;
+    long id;
     String name;
 
     public ObjectTypeEntity() {
     }
 
-    public ObjectTypeEntity(BigInteger id, String name) {
+    public ObjectTypeEntity(long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public BigInteger getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(long id) {
         this.id = id;
     }
 

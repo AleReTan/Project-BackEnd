@@ -1,10 +1,12 @@
 package ru.vsu.services.serviceImpl;
 
+import org.springframework.stereotype.Service;
 import ru.vsu.entity.OrderEntity;
 import ru.vsu.services.MyService;
 
 import java.util.List;
 
+@Service
 public class OrderService implements MyService<OrderEntity> {
 
     @Override

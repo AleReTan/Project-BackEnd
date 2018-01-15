@@ -1,42 +1,41 @@
 package ru.vsu.entity;
 
-import java.math.BigInteger;
 import java.util.Objects;
 
 public class ParamsEntity {
-    BigInteger id;
-    BigInteger attrId;
-    BigInteger objectId;
+    long id;
+    long attrId;
+    long objectId;
     String value;
 
-    public ParamsEntity(BigInteger id, BigInteger attrId, BigInteger objectId, String value) {
+    public ParamsEntity(long id, long attrId, long objectId, String value) {
         this.id = id;
         this.attrId = attrId;
         this.objectId = objectId;
         this.value = value;
     }
 
-    public BigInteger getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public BigInteger getAttrId() {
+    public long getAttrId() {
         return attrId;
     }
 
-    public void setAttrId(BigInteger attrId) {
+    public void setAttrId(long attrId) {
         this.attrId = attrId;
     }
 
-    public BigInteger getObjectId() {
+    public long getObjectId() {
         return objectId;
     }
 
-    public void setObjectId(BigInteger objectId) {
+    public void setObjectId(long objectId) {
         this.objectId = objectId;
     }
 

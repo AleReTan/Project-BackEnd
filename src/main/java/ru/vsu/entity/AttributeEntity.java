@@ -1,17 +1,16 @@
 package ru.vsu.entity;
 
-import java.math.BigInteger;
 import java.util.Objects;
 
 public class AttributeEntity {
 
-    BigInteger id;
+    long id;
     String name;
-    BigInteger objectTypeId;
+    long objectTypeId;
     String valueType;
     boolean require;
 
-    public AttributeEntity(BigInteger id, String name, BigInteger objectTypeId, String valueType, boolean require) {
+    public AttributeEntity(long id, String name, long objectTypeId, String valueType, boolean require) {
         this.id = id;
         this.name = name;
         this.objectTypeId = objectTypeId;
@@ -19,11 +18,11 @@ public class AttributeEntity {
         this.require = require;
     }
 
-    public BigInteger getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -35,11 +34,11 @@ public class AttributeEntity {
         this.name = name;
     }
 
-    public BigInteger getObjectTypeId() {
+    public long getObjectTypeId() {
         return objectTypeId;
     }
 
-    public void setObjectTypeId(BigInteger objectTypeId) {
+    public void setObjectTypeId(long objectTypeId) {
         this.objectTypeId = objectTypeId;
     }
 
@@ -83,7 +82,6 @@ public class AttributeEntity {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(getId(), getName(), getObjectTypeId(), getValueType(), isRequire());
     }
 }

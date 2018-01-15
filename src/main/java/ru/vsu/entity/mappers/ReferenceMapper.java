@@ -9,8 +9,8 @@ import java.sql.SQLException;
 public class ReferenceMapper implements RowMapper<ReferenceEntity> {
     @Override
     public ReferenceEntity mapRow(ResultSet resultSet, int i) throws SQLException {
-        return new ReferenceEntity(resultSet.getBigDecimal("reference").toBigInteger(),
-                resultSet.getBigDecimal("object_id").toBigInteger(),
-                resultSet.getBigDecimal("attr_id").toBigInteger());
+        return new ReferenceEntity(resultSet.getLong("reference"),
+                resultSet.getLong("object_id"),
+                resultSet.getLong("attr_id"));
     }
 }
