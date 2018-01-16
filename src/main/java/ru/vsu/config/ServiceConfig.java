@@ -19,7 +19,7 @@ public class ServiceConfig {
         source.setServerName("localhost");
         source.setDatabaseName("postgres");
         source.setUser("postgres");
-        source.setPassword("1488");
+        source.setPassword("1234");
         source.setMaxConnections(10);
         return source;
     }
@@ -29,3 +29,4 @@ public class ServiceConfig {
         return new JdbcTemplate(getDataSource());
     }
 }
+//
