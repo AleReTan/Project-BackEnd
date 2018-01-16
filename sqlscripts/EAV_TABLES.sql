@@ -79,3 +79,13 @@ CREATE TABLE reference
     REFERENCES attribute
     ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+create table users
+(
+  login varchar(100) not null
+    constraint users_pkey
+    primary key,
+  password varchar(500) not null,
+  role varchar(50) not null
+)
+;
