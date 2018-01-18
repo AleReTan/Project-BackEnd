@@ -7,6 +7,7 @@ import ru.vsu.entity.ParamsEntity;
 import ru.vsu.services.MyService;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ParamsService implements MyService<ParamsEntity> {
@@ -40,4 +41,9 @@ public class ParamsService implements MyService<ParamsEntity> {
     public ParamsEntity getParamsEntityByObjectIdAndAttributeId(long objectId, long attrId) {
         return paramsDao.getParamsEntityByObjectIdAndAttributeId(objectId, attrId);
     }
+
+    public Map<Long, String> getParamsMapByObjectId(long objectId) {
+        return paramsDao.getParamsMapByObjectId(objectId);
+    }
+
 }

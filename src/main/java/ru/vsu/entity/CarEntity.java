@@ -1,23 +1,23 @@
 package ru.vsu.entity;
 
-import ru.vsu.annotation.AttributeId;
 import ru.vsu.annotation.ObjectTypeId;
+import ru.vsu.annotation.ParamAttributeId;
 
 import java.util.Objects;
 
 @ObjectTypeId(id = 7)
 public class CarEntity extends ObjectEntity {
 
-    @AttributeId(id = 12)
+    @ParamAttributeId(id = 12)
     private String number;
 
-    @AttributeId(id = 13)
+    @ParamAttributeId(id = 13)
     private String model;
 
-    @AttributeId(id = 14)
+    @ParamAttributeId(id = 14)
     private String color;
-    
-    @AttributeId(id = 15)
+
+    @ParamAttributeId(id = 15)
     private String type;
 
     public CarEntity() {

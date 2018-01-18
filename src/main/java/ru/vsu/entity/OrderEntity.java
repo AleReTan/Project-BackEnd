@@ -1,61 +1,52 @@
 package ru.vsu.entity;
 
 
-import ru.vsu.annotation.AttributeId;
 import ru.vsu.annotation.ObjectTypeId;
+import ru.vsu.annotation.ParamAttributeId;
+import ru.vsu.annotation.Reference;
 
 import java.util.Objects;
 
 @ObjectTypeId(id = 6)
 public class OrderEntity extends ObjectEntity {
 
-    @AttributeId(id = 1)
+    @ParamAttributeId(id = 1)
     private String firstName;
 
-    @AttributeId(id = 2)
+    @ParamAttributeId(id = 2)
     private String lastName;
 
-    @AttributeId(id = 3)
+    @ParamAttributeId(id = 3)
     private String address;
 
-    @AttributeId(id = 4)
+    @ParamAttributeId(id = 4)
     private String mobPhone;
 
-    @AttributeId(id = 5)
-    private String modelCar;
+    @Reference(attrId = 16)
+    private long carId;
 
-    @AttributeId(id = 6)
-    private String color;
-
-    @AttributeId(id = 7)
-    private String numberAuto;
-
-    @AttributeId(id = 8)
+    @ParamAttributeId(id = 8)
     private String orderCost;
 
-    @AttributeId(id = 9)
+    @ParamAttributeId(id = 9)
     private String orderStartTime;
 
-    @AttributeId(id = 10)
+    @ParamAttributeId(id = 10)
     private String orderEndTime;
 
-    @AttributeId(id = 11)
+    @ParamAttributeId(id = 11)
     private String statusOrder;
 
-
     public OrderEntity() {
-
     }
 
-    public OrderEntity(long id, String name, long typeId, String firstName, String lastName, String address, String mobPhone, String modelCar, String color, String numberAuto, String orderCost, String orderStartTime, String orderEndTime, String statusOrder) {
+    public OrderEntity(long id, String name, long typeId, String firstName, String lastName, String address, String mobPhone, long carId, String orderCost, String orderStartTime, String orderEndTime, String statusOrder) {
         super(id, name, typeId);
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.mobPhone = mobPhone;
-        this.modelCar = modelCar;
-        this.color = color;
-        this.numberAuto = numberAuto;
+        this.carId = carId;
         this.orderCost = orderCost;
         this.orderStartTime = orderStartTime;
         this.orderEndTime = orderEndTime;
@@ -94,28 +85,12 @@ public class OrderEntity extends ObjectEntity {
         this.mobPhone = mobPhone;
     }
 
-    public String getModelCar() {
-        return modelCar;
+    public long getCarId() {
+        return carId;
     }
 
-    public void setModelCar(String modelCar) {
-        this.modelCar = modelCar;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public String getNumberAuto() {
-        return numberAuto;
-    }
-
-    public void setNumberAuto(String numberAuto) {
-        this.numberAuto = numberAuto;
+    public void setCarId(long carId) {
+        this.carId = carId;
     }
 
     public String getOrderCost() {
@@ -156,13 +131,11 @@ public class OrderEntity extends ObjectEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         OrderEntity that = (OrderEntity) o;
-        return Objects.equals(getFirstName(), that.getFirstName()) &&
+        return getCarId() == that.getCarId() &&
+                Objects.equals(getFirstName(), that.getFirstName()) &&
                 Objects.equals(getLastName(), that.getLastName()) &&
                 Objects.equals(getAddress(), that.getAddress()) &&
                 Objects.equals(getMobPhone(), that.getMobPhone()) &&
-                Objects.equals(getModelCar(), that.getModelCar()) &&
-                Objects.equals(getColor(), that.getColor()) &&
-                Objects.equals(getNumberAuto(), that.getNumberAuto()) &&
                 Objects.equals(getOrderCost(), that.getOrderCost()) &&
                 Objects.equals(getOrderStartTime(), that.getOrderStartTime()) &&
                 Objects.equals(getOrderEndTime(), that.getOrderEndTime()) &&
@@ -172,7 +145,7 @@ public class OrderEntity extends ObjectEntity {
     @Override
     public int hashCode() {
 
-        return Objects.hash(super.hashCode(), getFirstName(), getLastName(), getAddress(), getMobPhone(), getModelCar(), getColor(), getNumberAuto(), getOrderCost(), getOrderStartTime(), getOrderEndTime(), getStatusOrder());
+        return Objects.hash(super.hashCode(), getFirstName(), getLastName(), getAddress(), getMobPhone(), getCarId(), getOrderCost(), getOrderStartTime(), getOrderEndTime(), getStatusOrder());
     }
 
     @Override
@@ -180,14 +153,12 @@ public class OrderEntity extends ObjectEntity {
         return OrderEntity.class.getSimpleName() +
                 " id=" + id +
                 ", name='" + name + '\'' +
-                ", typeId=" + typeId + '\'' +
+                ", typeId=" + typeId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", address='" + address + '\'' +
                 ", mobPhone='" + mobPhone + '\'' +
-                ", modelCar='" + modelCar + '\'' +
-                ", color='" + color + '\'' +
-                ", numberAuto='" + numberAuto + '\'' +
+                ", carId=" + carId +
                 ", orderCost='" + orderCost + '\'' +
                 ", orderStartTime='" + orderStartTime + '\'' +
                 ", orderEndTime='" + orderEndTime + '\'' +

@@ -9,7 +9,7 @@ import ru.vsu.services.MyService;
 import java.util.List;
 
 @Service
-public class ObjectService implements MyService<ObjectEntity>{
+public class ObjectService<T extends ObjectEntity> implements MyService<ObjectEntity> {
     private ObjectDao objectDao;
 
     @Autowired
@@ -39,5 +39,9 @@ public class ObjectService implements MyService<ObjectEntity>{
 
     public ObjectEntity getObjectEntityById(long id) {
         return objectDao.getObjectEntityById(id);
+    }
+
+    public T findById(long id, Class classEntity) {
+        return (T) objectDao.findById(id, classEntity);
     }
 }
