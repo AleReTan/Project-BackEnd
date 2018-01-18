@@ -36,4 +36,16 @@ public class ReferenceService implements MyService<ReferenceEntity> {
     public List<ReferenceEntity> getAll() {
         return referenceDao.getAll();
     }
+
+    public List<ReferenceEntity> getReferencesByObjectId(long objectId) {
+        return referenceDao.getReferencesByObjectId(objectId);
+    }
+
+    public List<ReferenceEntity> getReferencesByRefId(long refId) {
+        return referenceDao.getReferencesByRefId(refId);
+    }
+
+    public ReferenceEntity getReferencesByRefIdAndObjectId(long refId, long objectId) {
+        return referenceDao.getReferencesByRefIdAndObjectId(refId, objectId);
+    }
 }

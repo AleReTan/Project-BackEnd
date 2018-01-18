@@ -42,4 +42,22 @@ public class ReferenceDao implements Dao<ReferenceEntity> {
         return list;
     }
 
+    public List<ReferenceEntity> getReferencesByObjectId(long objectId) {
+        String sql = "SELECT * FROM  eav.reference WHERE eav.reference.object_id = ?";
+        List<ReferenceEntity> list = jdbcTemplate.query(sql, new ReferenceMapper(), objectId);
+        return list;
+    }
+
+    public List<ReferenceEntity> getReferencesByRefId(long refId) {
+        String sql = "SELECT * FROM  eav.reference WHERE eav.reference.reference = ?";
+        List<ReferenceEntity> list = jdbcTemplate.query(sql, new ReferenceMapper(), refId);
+        return list;
+    }
+
+    public ReferenceEntity getReferencesByRefIdAndObjectId(long refId, long objectId) {
+        String sql = "SELECT * FROM  eav.reference WHERE eav.reference.reference = ? AND eav.reference.object_id";
+        ReferenceEntity referenceEntity = jdbcTemplate.queryForObject(sql, new ReferenceMapper(), refId, objectId);
+        return referenceEntity;
+    }
+
 }

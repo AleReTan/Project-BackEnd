@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import ru.vsu.dao.daoImpl.UtilDao;
 import ru.vsu.entity.CarEntity;
 import ru.vsu.entity.OrderEntity;
 import ru.vsu.facade.ServiceFacade;
@@ -16,6 +15,7 @@ import java.util.List;
 public class OrderRESTController {
     private ServiceFacade serviceFacade;
 
+
     @Autowired
     public OrderRESTController(ServiceFacade serviceFacade) {
         this.serviceFacade = serviceFacade;
@@ -24,9 +24,8 @@ public class OrderRESTController {
 
     @RequestMapping(value = "/ot",method = RequestMethod.GET)
     public List getOT(){
-        UtilDao<OrderEntity> orderEntityUtilDao = new UtilDao<>(serviceFacade);
-        orderEntityUtilDao.findById(1, OrderEntity.class);
-        orderEntityUtilDao.findById(2, CarEntity.class);
+        System.out.println(serviceFacade.getObjectService().findById(1, OrderEntity.class).toString());
+        System.out.println(serviceFacade.getObjectService().findById(2, CarEntity.class).toString());
         return serviceFacade.getObjectTypeService().getAll();
     }
 
