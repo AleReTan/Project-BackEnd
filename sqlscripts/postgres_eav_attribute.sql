@@ -15,3 +15,4 @@ INSERT INTO eav.attribute (id, name, object_type_id, value_type, require) VALUES
 INSERT INTO eav.attribute (id, name, object_type_id, value_type, require) VALUES (13, 'model', 7, 'String', TRUE);
 INSERT INTO eav.attribute (id, name, object_type_id, value_type, require) VALUES (14, 'color', 7, 'String', TRUE);
 INSERT INTO eav.attribute (id, name, object_type_id, value_type, require) VALUES (15, 'type', 7, 'String', TRUE);
+INSERT INTO eav.attribute (id, name, object_type_id, value_type, require) VALUES (16, 'car', 6, 'Reference', TRUE);
