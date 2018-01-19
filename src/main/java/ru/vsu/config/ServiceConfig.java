@@ -6,7 +6,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-
 import javax.sql.DataSource;
 
 @Configuration
@@ -19,7 +18,7 @@ public class ServiceConfig {
         source.setServerName("localhost");
         source.setDatabaseName("postgres");
         source.setUser("postgres");
-        source.setPassword("1234");
+        source.setPassword("1488");
         source.setMaxConnections(10);
         return source;
     }
