@@ -2,6 +2,7 @@ package ru.vsu.config.webconfig;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 import ru.vsu.config.ServiceConfig;
+import ru.vsu.config.securityconfig.SecurityConfig;
 
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
@@ -12,7 +13,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{ServiceConfig.class};
+        return new Class[]{ServiceConfig.class,SecurityConfig.class};
     }
 
     @Override
