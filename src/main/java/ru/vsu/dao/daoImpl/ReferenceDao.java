@@ -29,6 +29,11 @@ public class ReferenceDao implements Dao<ReferenceEntity> {
         jdbcTemplate.update(sql,obj.getReference(),obj.getObjectId(),obj.getAttrId());
     }
 
+    public void insert(long reference, long objectId, long attributeId) {
+        String sql = " INSERT INTO  eav.reference VALUES (? ,?, ?)";
+        jdbcTemplate.update(sql, reference, objectId, attributeId);
+    }
+
     @Override
     public void update(ReferenceEntity obj) {
         String sql = " UPDATE eav.reference SET eav.reference.object_id = ? WHERE eav.reference.reference = ?";

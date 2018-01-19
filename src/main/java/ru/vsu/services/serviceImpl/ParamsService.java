@@ -28,6 +28,10 @@ public class ParamsService implements MyService<ParamsEntity> {
         paramsDao.insert(obj);
     }
 
+    public void insert(long attributeId, long objectId, String value) {
+        paramsDao.insert(attributeId, objectId, value);
+    }
+
     @Override
     public void update(ParamsEntity obj) {
         paramsDao.update(obj);
