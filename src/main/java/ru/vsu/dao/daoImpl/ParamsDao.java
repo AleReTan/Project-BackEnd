@@ -28,6 +28,11 @@ public class ParamsDao implements Dao<ParamsEntity> {
         jdbcTemplate.update(sql, obj.getId());
     }
 
+    public void deleteByObjectId(long objectId) {
+        String sql = "DELETE  FROM  eav.params WHERE eav.params.object_id = ?";
+        jdbcTemplate.update(sql, objectId);
+    }
+
     @Override
     public void insert(ParamsEntity obj) {
         String sql = " INSERT INTO  eav.params VALUES (DEFAULT ,?,?,?)";

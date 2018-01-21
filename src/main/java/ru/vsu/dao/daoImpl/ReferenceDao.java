@@ -12,6 +12,7 @@ import java.util.List;
 @Repository
 public class ReferenceDao implements Dao<ReferenceEntity> {
     private final JdbcTemplate jdbcTemplate;
+
     @Autowired
     public ReferenceDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -19,14 +20,19 @@ public class ReferenceDao implements Dao<ReferenceEntity> {
 
     @Override
     public void delete(ReferenceEntity obj) {
-        String sql = "Delete  from  eav.reference where eav.reference.reference = ?";
-        jdbcTemplate.update(sql,obj.getReference());
+        String sql = "DELETE  FROM  eav.reference WHERE eav.reference.object_id = ? AND eav.reference.attr_id=?";
+        jdbcTemplate.update(sql, obj.getObjectId(), obj.getAttrId());
+    }
+
+    public void deleteByObjectId(long objectId) {
+        String sql = "DELETE  FROM  eav.reference WHERE eav.reference.object_id = ?";
+        jdbcTemplate.update(sql, objectId);
     }
 
     @Override
     public void insert(ReferenceEntity obj) {
-        String sql = " INSERT into  eav.reference VALUES (? ,?, ?)";
-        jdbcTemplate.update(sql,obj.getReference(),obj.getObjectId(),obj.getAttrId());
+        String sql = " INSERT INTO  eav.reference VALUES (? ,?, ?)";
+        jdbcTemplate.update(sql, obj.getReference(), obj.getObjectId(), obj.getAttrId());
     }
 
     public void insert(long reference, long objectId, long attributeId) {
@@ -37,12 +43,12 @@ public class ReferenceDao implements Dao<ReferenceEntity> {
     @Override
     public void update(ReferenceEntity obj) {
         String sql = " UPDATE eav.reference SET eav.reference.object_id = ? WHERE eav.reference.reference = ?";
-        jdbcTemplate.update(sql,obj.getObjectId(),obj.getReference());
+        jdbcTemplate.update(sql, obj.getObjectId(), obj.getReference());
     }
 
     @Override
     public List<ReferenceEntity> getAll() {
-        String sql =  "SELECT * FROM  eav.reference";
+        String sql = "SELECT * FROM  eav.reference";
         List<ReferenceEntity> list = jdbcTemplate.query(sql, new ReferenceMapper());
         return list;
     }

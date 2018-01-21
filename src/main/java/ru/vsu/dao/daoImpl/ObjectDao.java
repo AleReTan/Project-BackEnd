@@ -61,6 +61,12 @@ public class ObjectDao<T extends ObjectEntity> implements Dao<ObjectEntity> {
         return objectEntity;
     }
 
+    public List<Long> getListOfObjectIdByObjectTypeId(long objectTypeId) {
+        String sql = "SELECT eav.object.id FROM  eav.object WHERE eav.object.object_type_id = ?";
+        List<Long> list = jdbcTemplate.queryForList(sql, Long.class, objectTypeId);
+        return list;
+    }
+
     //TODO:оттестить
     public List<ObjectEntity> getObjectsByEntityObjectTypeId(ObjectTypeEntity obj) {
         //String sql = "SELECT * FROM  eav.object WHERE eav.object.type_id = ?";

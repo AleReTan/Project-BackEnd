@@ -22,13 +22,13 @@ public class ObjectTypeDao implements Dao<ObjectTypeEntity> {
 
     @Override
     public void delete(ObjectTypeEntity obj) {
-        String sql = "Delete  from  eav.object_type where eav.object_type.id = ?";
+        String sql = "DELETE  FROM  eav.object_type WHERE eav.object_type.id = ?";
         jdbcTemplate.update(sql, obj.getId());
     }
 
     @Override
     public void insert(ObjectTypeEntity obj) {
-        String sql = " INSERT into  eav.object_type VALUES (DEFAULT ,?)";
+        String sql = " INSERT INTO  eav.object_type VALUES (DEFAULT ,?)";
         jdbcTemplate.update(sql, obj.getName());
     }
 
@@ -49,7 +49,7 @@ public class ObjectTypeDao implements Dao<ObjectTypeEntity> {
         String sql = "SELECT * FROM  eav.object_type ot " +
                 "JOIN eav.object o ON ot.id = o.object_type_id" +
                 " WHERE o.id = ?";
-        List<ObjectTypeEntity> list = jdbcTemplate.query(sql, new ObjectTypeMapper(),obj.getId());
+        List<ObjectTypeEntity> list = jdbcTemplate.query(sql, new ObjectTypeMapper(), obj.getId());
         return list;
     }
 
@@ -57,7 +57,7 @@ public class ObjectTypeDao implements Dao<ObjectTypeEntity> {
         String sql = "SELECT * FROM  eav.object_type ot " +
                 "JOIN eav.attribute a ON ot.id = a.object_type_id" +
                 " WHERE a.id = ?";
-        List<ObjectTypeEntity> list = jdbcTemplate.query(sql, new ObjectTypeMapper(),obj.getId());
+        List<ObjectTypeEntity> list = jdbcTemplate.query(sql, new ObjectTypeMapper(), obj.getId());
         return list;
     }
 }

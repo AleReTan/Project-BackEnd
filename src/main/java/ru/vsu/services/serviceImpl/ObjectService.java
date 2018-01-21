@@ -10,10 +10,10 @@ import java.util.List;
 
 @Service
 public class ObjectService<T extends ObjectEntity> implements MyService<ObjectEntity> {
-    private ObjectDao objectDao;
+    private ObjectDao<T> objectDao;
 
     @Autowired
-    public ObjectService(ObjectDao objectDao) {
+    public ObjectService(ObjectDao<T> objectDao) {
         this.objectDao = objectDao;
     }
 
@@ -42,6 +42,10 @@ public class ObjectService<T extends ObjectEntity> implements MyService<ObjectEn
     }
 
     public T findById(long id, Class classEntity) {
-        return (T) objectDao.findById(id, classEntity);
+        return objectDao.findById(id, classEntity);
+    }
+
+    public List<Long> getListOfObjectIdByObjectTypeId(long objectTypeId) {
+        return objectDao.getListOfObjectIdByObjectTypeId(objectTypeId);
     }
 }

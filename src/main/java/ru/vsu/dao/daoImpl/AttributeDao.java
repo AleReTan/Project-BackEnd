@@ -23,13 +23,13 @@ public class AttributeDao implements Dao<AttributeEntity> {
 
     @Override
     public void delete(AttributeEntity obj) {
-        String sql = "Delete  from  eav.attribute where eav.attribute.id = ?";
+        String sql = "DELETE  FROM  eav.attribute WHERE eav.attribute.id = ?";
         jdbcTemplate.update(sql, obj.getId());
     }
 
     @Override
     public void insert(AttributeEntity obj) {
-        String sql = " INSERT into  eav.attribute VALUES (DEFAULT ,?,?,?,?)";
+        String sql = " INSERT INTO  eav.attribute VALUES (DEFAULT ,?,?,?,?)";
         jdbcTemplate.update(sql, obj.getName(), obj.getObjectTypeId(), obj.getValueType(), obj.isRequire());
     }
 
