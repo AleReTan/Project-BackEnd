@@ -22,6 +22,10 @@ public class ReferenceService implements MyService<ReferenceEntity> {
         referenceDao.delete(obj);
     }
 
+    public void deleteByObjectId(long objectId) {
+        referenceDao.deleteByObjectId(objectId);
+    }
+
     @Override
     public void insert(ReferenceEntity obj) {
         referenceDao.insert(obj);

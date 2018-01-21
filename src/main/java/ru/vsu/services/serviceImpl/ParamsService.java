@@ -23,6 +23,10 @@ public class ParamsService implements MyService<ParamsEntity> {
         paramsDao.delete(obj);
     }
 
+    public void deleteByObjectId(long deleteByObjectId) {
+        paramsDao.deleteByObjectId(deleteByObjectId);
+    }
+
     @Override
     public void insert(ParamsEntity obj) {
         paramsDao.insert(obj);

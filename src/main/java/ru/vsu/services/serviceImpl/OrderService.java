@@ -2,22 +2,25 @@ package ru.vsu.services.serviceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.vsu.annotation.ObjectTypeId;
 import ru.vsu.annotation.ParamAttributeId;
 import ru.vsu.annotation.Reference;
+import ru.vsu.entity.ObjectEntity;
 import ru.vsu.entity.OrderEntity;
 import ru.vsu.services.MyService;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class OrderService implements MyService<OrderEntity> {
-    private ObjectService objectService;//или напрямую к дао?(что скорее всего не так)
+    private ObjectService<ObjectEntity> objectService;//или напрямую к дао?(что скорее всего не так)
     private ParamsService paramsService;
     private ReferenceService referenceService;
 
     @Autowired
-    public OrderService(ObjectService objectService, ParamsService paramsService, ReferenceService referenceService) {
+    public OrderService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService) {
         this.objectService = objectService;
         this.paramsService = paramsService;
         this.referenceService = referenceService;
@@ -25,8 +28,9 @@ public class OrderService implements MyService<OrderEntity> {
 
     @Override
     public void delete(OrderEntity obj) {
-        //TODO:надо обсудить как удаление будет происходить, с фронта прилетает json с полным объектом или какая то часть
-        //objectService.delete(obj);
+        objectService.delete(obj);
+        paramsService.deleteByObjectId(obj.getId());
+        referenceService.deleteByObjectId(obj.getId());
     }
 
     @Override
@@ -59,6 +63,11 @@ public class OrderService implements MyService<OrderEntity> {
 
     @Override
     public List<OrderEntity> getAll() {
-        return null;
+        List<OrderEntity> orderEntities = new ArrayList<>();
+        for (long id :
+                objectService.getListOfObjectIdByObjectTypeId(OrderEntity.class.getAnnotation(ObjectTypeId.class).id())) {
+            orderEntities.add((OrderEntity) objectService.findById(id, OrderEntity.class));
+        }
+        return orderEntities;
     }
 }
