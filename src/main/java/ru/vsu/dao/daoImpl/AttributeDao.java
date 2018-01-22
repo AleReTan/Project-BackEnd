@@ -35,7 +35,7 @@ public class AttributeDao implements Dao<AttributeEntity> {
 
     @Override
     public void update(AttributeEntity obj) {
-        String sql = " UPDATE eav.attribute SET eav.attribute.name = ? WHERE eav.attribute.id = ?";
+        String sql = " UPDATE eav.attribute SET name = ? WHERE eav.attribute.id = ?";
         jdbcTemplate.update(sql, obj.getName(), obj.getId());
     }
 

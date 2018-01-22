@@ -7,6 +7,7 @@ import ru.vsu.entity.ReferenceEntity;
 import ru.vsu.services.MyService;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ReferenceService implements MyService<ReferenceEntity> {
@@ -40,6 +41,10 @@ public class ReferenceService implements MyService<ReferenceEntity> {
         referenceDao.update(obj);
     }
 
+    public void update(long newReference, long objectId, long attributeId) {
+        referenceDao.update(newReference, objectId, attributeId);
+    }
+
     @Override
     public List<ReferenceEntity> getAll() {
         return referenceDao.getAll();
@@ -55,5 +60,9 @@ public class ReferenceService implements MyService<ReferenceEntity> {
 
     public ReferenceEntity getReferencesByRefIdAndObjectId(long refId, long objectId) {
         return referenceDao.getReferencesByRefIdAndObjectId(refId, objectId);
+    }
+
+    public Map<Long, Long> getReferenceMapByObjectId(long objectId) {
+        return referenceDao.getReferenceMapByObjectId(objectId);
     }
 }

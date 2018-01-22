@@ -48,4 +48,8 @@ public class ObjectService<T extends ObjectEntity> implements MyService<ObjectEn
     public List<Long> getListOfObjectIdByObjectTypeId(long objectTypeId) {
         return objectDao.getListOfObjectIdByObjectTypeId(objectTypeId);
     }
+
+    public Long getObjectIdByNameAndObjectTypeId(String name, long objectTypeId) {
+        return objectDao.getObjectIdByNameAndObjectTypeId(name, objectTypeId);
+    }
 }

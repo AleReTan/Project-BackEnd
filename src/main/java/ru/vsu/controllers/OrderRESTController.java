@@ -24,7 +24,7 @@ public class OrderRESTController {
 
 
     @RequestMapping(value = "/ot",method = RequestMethod.GET)
-    public List getOT(){
+    public List test() {
         System.out.println(serviceFacade.getObjectService().findById(1, OrderEntity.class).toString());
         System.out.println(serviceFacade.getObjectService().findById(2, CarEntity.class).toString());
         System.out.println(Arrays.toString(serviceFacade.getObjectService().getListOfObjectIdByObjectTypeId(6).toArray()));
@@ -32,10 +32,32 @@ public class OrderRESTController {
         return serviceFacade.getObjectTypeService().getAll();
     }
 
-
-    @RequestMapping(value = "ot/c", method = RequestMethod.POST)
-    public OrderEntity setOT(@RequestBody OrderEntity o) {
+    @RequestMapping(value = "/orders/createOrder", method = RequestMethod.POST)
+    public void createOrder(@RequestBody OrderEntity o) {
         System.out.println(o.toString());
-        return o;
+        serviceFacade.getOrderService().insert(o);
+    }
+
+    @RequestMapping(value = "/orders/updateOrder", method = RequestMethod.PATCH)
+    public void updateOrder(@RequestBody OrderEntity o) {
+        System.out.println(o.toString());
+        serviceFacade.getOrderService().update(o);
+    }
+
+    @RequestMapping(value = "/orders/deleteOrder", method = RequestMethod.DELETE)
+    public void deleteOrder(@RequestBody OrderEntity o) {
+        System.out.println(o.toString());
+        serviceFacade.getOrderService().delete(o);
+    }
+
+    @RequestMapping(value = "/orders", method = RequestMethod.GET)
+    public List<OrderEntity> getOrders() {
+        return serviceFacade.getOrderService().getAll();
+    }
+
+    //TODO getOrderById не реализован
+    @RequestMapping(value = "/orders/getOrder", method = RequestMethod.GET)
+    public OrderEntity getOrder(long id) {
+        return serviceFacade.getOrderService().getOrderById(id);
     }
 }

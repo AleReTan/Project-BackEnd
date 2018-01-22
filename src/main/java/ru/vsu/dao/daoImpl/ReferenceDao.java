@@ -7,7 +7,9 @@ import ru.vsu.dao.Dao;
 import ru.vsu.entity.ReferenceEntity;
 import ru.vsu.entity.mappers.ReferenceMapper;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class ReferenceDao implements Dao<ReferenceEntity> {
@@ -42,8 +44,13 @@ public class ReferenceDao implements Dao<ReferenceEntity> {
 
     @Override
     public void update(ReferenceEntity obj) {
-        String sql = " UPDATE eav.reference SET eav.reference.object_id = ? WHERE eav.reference.reference = ?";
-        jdbcTemplate.update(sql, obj.getObjectId(), obj.getReference());
+        String sql = " UPDATE eav.reference SET reference = ? WHERE eav.reference.object_id = ? AND eav.reference.attr_id = ?";
+        jdbcTemplate.update(sql, obj.getReference(), obj.getObjectId(), obj.getAttrId());
+    }
+
+    public void update(long newReference, long objectId, long attributeId) {
+        String sql = " UPDATE eav.reference SET reference = ? WHERE eav.reference.object_id = ? AND eav.reference.attr_id = ?";
+        jdbcTemplate.update(sql, newReference, objectId, attributeId);
     }
 
     @Override
@@ -69,6 +76,16 @@ public class ReferenceDao implements Dao<ReferenceEntity> {
         String sql = "SELECT * FROM  eav.reference WHERE eav.reference.reference = ? AND eav.reference.object_id";
         ReferenceEntity referenceEntity = jdbcTemplate.queryForObject(sql, new ReferenceMapper(), refId, objectId);
         return referenceEntity;
+    }
+
+    public Map<Long, Long> getReferenceMapByObjectId(long objectId) {
+        String sql = "SELECT * FROM  eav.reference r WHERE r.object_id = ?";
+        List<ReferenceEntity> list = jdbcTemplate.query(sql, new ReferenceMapper(), objectId);
+        Map<Long, Long> returnMap = new HashMap<>();
+        for (ReferenceEntity referenceEntity : list) {
+            returnMap.put(referenceEntity.getAttrId(), referenceEntity.getReference());
+        }
+        return returnMap;
     }
 
 }
