@@ -35,12 +35,15 @@ public class OrderService implements MyService<OrderEntity> {
 
     @Override
     public void insert(OrderEntity obj) {
+        //здесь айдишник объекта увеличивается с помощью сиквенса
         objectService.insert(obj);
+        long realObjectId = objectService.getObjectIdByNameAndObjectTypeId(obj.getName(), obj.getTypeId());
         for (Field field : obj.getClass().getDeclaredFields()) {
             if (field.isAnnotationPresent(ParamAttributeId.class)) {
                 try {
                     field.setAccessible(true);
-                    paramsService.insert(field.getAnnotation(ParamAttributeId.class).id(), obj.getId(), (String) field.get(obj));
+                    //obj.getId - ставит айди того что передано, а не того что было получено дефаултом
+                    paramsService.insert(field.getAnnotation(ParamAttributeId.class).id(), /*obj.getId()*/realObjectId, (String) field.get(obj));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
@@ -48,7 +51,8 @@ public class OrderService implements MyService<OrderEntity> {
             if (field.isAnnotationPresent(Reference.class)) {
                 try {
                     field.setAccessible(true);
-                    referenceService.insert(field.getLong(obj), obj.getId(), field.getAnnotation(Reference.class).attrId());
+                    //obj.getId - ставит айди того что передано, а не того что было получено дефаултом
+                    referenceService.insert(field.getLong(obj), /*obj.getId()*/realObjectId, field.getAnnotation(Reference.class).attrId());
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
@@ -58,7 +62,25 @@ public class OrderService implements MyService<OrderEntity> {
 
     @Override
     public void update(OrderEntity obj) {
-
+        objectService.update(obj);
+        for (Field field : obj.getClass().getDeclaredFields()) {
+            if (field.isAnnotationPresent(ParamAttributeId.class)) {
+                try {
+                    field.setAccessible(true);
+                    paramsService.update((String) field.get(obj), field.getAnnotation(ParamAttributeId.class).id(), obj.getId());
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (field.isAnnotationPresent(Reference.class)) {
+                try {
+                    field.setAccessible(true);
+                    referenceService.update(field.getLong(obj), obj.getId(), field.getAnnotation(Reference.class).attrId());
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     @Override
@@ -69,5 +91,9 @@ public class OrderService implements MyService<OrderEntity> {
             orderEntities.add((OrderEntity) objectService.findById(id, OrderEntity.class));
         }
         return orderEntities;
+    }
+
+    public OrderEntity getOrderById(long id) {
+        return (OrderEntity) objectService.findById(id, OrderEntity.class);
     }
 }

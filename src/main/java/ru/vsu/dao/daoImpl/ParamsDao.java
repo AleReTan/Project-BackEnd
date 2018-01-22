@@ -46,8 +46,13 @@ public class ParamsDao implements Dao<ParamsEntity> {
 
     @Override
     public void update(ParamsEntity obj) {
-        String sql = " UPDATE eav.params SET eav.params.value = ? WHERE eav.params.id = ?";
+        String sql = " UPDATE eav.params SET value = ? WHERE eav.params.id = ?";
         jdbcTemplate.update(sql, obj.getValue(), obj.getId());
+    }
+
+    public void update(String newValue, long attributeId, long objectId) {
+        String sql = " UPDATE eav.params SET value = ? WHERE eav.params.attr_id = ? AND eav.params.object_id = ?";
+        jdbcTemplate.update(sql, newValue, attributeId, objectId);
     }
 
     @Override

@@ -34,7 +34,7 @@ public class ObjectTypeDao implements Dao<ObjectTypeEntity> {
 
     @Override
     public void update(ObjectTypeEntity obj) {
-        String sql = " UPDATE eav.object_type SET eav.object_type.name = ? WHERE eav.object_type.id = ?";
+        String sql = " UPDATE eav.object_type SET name = ? WHERE eav.object_type.id = ?";
         jdbcTemplate.update(sql, obj.getName(), obj.getId());
     }
 

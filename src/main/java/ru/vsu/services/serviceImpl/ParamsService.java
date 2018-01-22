@@ -41,6 +41,10 @@ public class ParamsService implements MyService<ParamsEntity> {
         paramsDao.update(obj);
     }
 
+    public void update(String newValue, long attributeId, long objectId) {
+        paramsDao.update(newValue, attributeId, objectId);
+    }
+
     @Override
     public List<ParamsEntity> getAll() {
         return paramsDao.getAll();

@@ -12,6 +12,7 @@ import ru.vsu.entity.ObjectTypeEntity;
 import ru.vsu.entity.ReferenceEntity;
 import ru.vsu.entity.mappers.ObjectMapper;
 import ru.vsu.services.serviceImpl.ParamsService;
+import ru.vsu.services.serviceImpl.ReferenceService;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -23,11 +24,13 @@ public class ObjectDao<T extends ObjectEntity> implements Dao<ObjectEntity> {
     private final JdbcTemplate jdbcTemplate;
 
     private ParamsService paramsService;
+    private ReferenceService referenceService;
 
     @Autowired
-    public ObjectDao(JdbcTemplate jdbcTemplate, ParamsService paramsService) {
+    public ObjectDao(JdbcTemplate jdbcTemplate, ParamsService paramsService, ReferenceService referenceService) {
         this.jdbcTemplate = jdbcTemplate;
         this.paramsService = paramsService;
+        this.referenceService = referenceService;
     }
 
     @Override
@@ -44,7 +47,7 @@ public class ObjectDao<T extends ObjectEntity> implements Dao<ObjectEntity> {
 
     @Override
     public void update(ObjectEntity obj) {
-        String sql = " UPDATE eav.object SET eav.object.name = ? WHERE eav.object.id = ?";
+        String sql = " UPDATE eav.object SET name = ? WHERE eav.object.id = ?";
         jdbcTemplate.update(sql, obj.getName(), obj.getId());
     }
 
@@ -59,6 +62,12 @@ public class ObjectDao<T extends ObjectEntity> implements Dao<ObjectEntity> {
         String sql = "SELECT * FROM  eav.object WHERE eav.object.id = ?";
         ObjectEntity objectEntity = jdbcTemplate.queryForObject(sql, new ObjectMapper(), id);
         return objectEntity;
+    }
+
+    public Long getObjectIdByNameAndObjectTypeId(String name, long objectTypeId) {
+        String sql = "SELECT eav.object.id FROM  eav.object WHERE eav.object.name = ? AND eav.object.object_type_id = ?";
+        Long value = jdbcTemplate.queryForObject(sql, Long.class, name, objectTypeId);
+        return value;
     }
 
     public List<Long> getListOfObjectIdByObjectTypeId(long objectTypeId) {
@@ -106,6 +115,8 @@ public class ObjectDao<T extends ObjectEntity> implements Dao<ObjectEntity> {
         T newEntity = null;
         //создаем мапу содержащую в себе пары attrId : value
         Map<Long, String> attributeValueMap = paramsService.getParamsMapByObjectId(id);
+        //создаем мапу содержащую в себе пары attrId : reference (где reference - айдишник объекта на который ссылаемся по attrId)
+        Map<Long, Long> attributeReferenceMap = referenceService.getReferenceMapByObjectId(id);
         //создаем экзмепляр объекта суперкласса
         ObjectEntity objectEntity = getObjectEntityById(id);
         try {
@@ -128,7 +139,7 @@ public class ObjectDao<T extends ObjectEntity> implements Dao<ObjectEntity> {
                     //отключаем проверку джавы на доступность полей
                     field.setAccessible(true);
                     // объекту newEntity ставим в качестве значения поля значение лежащие в аннотации
-                    field.set(newEntity, field.getAnnotation(Reference.class).attrId());
+                    field.set(newEntity, attributeReferenceMap.get(field.getAnnotation(Reference.class).attrId()));
                 }
             }
         } catch (InstantiationException e) {
