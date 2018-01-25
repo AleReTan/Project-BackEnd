@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @ObjectTypeId(id = 6)
 public class OrderEntity extends ObjectEntity {
-
+    //todo: add customer reference, delete first,las name's
     @ParamAttributeId(id = 1)
     private String firstName;
 
