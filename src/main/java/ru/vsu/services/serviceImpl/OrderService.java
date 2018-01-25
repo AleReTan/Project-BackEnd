@@ -13,6 +13,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("Duplicates")
 @Service
 public class OrderService implements MyService<OrderEntity> {
     private ObjectService<ObjectEntity> objectService;//или напрямую к дао?(что скорее всего не так)

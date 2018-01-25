@@ -11,12 +11,12 @@ import ru.vsu.facade.ServiceFacade;
 import java.util.List;
 
 @RestController
-public class OrderRESTController {
+public class OrderRestController {
     private ServiceFacade serviceFacade;
 
 
     @Autowired
-    public OrderRESTController(ServiceFacade serviceFacade) {
+    public OrderRestController(ServiceFacade serviceFacade) {
         this.serviceFacade = serviceFacade;
     }
 
@@ -33,19 +33,16 @@ public class OrderRESTController {
 
     @RequestMapping(value = "/orders/createOrder", method = RequestMethod.POST)
     public void createOrder(@RequestBody OrderEntity o) {
-        System.out.println(o.toString());
         serviceFacade.getOrderService().insert(o);
     }
 
     @RequestMapping(value = "/orders/updateOrder", method = RequestMethod.PATCH)
     public void updateOrder(@RequestBody OrderEntity o) {
-        System.out.println(o.toString());
         serviceFacade.getOrderService().update(o);
     }
 
     @RequestMapping(value = "/orders/deleteOrder", method = RequestMethod.DELETE)
     public void deleteOrder(@RequestBody OrderEntity o) {
-        System.out.println(o.toString());
         serviceFacade.getOrderService().delete(o);
     }
 
@@ -55,7 +52,7 @@ public class OrderRESTController {
     }
 
     //TODO getOrderById не реализован
-    @RequestMapping(value = "/orders/getOrder", method = RequestMethod.GET)
+    @RequestMapping(value = "/orders/{id}", method = RequestMethod.GET)
     public OrderEntity getOrder(long id) {
         return serviceFacade.getOrderService().getOrderById(id);
     }

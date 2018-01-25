@@ -16,8 +16,7 @@ import java.util.List;
 
 @SuppressWarnings("Duplicates")
 public class MyAbstractEntityService<T extends ObjectEntity> implements MyService<T> {
-
-    //или не абстрактный, хз чет, наверн абстрактный
+    //получение класса T
     private final Class<T> clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     private ObjectService<ObjectEntity> objectService;//или напрямую к дао?(что скорее всего не так)
     private ParamsService paramsService;
