@@ -9,18 +9,11 @@ import java.util.Objects;
 
 @ObjectTypeId(id = 6)
 public class OrderEntity extends ObjectEntity {
-    //todo: add customer reference, delete first,las name's
-    @ParamAttributeId(id = 1)
-    private String firstName;
-
-    @ParamAttributeId(id = 2)
-    private String lastName;
+    @Reference(attrId = 17)
+    private long clientId;
 
     @ParamAttributeId(id = 3)
     private String address;
-
-    @ParamAttributeId(id = 4)
-    private String mobPhone;
 
     @Reference(attrId = 16)
     private long carId;
@@ -40,12 +33,10 @@ public class OrderEntity extends ObjectEntity {
     public OrderEntity() {
     }
 
-    public OrderEntity(long id, String name, long typeId, String firstName, String lastName, String address, String mobPhone, long carId, String orderCost, String orderStartTime, String orderEndTime, String statusOrder) {
+    public OrderEntity(long id, String name, long typeId, long clientId, String address, long carId, String orderCost, String orderStartTime, String orderEndTime, String statusOrder) {
         super(id, name, typeId);
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.clientId = clientId;
         this.address = address;
-        this.mobPhone = mobPhone;
         this.carId = carId;
         this.orderCost = orderCost;
         this.orderStartTime = orderStartTime;
@@ -53,20 +44,12 @@ public class OrderEntity extends ObjectEntity {
         this.statusOrder = statusOrder;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public long getClientId() {
+        return clientId;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setClientId(long clientId) {
+        this.clientId = clientId;
     }
 
     public String getAddress() {
@@ -75,14 +58,6 @@ public class OrderEntity extends ObjectEntity {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getMobPhone() {
-        return mobPhone;
-    }
-
-    public void setMobPhone(String mobPhone) {
-        this.mobPhone = mobPhone;
     }
 
     public long getCarId() {
@@ -131,11 +106,9 @@ public class OrderEntity extends ObjectEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         OrderEntity that = (OrderEntity) o;
-        return getCarId() == that.getCarId() &&
-                Objects.equals(getFirstName(), that.getFirstName()) &&
-                Objects.equals(getLastName(), that.getLastName()) &&
+        return getClientId() == that.getClientId() &&
+                getCarId() == that.getCarId() &&
                 Objects.equals(getAddress(), that.getAddress()) &&
-                Objects.equals(getMobPhone(), that.getMobPhone()) &&
                 Objects.equals(getOrderCost(), that.getOrderCost()) &&
                 Objects.equals(getOrderStartTime(), that.getOrderStartTime()) &&
                 Objects.equals(getOrderEndTime(), that.getOrderEndTime()) &&
@@ -145,7 +118,7 @@ public class OrderEntity extends ObjectEntity {
     @Override
     public int hashCode() {
 
-        return Objects.hash(super.hashCode(), getFirstName(), getLastName(), getAddress(), getMobPhone(), getCarId(), getOrderCost(), getOrderStartTime(), getOrderEndTime(), getStatusOrder());
+        return Objects.hash(super.hashCode(), getClientId(), getAddress(), getCarId(), getOrderCost(), getOrderStartTime(), getOrderEndTime(), getStatusOrder());
     }
 
     @Override
@@ -154,10 +127,8 @@ public class OrderEntity extends ObjectEntity {
                 " id=" + id +
                 ", name='" + name + '\'' +
                 ", typeId=" + typeId +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", clientId='" + clientId + '\'' +
                 ", address='" + address + '\'' +
-                ", mobPhone='" + mobPhone + '\'' +
                 ", carId=" + carId +
                 ", orderCost='" + orderCost + '\'' +
                 ", orderStartTime='" + orderStartTime + '\'' +
