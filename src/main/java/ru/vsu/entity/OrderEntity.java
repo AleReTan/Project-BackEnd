@@ -9,6 +9,7 @@ import java.util.Objects;
 
 @ObjectTypeId(id = 6)
 public class OrderEntity extends ObjectEntity {
+    //вернуть поля для слиента, добавить геоданные
     @Reference(attrId = 17)
     private long clientId;
 

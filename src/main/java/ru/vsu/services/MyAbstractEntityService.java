@@ -96,7 +96,7 @@ public class MyAbstractEntityService<T extends ObjectEntity> implements MyServic
         return listOfEntities;
     }
 
-    public T getCarById(long id) {
+    public T getObjectById(long id) {
         return (T) objectService.findById(id, clazz);
     }
 
