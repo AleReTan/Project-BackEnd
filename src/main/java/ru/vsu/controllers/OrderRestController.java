@@ -23,12 +23,12 @@ public class OrderRestController {
 
     @RequestMapping(value = "/ot",method = RequestMethod.GET)
     public List test() {
-        return serviceFacade.getCarService().getAll();
+        //return serviceFacade.getCarService().getAll();
         //System.out.println(serviceFacade.getObjectService().findById(1, OrderEntity.class).toString());
         //System.out.println(serviceFacade.getObjectService().findById(2, CarEntity.class).toString());
         //System.out.println(Arrays.toString(serviceFacade.getObjectService().getListOfObjectIdByObjectTypeId(6).toArray()));
         //serviceFacade.getOrderService().insert((OrderEntity) serviceFacade.getObjectService().findById(1, OrderEntity.class));
-        //return serviceFacade.getObjectTypeService().getAll();
+        return serviceFacade.getObjectTypeService().getAll();
     }
 
     @RequestMapping(value = "/orders/createOrder", method = RequestMethod.POST)

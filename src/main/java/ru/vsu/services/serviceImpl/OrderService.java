@@ -84,6 +84,7 @@ public class OrderService implements MyService<OrderEntity> {
         }
     }
 
+    //TODO:как на фронт кидать все референсы
     @Override
     public List<OrderEntity> getAll() {
         List<OrderEntity> orderEntities = new ArrayList<>();
