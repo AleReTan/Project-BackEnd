@@ -51,7 +51,7 @@ public class OrderRestController {
         return serviceFacade.getOrderService().getAll();
     }
 
-    //TODO getOrderById не реализован
+    //TODO getObjectById не реализован
     @RequestMapping(value = "/orders/{id}", method = RequestMethod.GET)
     public OrderEntity getOrder(long id) {
         return serviceFacade.getOrderService().getObjectById(id);
