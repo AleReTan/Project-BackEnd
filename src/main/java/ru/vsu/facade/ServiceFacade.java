@@ -13,10 +13,10 @@ public class ServiceFacade {
     private ReferenceService referenceService;
     private OrderService orderService;
     private CarService carService;
-    private ClientService clientService;
+    private DriverService driverService;
 
     @Autowired
-    public ServiceFacade(ObjectTypeService objectTypeService, ObjectService objectService, AttributeService attributeService, ParamsService paramsService, ReferenceService referenceService, OrderService orderService, CarService carService, ClientService clientService) {
+    public ServiceFacade(ObjectTypeService objectTypeService, ObjectService objectService, AttributeService attributeService, ParamsService paramsService, ReferenceService referenceService, OrderService orderService, CarService carService, DriverService driverService) {
         this.objectTypeService = objectTypeService;
         this.objectService = objectService;
         this.attributeService = attributeService;
@@ -24,7 +24,7 @@ public class ServiceFacade {
         this.referenceService = referenceService;
         this.orderService = orderService;
         this.carService = carService;
-        this.clientService = clientService;
+        this.driverService = driverService;
     }
 
     public ObjectTypeService getObjectTypeService() {
@@ -55,7 +55,7 @@ public class ServiceFacade {
         return carService;
     }
 
-    public ClientService getClientService() {
-        return clientService;
+    public DriverService getDriverService() {
+        return driverService;
     }
 }

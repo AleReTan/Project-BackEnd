@@ -7,7 +7,7 @@ import ru.vsu.annotation.Reference;
 import java.util.Objects;
 
 @ObjectTypeId(id = 8)
-public class ClientEntity extends ObjectEntity {
+public class DriverEntity extends ObjectEntity {
 
     @ParamAttributeId(id = 1)
     private String firstName;
@@ -21,10 +21,10 @@ public class ClientEntity extends ObjectEntity {
     @Reference(attrId = 16)
     private long carId;
 
-    public ClientEntity() {
+    public DriverEntity() {
     }
 
-    public ClientEntity(long id, String name, long typeId, String firstName, String lastName, String phoneNumber, long carId) {
+    public DriverEntity(long id, String name, long typeId, String firstName, String lastName, String phoneNumber, long carId) {
         super(id, name, typeId);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -69,7 +69,7 @@ public class ClientEntity extends ObjectEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        ClientEntity that = (ClientEntity) o;
+        DriverEntity that = (DriverEntity) o;
         return getCarId() == that.getCarId() &&
                 Objects.equals(getFirstName(), that.getFirstName()) &&
                 Objects.equals(getLastName(), that.getLastName()) &&
@@ -84,7 +84,7 @@ public class ClientEntity extends ObjectEntity {
 
     @Override
     public String toString() {
-        return ClientEntity.class.getSimpleName() +
+        return DriverEntity.class.getSimpleName() +
                 " id=" + id +
                 ", name='" + name + '\'' +
                 ", typeId=" + typeId +
