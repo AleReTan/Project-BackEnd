@@ -22,5 +22,5 @@ public class ObjectTypeController {
     public String pushObjectTypes(Model model) {
         model.addAttribute("objectTypes", objectTypeService.getAll());
         return "view";
-    }//убрать модель, создать объект конвертящийся в json
+    }
 }

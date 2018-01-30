@@ -1,10 +1,7 @@
 package ru.vsu.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.vsu.entity.OrderEntity;
 import ru.vsu.facade.ServiceFacade;
 
@@ -21,7 +18,7 @@ public class OrderRestController {
     }
 
 
-    @RequestMapping(value = "/ot",method = RequestMethod.GET)
+    @RequestMapping(value = "/ot", method = RequestMethod.GET)
     public List test() {
         //return serviceFacade.getCarService().getAll();
         //System.out.println(serviceFacade.getObjectService().findById(1, OrderEntity.class).toString());
@@ -51,9 +48,9 @@ public class OrderRestController {
         return serviceFacade.getOrderService().getAll();
     }
 
-    //TODO getObjectById не реализован
+    //TODO проверить надо
     @RequestMapping(value = "/orders/{id}", method = RequestMethod.GET)
-    public OrderEntity getOrder(long id) {
+    public OrderEntity getOrderById(@PathVariable("id") long id) {
         return serviceFacade.getOrderService().getObjectById(id);
     }
 }
