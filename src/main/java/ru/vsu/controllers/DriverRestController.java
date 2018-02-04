@@ -21,12 +21,12 @@ public class DriverRestController {
         return driverService.getAll();
     }
 
-    @RequestMapping(value = "/drivers/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/drivers", method = RequestMethod.POST)
     public void createOrder(@RequestBody DriverEntity d) {
         driverService.insert(d);
     }
 
-    @RequestMapping(value = "/drivers/{id}", method = RequestMethod.PATCH)
+    @RequestMapping(value = "/drivers", method = RequestMethod.PATCH)
     public void updateOrder(@RequestBody DriverEntity d) {
         driverService.update(d);
     }
@@ -36,7 +36,6 @@ public class DriverRestController {
         driverService.delete(d);
     }
 
-    //TODO надо чекать
     @RequestMapping(value = "/drivers/{id}", method = RequestMethod.GET)
     public DriverEntity getOrder(@PathVariable("id") long id) {
         return driverService.getObjectById(id);
