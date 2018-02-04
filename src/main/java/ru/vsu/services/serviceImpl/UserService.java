@@ -37,4 +37,8 @@ public class UserService implements MyService<UserEntity> {
     public List<UserEntity> getAll() {
         return userDao.getAll();
     }
+
+    public UserEntity getUserByLogin(String login) {
+        return userDao.getUserByLogin(login);
+    }
 }
