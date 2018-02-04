@@ -3,10 +3,7 @@ package ru.vsu.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.vsu.dao.daoImpl.UserDao;
 import ru.vsu.entity.DriverEntity;
 import ru.vsu.entity.UserEntity;
@@ -33,12 +30,12 @@ public class UserRestController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "rest/user/admin", method = RequestMethod.GET)
+   /* @RequestMapping(value = "rest/user/admin", method = RequestMethod.GET)
     public UserEntity getUser(@RequestHeader("Authorization") String a) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         return userRepository.getUserByLogin(authentication.getName());
-    }
+    }*/
 
     @RequestMapping(value = "rest/help/user", method = RequestMethod.GET)
     public UserEntity getHelp(@RequestHeader("Authorization") String a) {
@@ -52,8 +49,26 @@ public class UserRestController {
         return userService.getAll();
     }
 
+
+    @RequestMapping(value = "/admin/users/{login}", method = RequestMethod.GET)
+    public UserEntity getUserByLogin(@PathVariable("login") String login) {
+        return userService.getUserByLogin(login);
+    }
+
+/*
+    @RequestMapping(value = "/admin/users/createUser", method = RequestMethod.POST)
+    public void createUser(@RequestBody UserEntity u) {
+        userService.insert(u);
+    }
+
+    @RequestMapping(value = "/admin/users/deleteUser", method = RequestMethod.POST)
+    public void deleteUser(@RequestBody UserEntity u) {
+        userService.delete(u);
+    }
+*/
     // Код, для фронт части для кодирования токена
     /*String originalInput = "login:pass";
     String token = "Base " + Base64.getEncoder().encodeToString(originalInput.getBytes());*/
+
 }
 

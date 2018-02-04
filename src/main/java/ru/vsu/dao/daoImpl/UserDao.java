@@ -33,7 +33,7 @@ public class UserDao implements Dao<UserEntity> {
 
     @Override
     public void update(UserEntity obj) {
-        String sql = " UPDATE eav.users SET password = ? WHERE eav.users.login = ?";
+        String sql = " UPDATE eav.users SET role = ? WHERE eav.users.login = ?";
         jdbcTemplate.update(sql, obj.getLogin());
     }
 
