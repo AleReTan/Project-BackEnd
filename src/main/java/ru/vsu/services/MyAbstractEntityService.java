@@ -14,7 +14,6 @@ import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("Duplicates")
 public class MyAbstractEntityService<T extends ObjectEntity> implements MyService<T> {
     //получение класса T
     private final Class<T> clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
