@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/rest/user/**").hasAuthority("ADMIN")
-                .antMatchers("/rest/help/**").hasAuthority("USER")
+                .antMatchers("/**").hasAuthority("USER")
                 .and().httpBasic()
                 .authenticationEntryPoint(appAuthenticationEntryPoint);
     }
