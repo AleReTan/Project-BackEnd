@@ -39,6 +39,11 @@ public class ObjectDao<T extends ObjectEntity> implements Dao<ObjectEntity> {
         jdbcTemplate.update(sql, obj.getId());
     }
 
+    public void deleteByObjectId(long objectId) {
+        String sql = "DELETE  FROM  eav.object WHERE eav.object.id = ?";
+        jdbcTemplate.update(sql, objectId);
+    }
+
     @Override
     public void insert(ObjectEntity obj) {
         String sql = " INSERT INTO  eav.object VALUES (DEFAULT ,?,?)";

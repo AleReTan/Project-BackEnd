@@ -22,6 +22,10 @@ public class ObjectService<T extends ObjectEntity> implements MyService<ObjectEn
         objectDao.delete(obj);
     }
 
+    public void deleteByObjectId(long deleteByObjectId) {
+        objectDao.deleteByObjectId(deleteByObjectId);
+    }
+
     @Override
     public void insert(ObjectEntity obj) {
         objectDao.insert(obj);

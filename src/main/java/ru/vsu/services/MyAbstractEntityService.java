@@ -35,6 +35,12 @@ public class MyAbstractEntityService<T extends ObjectEntity> implements MyServic
         referenceService.deleteByObjectId(obj.getId());
     }
 
+    public void delete(long id) {
+        objectService.deleteByObjectId(id);
+        paramsService.deleteByObjectId(id);
+        referenceService.deleteByObjectId(id);
+    }
+
     @Override
     public void insert(T obj) {
         //здесь айдишник объекта увеличивается с помощью сиквенса
