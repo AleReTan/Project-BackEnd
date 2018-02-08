@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(myUserDetailsService);
-        //.passwordEncoder(encoder()); пока кодирование пароля отключено
+        //.passwordEncoder(encoder()); Включение кодирования пароля.
     }
 
     //  метод, который указывает на то, что секьюрити игнорирует файлы ресурсов
