@@ -49,14 +49,19 @@ public class UserRestController {
     }
 
 
-    @RequestMapping(value = "/admin/users", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/users/{login}", method = RequestMethod.POST)
     public void createUser(@RequestBody UserEntity u, @RequestHeader("Authorization") String a) {
         userService.insert(u);
     }
 
     @RequestMapping(value = "/admin/users/{login}", method = RequestMethod.DELETE)
-    public void deleteUser(@PathVariable("login") String login,@RequestHeader("Authorization") String a) {
-        userService.delete(login);
+    public void deleteUser(@RequestBody UserEntity u,@RequestHeader("Authorization") String a) {
+        userService.delete(u);
     }
+
+    // Код, для фронт части для кодирования токена
+    /*String originalInput = "login:pass";
+    String token = "Base " + Base64.getEncoder().encodeToString(originalInput.getBytes());*/
+
 }
 
