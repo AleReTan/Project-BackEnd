@@ -49,7 +49,7 @@ public class UserRestController {
     }
 
 
-    @RequestMapping(value = "/admin/users/{login}", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/users", method = RequestMethod.POST)
     public void createUser(@RequestBody UserEntity u, @RequestHeader("Authorization") String a) {
         userService.insert(u);
     }
