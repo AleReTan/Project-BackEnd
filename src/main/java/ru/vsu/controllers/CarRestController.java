@@ -22,12 +22,12 @@ public class CarRestController {
         return carService.getAll();
     }
 
-    @RequestMapping(value = "/cars/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/cars/addCar", method = RequestMethod.POST)
     public void createCar(@RequestBody CarEntity c) {
         carService.insert(c);
     }
 
-    @RequestMapping(value = "/cars/{id}", method = RequestMethod.PATCH)
+    @RequestMapping(value = "/cars", method = RequestMethod.PATCH)
     public void updateCar(@RequestBody CarEntity c) {
         carService.update(c);
     }
