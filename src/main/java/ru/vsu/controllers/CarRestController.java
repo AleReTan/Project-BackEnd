@@ -18,27 +18,29 @@ public class CarRestController {
     }
 
     @RequestMapping(value = "/cars", method = RequestMethod.GET)
-    public List<CarEntity> getCars() {
+    public List<CarEntity> getCars(@RequestHeader("Authorization") String a) {
         return carService.getAll();
     }
 
-    @RequestMapping(value = "/cars/addCar", method = RequestMethod.POST)
-    public void createCar(@RequestBody CarEntity c) {
+    @RequestMapping(value = "/cars", method = RequestMethod.POST)
+    public void createCar(@RequestBody CarEntity c, @RequestHeader("Authorization") String a) {
+        c.setTypeId(7);
         carService.insert(c);
     }
 
     @RequestMapping(value = "/cars", method = RequestMethod.PATCH)
-    public void updateCar(@RequestBody CarEntity c) {
+    public void updateCar(@RequestBody CarEntity c, @RequestHeader("Authorization") String a) {
         carService.update(c);
     }
 
     @RequestMapping(value = "/cars/{id}", method = RequestMethod.DELETE)
-    public void deleteCar(@RequestBody CarEntity c) {
-        carService.delete(c);
+    public void deleteCar(@PathVariable("id") long id, @RequestHeader("Authorization") String a) {
+        System.out.println(id + "from back controller");
+        carService.delete(id);
     }
 
     @RequestMapping(value = "/cars/{id}", method = RequestMethod.GET)
-    public CarEntity getCar(@PathVariable("id") long id) {
+    public CarEntity getCar(@PathVariable("id") long id, @RequestHeader("Authorization") String a) {
         return carService.getObjectById(id);
     }
 }
