@@ -45,6 +45,9 @@ public class MyAbstractEntityService<T extends ObjectEntity> implements MyServic
     public void insert(T obj) {
         //здесь айдишник объекта увеличивается с помощью сиквенса
         objectService.insert(obj);
+        //TODO: проблемы с тем, что getObjectIdByNameAndObjectTypeId упадет с ошибкой, если будет не один а два удовлетворяющих результата
+        //TODO: придумать каким образом модем получить айдишник объекта
+        //TODO: INSERT INTO  eav.object VALUES (DEFAULT ,'Car3',7) RETURNING id;
         long realObjectId = objectService.getObjectIdByNameAndObjectTypeId(obj.getName(), obj.getTypeId());
         for (Field field : obj.getClass().getDeclaredFields()) {
             if (field.isAnnotationPresent(ParamAttributeId.class)) {
