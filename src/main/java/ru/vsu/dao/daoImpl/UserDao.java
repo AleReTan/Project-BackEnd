@@ -13,39 +13,43 @@ import java.util.List;
 public class UserDao implements Dao<UserEntity> {
 
     private final JdbcTemplate jdbcTemplate;
+    private  static final String DELETE_USER = "DELETE  FROM  eav.users  WHERE eav.users.login = ?";
+    private  static final String ADD_USER = " INSERT INTO  eav.users VALUES (?,?,?)";
+    private  static final String UPDATE_USER = " UPDATE eav.users SET role = ? WHERE eav.users.login = ?";
+    private  static final String GET_ALL_USERS = "SELECT * FROM  eav.users";
+    private  static final String GET_USER_BY_LOGIN = "SELECT * FROM  eav.users  WHERE eav.users.login = ?";
 
     @Autowired
     public UserDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    public void delete(String login) {
+        jdbcTemplate.update(DELETE_USER, login);
+    }
+
     @Override
     public void delete(UserEntity obj) {
-        String sql = "DELETE  FROM  eav.users  WHERE eav.users.login = ?";
-        jdbcTemplate.update(sql, obj.getLogin());
+      // не переопределяем пока этот метод
     }
 
     @Override
     public void insert(UserEntity obj) {
-        String sql = " INSERT INTO  eav.users VALUES (?,?,?)";
-        jdbcTemplate.update(sql, obj.getLogin(), obj.getPassword(), obj.getRole());
+        jdbcTemplate.update(ADD_USER, obj.getLogin(), obj.getPassword(), obj.getRole());
     }
 
     @Override
     public void update(UserEntity obj) {
-        String sql = " UPDATE eav.users SET role = ? WHERE eav.users.login = ?";
-        jdbcTemplate.update(sql, obj.getLogin());
+        jdbcTemplate.update(UPDATE_USER, obj.getLogin());
     }
 
     @Override
     public List<UserEntity> getAll() {
-        String sql = "SELECT * FROM  eav.users";
-        return jdbcTemplate.query(sql, new UserMapper());
+        return jdbcTemplate.query(GET_ALL_USERS, new UserMapper());
     }
 
     public UserEntity getUserByLogin(String login) {
-        String sql = "SELECT * FROM  eav.users  WHERE eav.users.login = ?";
-        List<UserEntity> users = jdbcTemplate.query(sql, new UserMapper(), login);
+        List<UserEntity> users = jdbcTemplate.query(GET_USER_BY_LOGIN, new UserMapper(), login);
         return users.get(0);
     }
 }

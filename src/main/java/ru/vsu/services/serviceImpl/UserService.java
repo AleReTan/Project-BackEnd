@@ -18,9 +18,14 @@ public class UserService implements MyService<UserEntity> {
       this.userDao =  userDao;
     }
 
+    //@Override
+    public void delete(String login) {
+        userDao.delete(login);
+    }
+
     @Override
     public void delete(UserEntity obj) {
-        userDao.delete(obj);
+        //@Override
     }
 
     @Override
