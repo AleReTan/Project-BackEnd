@@ -55,13 +55,8 @@ public class UserRestController {
     }
 
     @RequestMapping(value = "/admin/users/{login}", method = RequestMethod.DELETE)
-    public void deleteUser(@RequestBody UserEntity u,@RequestHeader("Authorization") String a) {
-        userService.delete(u);
+    public void deleteUser(@PathVariable("login") String login,@RequestHeader("Authorization") String a) {
+        userService.delete(login);
     }
-
-    // Код, для фронт части для кодирования токена
-    /*String originalInput = "login:pass";
-    String token = "Base " + Base64.getEncoder().encodeToString(originalInput.getBytes());*/
-
 }
 
