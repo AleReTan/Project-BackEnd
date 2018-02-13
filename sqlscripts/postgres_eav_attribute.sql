@@ -11,7 +11,6 @@ INSERT INTO eav.attribute (id, name, object_type_id, value_type, require) VALUES
 INSERT INTO eav.attribute (id, name, object_type_id, value_type, require) VALUES (15, 'type', 7, 'String', TRUE);
 INSERT INTO eav.attribute (id, name, object_type_id, value_type, require) VALUES (2, 'lastName', 8, 'String', TRUE);
 INSERT INTO eav.attribute (id, name, object_type_id, value_type, require) VALUES (1, 'firstName', 8, 'String', TRUE);
-INSERT INTO eav.attribute (id, name, object_type_id, value_type, require) VALUES (16, 'car', 8, 'Reference', TRUE);
 INSERT INTO eav.attribute (id, name, object_type_id, value_type, require) VALUES (18, 'driver', 6, 'Reference', FALSE);
 INSERT INTO eav.attribute (id, name, object_type_id, value_type, require) VALUES (4, 'phoneNumber', 8, 'String', TRUE);
 INSERT INTO eav.attribute (id, name, object_type_id, value_type, require)
@@ -21,3 +20,4 @@ VALUES (20, 'clientLastName', 6, 'String', TRUE);
 INSERT INTO eav.attribute (id, name, object_type_id, value_type, require)
 VALUES (21, 'clientPhoneNumber', 6, 'String', TRUE);
 INSERT INTO eav.attribute (id, name, object_type_id, value_type, require) VALUES (22, 'geoData', 6, 'String', FALSE);
+INSERT INTO eav.attribute (id, name, object_type_id, value_type, require) VALUES (16, 'car', 8, 'Reference', FALSE);
