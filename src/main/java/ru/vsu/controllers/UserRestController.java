@@ -1,8 +1,11 @@
 package ru.vsu.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ru.vsu.dao.daoImpl.UserDao;
+import ru.vsu.entity.DriverEntity;
 import ru.vsu.entity.UserEntity;
 import ru.vsu.services.serviceImpl.UserService;
 
@@ -52,13 +55,8 @@ public class UserRestController {
     }
 
     @RequestMapping(value = "/admin/users/{login}", method = RequestMethod.DELETE)
-    public void deleteUser(@RequestBody UserEntity u,@RequestHeader("Authorization") String a) {
-        userService.delete(u);
+    public void deleteUser(@PathVariable("login") String login,@RequestHeader("Authorization") String a) {
+        userService.delete(login);
     }
-
-    // Код, для фронт части для кодирования токена
-    /*String originalInput = "login:pass";
-    String token = "Basic " + Base64.getEncoder().encodeToString(originalInput.getBytes());*/
-
 }
 
