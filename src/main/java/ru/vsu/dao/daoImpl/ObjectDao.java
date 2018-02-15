@@ -6,10 +6,7 @@ import org.springframework.stereotype.Repository;
 import ru.vsu.annotation.ParamAttributeId;
 import ru.vsu.annotation.Reference;
 import ru.vsu.dao.Dao;
-import ru.vsu.entity.AttributeEntity;
 import ru.vsu.entity.ObjectEntity;
-import ru.vsu.entity.ObjectTypeEntity;
-import ru.vsu.entity.ReferenceEntity;
 import ru.vsu.entity.mappers.ObjectMapper;
 import ru.vsu.services.serviceImpl.ParamsService;
 import ru.vsu.services.serviceImpl.ReferenceService;
@@ -23,6 +20,14 @@ import java.util.Map;
 public class ObjectDao<T extends ObjectEntity> implements Dao<ObjectEntity> {
     private final JdbcTemplate jdbcTemplate;
 
+    private static final String DELETE = "DELETE  FROM  eav.object WHERE eav.object.id = ?";
+    private static final String INSERT = "INSERT INTO  eav.object VALUES (DEFAULT ,?,?)";
+    private static final String INSERT_AND_RETURN_ID = "INSERT INTO  eav.object VALUES (DEFAULT ,?,?) RETURNING id";
+    private static final String UPDATE = "UPDATE eav.object SET name = ? WHERE eav.object.id = ?";
+    private static final String GET_ALL = "SELECT * FROM  eav.object";
+    private static final String GET_BY_ID = "SELECT * FROM  eav.object WHERE eav.object.id = ?";
+    private static final String GET_LIST_OF_OBJECT_ID = "SELECT eav.object.id FROM  eav.object WHERE eav.object.object_type_id = ?";
+
     private ParamsService paramsService;
     private ReferenceService referenceService;
 
@@ -35,53 +40,50 @@ public class ObjectDao<T extends ObjectEntity> implements Dao<ObjectEntity> {
 
     @Override
     public void delete(ObjectEntity obj) {
-        String sql = "DELETE  FROM  eav.object WHERE eav.object.id = ?";
-        jdbcTemplate.update(sql, obj.getId());
+        jdbcTemplate.update(DELETE, obj.getId());
     }
 
     public void deleteByObjectId(long objectId) {
-        String sql = "DELETE  FROM  eav.object WHERE eav.object.id = ?";
-        jdbcTemplate.update(sql, objectId);
+        jdbcTemplate.update(DELETE, objectId);
     }
 
     @Override
     public void insert(ObjectEntity obj) {
-        String sql = " INSERT INTO  eav.object VALUES (DEFAULT ,?,?)";
-        jdbcTemplate.update(sql, obj.getName(), obj.getTypeId());
+        jdbcTemplate.update(INSERT, obj.getName(), obj.getTypeId());
+    }
+
+    public long insertAndReturnId(ObjectEntity obj) {
+        return jdbcTemplate.update(INSERT_AND_RETURN_ID, obj.getName(), obj.getTypeId());
     }
 
     @Override
     public void update(ObjectEntity obj) {
-        String sql = " UPDATE eav.object SET name = ? WHERE eav.object.id = ?";
-        jdbcTemplate.update(sql, obj.getName(), obj.getId());
+        jdbcTemplate.update(UPDATE, obj.getName(), obj.getId());
     }
 
     @Override
     public List<ObjectEntity> getAll() {
-        String sql = "SELECT * FROM  eav.object";
-        List<ObjectEntity> list = jdbcTemplate.query(sql, new ObjectMapper());
+        List<ObjectEntity> list = jdbcTemplate.query(GET_ALL, new ObjectMapper());
         return list;
     }
 
     public ObjectEntity getObjectEntityById(long id) {
-        String sql = "SELECT * FROM  eav.object WHERE eav.object.id = ?";
-        ObjectEntity objectEntity = jdbcTemplate.queryForObject(sql, new ObjectMapper(), id);
+
+        ObjectEntity objectEntity = jdbcTemplate.queryForObject(GET_BY_ID, new ObjectMapper(), id);
         return objectEntity;
     }
 
+    public List<Long> getListOfObjectIdByObjectTypeId(long objectTypeId) {
+        return jdbcTemplate.queryForList(GET_LIST_OF_OBJECT_ID, Long.class, objectTypeId);
+
+    }
+/*
     public Long getObjectIdByNameAndObjectTypeId(String name, long objectTypeId) {
         String sql = "SELECT eav.object.id FROM  eav.object WHERE eav.object.name = ? AND eav.object.object_type_id = ?";
         Long value = jdbcTemplate.queryForObject(sql, Long.class, name, objectTypeId);
         return value;
     }
 
-    public List<Long> getListOfObjectIdByObjectTypeId(long objectTypeId) {
-        String sql = "SELECT eav.object.id FROM  eav.object WHERE eav.object.object_type_id = ?";
-        List<Long> list = jdbcTemplate.queryForList(sql, Long.class, objectTypeId);
-        return list;
-    }
-
-    //TODO:оттестить
     public List<ObjectEntity> getObjectsByEntityObjectTypeId(ObjectTypeEntity obj) {
         //String sql = "SELECT * FROM  eav.object WHERE eav.object.type_id = ?";
         String sql = "SELECT * FROM  eav.object o " +
@@ -100,7 +102,7 @@ public class ObjectDao<T extends ObjectEntity> implements Dao<ObjectEntity> {
         return list;
     }
 
-    //хз, чет не так, наверное? хочу получить все машины у конкретного водителя
+
     public List<ObjectEntity> getObjectsByEntityReferenceRefId(ReferenceEntity obj) {
         String sql = "SELECT o.* FROM  eav.object o " +
                 "JOIN eav.reference r ON o.id = r.reference " +
@@ -108,6 +110,7 @@ public class ObjectDao<T extends ObjectEntity> implements Dao<ObjectEntity> {
         List<ObjectEntity> list = jdbcTemplate.query(sql, new ObjectMapper(), obj.getReference());
         return list;
     }
+*/
 
     /**
      * Метод позволяет собрать объект наследующийся от ObjectEntity с помощью рефлексии
