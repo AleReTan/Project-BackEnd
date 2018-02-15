@@ -31,6 +31,10 @@ public class ObjectService<T extends ObjectEntity> implements MyService<ObjectEn
         objectDao.insert(obj);
     }
 
+    public long insertAndReturnId(ObjectEntity obj) {
+        return objectDao.insertAndReturnId(obj);
+    }
+
     @Override
     public void update(ObjectEntity obj) {
         objectDao.update(obj);
@@ -52,8 +56,9 @@ public class ObjectService<T extends ObjectEntity> implements MyService<ObjectEn
     public List<Long> getListOfObjectIdByObjectTypeId(long objectTypeId) {
         return objectDao.getListOfObjectIdByObjectTypeId(objectTypeId);
     }
-
+/*
     public Long getObjectIdByNameAndObjectTypeId(String name, long objectTypeId) {
         return objectDao.getObjectIdByNameAndObjectTypeId(name, objectTypeId);
     }
+    */
 }
