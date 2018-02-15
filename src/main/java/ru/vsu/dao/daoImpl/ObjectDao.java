@@ -74,8 +74,7 @@ public class ObjectDao<T extends ObjectEntity> implements Dao<ObjectEntity> {
     }
 
     public List<Long> getListOfObjectIdByObjectTypeId(long objectTypeId) {
-        String sql = "SELECT eav.object.id FROM  eav.object WHERE eav.object.object_type_id = ?";
-        return jdbcTemplate.queryForList(sql, Long.class, objectTypeId);
+        return jdbcTemplate.queryForList(GET_LIST_OF_OBJECT_ID, Long.class, objectTypeId);
 
     }
 /*
