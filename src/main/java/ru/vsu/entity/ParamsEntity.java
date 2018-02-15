@@ -3,24 +3,15 @@ package ru.vsu.entity;
 import java.util.Objects;
 
 public class ParamsEntity {
-    long id;
     long attrId;
     long objectId;
     String value;
 
-    public ParamsEntity(long id, long attrId, long objectId, String value) {
-        this.id = id;
+    public ParamsEntity(long attrId, long objectId, String value) {
+
         this.attrId = attrId;
         this.objectId = objectId;
         this.value = value;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public long getAttrId() {
@@ -50,7 +41,6 @@ public class ParamsEntity {
     @Override
     public String toString() {
         return ParamsEntity.class.getSimpleName() +
-                " id=" + id +
                 ", attrId=" + attrId +
                 ", objectId=" + objectId +
                 ", value='" + value;
@@ -61,15 +51,13 @@ public class ParamsEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ParamsEntity that = (ParamsEntity) o;
-        return Objects.equals(getId(), that.getId()) &&
-                Objects.equals(getAttrId(), that.getAttrId()) &&
+        return Objects.equals(getAttrId(), that.getAttrId()) &&
                 Objects.equals(getObjectId(), that.getObjectId()) &&
                 Objects.equals(getValue(), that.getValue());
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(getId(), getAttrId(), getObjectId(), getValue());
+        return Objects.hash(getAttrId(), getObjectId(), getValue());
     }
 }
