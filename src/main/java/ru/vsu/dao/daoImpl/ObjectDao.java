@@ -52,8 +52,8 @@ public class ObjectDao<T extends ObjectEntity> implements Dao<ObjectEntity> {
         jdbcTemplate.update(INSERT, obj.getName(), obj.getTypeId());
     }
 
-    public long insertAndReturnId(ObjectEntity obj) {
-        return jdbcTemplate.update(INSERT_AND_RETURN_ID, obj.getName(), obj.getTypeId());
+    public Long insertAndReturnId(ObjectEntity obj) {
+        return jdbcTemplate.queryForObject(INSERT_AND_RETURN_ID, Long.class, obj.getName(), obj.getTypeId());
     }
 
     @Override
@@ -68,7 +68,6 @@ public class ObjectDao<T extends ObjectEntity> implements Dao<ObjectEntity> {
     }
 
     public ObjectEntity getObjectEntityById(long id) {
-
         ObjectEntity objectEntity = jdbcTemplate.queryForObject(GET_BY_ID, new ObjectMapper(), id);
         return objectEntity;
     }

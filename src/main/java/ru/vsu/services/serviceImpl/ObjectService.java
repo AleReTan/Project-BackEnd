@@ -60,5 +60,5 @@ public class ObjectService<T extends ObjectEntity> implements MyService<ObjectEn
     public Long getObjectIdByNameAndObjectTypeId(String name, long objectTypeId) {
         return objectDao.getObjectIdByNameAndObjectTypeId(name, objectTypeId);
     }
-    */
+*/
 }
