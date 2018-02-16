@@ -33,7 +33,6 @@ public class DriverRestController {
 
     @RequestMapping(value = "/drivers/{id}", method = RequestMethod.DELETE)
     public void deleteOrder(@PathVariable("id") long id, @RequestHeader("Authorization") String a) {
-        System.out.println(id + "from back controller");
         driverService.delete(id);
     }
 
