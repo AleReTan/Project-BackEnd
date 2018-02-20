@@ -78,7 +78,7 @@ CREATE TABLE reference
     CONSTRAINT reference_attribute_id_fk
     REFERENCES attribute
     ON UPDATE CASCADE ON DELETE CASCADE
-);
+); 
 CREATE TABLE users
 (
   login    VARCHAR(100) NOT NULL

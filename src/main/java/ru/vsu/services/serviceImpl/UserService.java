@@ -25,7 +25,7 @@ public class UserService implements MyService<UserEntity> {
 
     @Override
     public void delete(UserEntity obj) {
-        //@Override
+        userDao.delete(obj);
     }
 
     @Override

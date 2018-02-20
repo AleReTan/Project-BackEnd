@@ -30,7 +30,7 @@ public class UserDao implements Dao<UserEntity> {
 
     @Override
     public void delete(UserEntity obj) {
-      // не переопределяем пока этот метод
+        // не переопределяем пока этот метод
     }
 
     @Override
@@ -51,5 +51,10 @@ public class UserDao implements Dao<UserEntity> {
     public UserEntity getUserByLogin(String login) {
         List<UserEntity> users = jdbcTemplate.query(GET_USER_BY_LOGIN, new UserMapper(), login);
         return users.get(0);
+    }
+
+    public boolean isUserExist(String login) {
+        List<UserEntity> users = jdbcTemplate.query(GET_USER_BY_LOGIN, new UserMapper(), login);
+        return !users.isEmpty();
     }
 }

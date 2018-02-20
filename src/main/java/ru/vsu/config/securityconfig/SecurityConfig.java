@@ -11,7 +11,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import ru.vsu.services.security.MyUserDetailsService;
+import ru.vsu.services.serviceImpl.SessionService;
 
 
 @Configuration
@@ -21,11 +23,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private MyUserDetailsService myUserDetailsService;
     private AppAuthenticationEntryPoint appAuthenticationEntryPoint;
+    private SessionService sessionService;
 
     @Autowired
-    public SecurityConfig(MyUserDetailsService myUserDetailsService, AppAuthenticationEntryPoint appAuthenticationEntryPoint) {
+    public SecurityConfig(MyUserDetailsService myUserDetailsService, AppAuthenticationEntryPoint appAuthenticationEntryPoint, SessionService sessionService) {
         this.myUserDetailsService = myUserDetailsService;
         this.appAuthenticationEntryPoint = appAuthenticationEntryPoint;
+        this.sessionService = sessionService;
     }
 
     @Override
@@ -36,6 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**").hasAuthority("USER")
                 .and().httpBasic()
                 .authenticationEntryPoint(appAuthenticationEntryPoint);
+        http.addFilterAfter(new SessionFilter(sessionService), BasicAuthenticationFilter.class);
     }
 
     @Override
