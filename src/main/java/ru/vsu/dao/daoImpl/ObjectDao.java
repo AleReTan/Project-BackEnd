@@ -47,11 +47,6 @@ public class ObjectDao<T extends ObjectEntity> implements Dao<ObjectEntity> {
         jdbcTemplate.update(DELETE, objectId);
     }
 
-    public void deleteByObjectId(long objectId) {
-        String sql = "DELETE  FROM  eav.object WHERE eav.object.id = ?";
-        jdbcTemplate.update(sql, objectId);
-    }
-
     @Override
     public void insert(ObjectEntity obj) {
         jdbcTemplate.update(INSERT, obj.getName(), obj.getTypeId());

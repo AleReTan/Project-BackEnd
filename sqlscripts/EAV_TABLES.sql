@@ -87,12 +87,3 @@ CREATE TABLE users
   password VARCHAR(500) NOT NULL,
   role     VARCHAR(50)  NOT NULL
 );
-create table users
-(
-  login varchar(100) not null
-    constraint users_pkey
-    primary key,
-  password varchar(500) not null,
-  role varchar(50) not null
-)
-;
