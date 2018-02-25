@@ -35,12 +35,6 @@ public class UserRestController {
         this.sessionService = sessionService;
         this.userService = userService;
     }
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String getRole (@RequestHeader("Authorization") String a) {
-        //когда пользователь заходит, то проверяется есть ли он в базе . назначается сессия и возвращается роль.
-       String login = SecurityContextHolder.getContext().getAuthentication().getName();
-       return userService.getUserByLogin(login).getRole();
-    }
 
     @RequestMapping(value = "/admin/users", method = RequestMethod.GET)
     public List<UserEntity> getAllUsers(@RequestHeader("Authorization") String a) {
@@ -64,9 +58,12 @@ public class UserRestController {
         userService.delete(u);
     }
 
-    // Код, для фронт части для кодирования токена
-    /*String originalInput = "login:pass";
-    String token = "Base " + Base64.getEncoder().encodeToString(originalInput.getBytes());*/
-
 }
 
+
+    /*@RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String getRole (@RequestHeader("Authorization") String a) {
+        когда пользователь заходит, то проверяется есть ли он в базе . назначается сессия и возвращается роль.
+       String login = SecurityContextHolder.getContext().getAuthentication().getName();
+       return userService.getUserByLogin(login).getRole();
+    }*/
