@@ -1,7 +1,9 @@
 package ru.vsu.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ru.vsu.dao.daoImpl.UserDao;
@@ -10,6 +12,9 @@ import ru.vsu.entity.UserEntity;
 import ru.vsu.services.serviceImpl.SessionService;
 import ru.vsu.services.serviceImpl.UserService;
 
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /*
@@ -30,11 +35,11 @@ public class UserRestController {
         this.sessionService = sessionService;
         this.userService = userService;
     }
-
-   @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public void getHelp(@RequestHeader("Authorization") String a) {
-        String currentPrincipalName = SecurityContextHolder.getContext().getAuthentication().getName();
-      //  sessionService.insert(currentPrincipalName);
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String getRole (@RequestHeader("Authorization") String a) {
+        //когда пользователь заходит, то проверяется есть ли он в базе . назначается сессия и возвращается роль.
+       String login = SecurityContextHolder.getContext().getAuthentication().getName();
+       return userService.getUserByLogin(login).getRole();
     }
 
     @RequestMapping(value = "/admin/users", method = RequestMethod.GET)

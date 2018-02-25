@@ -26,35 +26,29 @@ public class SessionService implements MyService<SessionEntity> {
 
     @Override
     public void delete(SessionEntity obj) {
-        String login = obj.getLogin();
-        if (!sessionDao.isSessionNotExist(login)) {
-            sessionDao.delete(obj);
-        }
+        sessionDao.delete(obj);
     }
 
-    public void delete(String login) {
-        if (!sessionDao.isSessionNotExist(login)) {
-            sessionDao.delete(login);
-        }
+    public void delete(long id) {
+        sessionDao.delete(id);
     }
 
     @Override
     public void insert(SessionEntity obj) {
-            sessionDao.insert(obj.getLogin());
-        }
+        sessionDao.insert(obj.getLogin());
+    }
 
-    //  если пользователь авторизовался и для него нет сессии, то мы добавляем сессию
     public void insert(String login) {
         sessionDao.insert(login);
     }
 
     @Override
     public void update(SessionEntity obj) {
-        sessionDao.update(obj.getLogin());
+        sessionDao.update(obj.getId());
     }
 
-    public void update(String login) {
-        sessionDao.update(login);
+    public void update(Long id) {
+        sessionDao.update(id);
     }
 
     @Override
@@ -70,18 +64,13 @@ public class SessionService implements MyService<SessionEntity> {
                 sessionDao.delete(sessionEntity);
             }
         }
-
     }
 
-    public SessionEntity getSessionByUserLogin (String login){
+    public SessionEntity getSessionByUserLogin(String login) {
         return sessionDao.getSessionByUserLogin(login);
     }
 
-    public void updateSession(String login) {
-        if (getSessionByUserLogin(login) == null) {
-            insert(login);
-        } else {
-            update(login);
-        }
+    public SessionEntity getSessionById(long id) {
+        return sessionDao.getSessionByID(id);
     }
 }

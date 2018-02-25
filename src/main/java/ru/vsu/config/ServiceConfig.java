@@ -21,7 +21,7 @@ public class ServiceConfig {
         source.setServerName("localhost");
         source.setDatabaseName("postgres");
         source.setUser("postgres");
-        source.setPassword("1488");
+        source.setPassword("1234");
         return source;
     }
 

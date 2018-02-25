@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 import ru.vsu.services.security.MyUserDetailsService;
 import ru.vsu.services.serviceImpl.SessionService;
 
@@ -40,7 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**").hasAuthority("USER")
                 .and().httpBasic()
                 .authenticationEntryPoint(appAuthenticationEntryPoint);
-        http.addFilterAfter(new SessionFilter(sessionService), BasicAuthenticationFilter.class);
+       // http.addFilterAfter(new SessionAuthentificationFilter(sessionService,), SessionAuthentificationFilter.class);
+
     }
 
     @Override

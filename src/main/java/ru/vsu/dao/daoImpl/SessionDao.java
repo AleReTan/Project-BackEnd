@@ -6,9 +6,7 @@ import org.springframework.stereotype.Repository;
 import ru.vsu.dao.Dao;
 import ru.vsu.entity.SessionEntity;
 import ru.vsu.entity.mappers.SessionMapper;
-import ru.vsu.entity.mappers.UserMapper;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,26 +14,34 @@ import java.util.List;
 public class SessionDao implements Dao<SessionEntity> {
 
     private final JdbcTemplate jdbcTemplate;
-    private static final String DELETE_SESSION = "DELETE  FROM  eav.sessions  WHERE eav.sessions.login = ?";
+
+    private static final String DELETE_SESSION_BY_ID = "DELETE  FROM eav.sessions  WHERE eav.sessions.id = ?";
+
     private static final String ADD_SESSION = " INSERT INTO  eav.sessions   VALUES (DEFAULT ,?,?,?)";
-    private static final String UPDATE_SESSION = " UPDATE eav.sessions    SET timerecentactivity = ? WHERE eav.sessions.login = ?";
+
+    private static final String UPDATE_SESSION_BY_ID = " UPDATE eav.sessions    SET timerecentactivity = ? WHERE eav.sessions.id = ?";
+
     private static final String GET_ALL_SESSION = "SELECT * FROM  eav.sessions";
+
     private static final String GET_SESSION_BY_LOGIN = "SELECT * FROM  eav.sessions   WHERE eav.sessions.login = ?";
+    private static final String GET_SESSION_BY_ID = "SELECT * FROM  eav.sessions   WHERE eav.sessions.id = ?";
+
     private static final String GET_ALL_OUTSIDING = "SELECT * FROM  eav.sessions  WHERE eav.sessions.timeofbegin < ? AND eav.sessions.timerecentactivity < ? ";
     private static final String DELETE_ALL_OUTSIDING = "DELETE  FROM eav.sessions  WHERE eav.sessions.timeofbegin < ?";
+
 
     @Autowired
     public SessionDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void delete(String login) {
-        jdbcTemplate.update(DELETE_SESSION, login);
-    }
-
     @Override
     public void delete(SessionEntity obj) {
-        jdbcTemplate.update(DELETE_SESSION, obj.getLogin());
+        jdbcTemplate.update(DELETE_SESSION_BY_ID, obj.getId());
+    }
+
+    public void delete(long id) {
+        jdbcTemplate.update(DELETE_SESSION_BY_ID,id);
     }
 
     @Override
@@ -45,40 +51,44 @@ public class SessionDao implements Dao<SessionEntity> {
 
     public void insert(String login) {
         LocalDateTime currentDateTime = LocalDateTime.now();
-        jdbcTemplate.update(ADD_SESSION,login, currentDateTime, currentDateTime);
+        jdbcTemplate.update(ADD_SESSION,login, currentDateTime,currentDateTime);
     }
 
     @Override
     public void update(SessionEntity obj) {
-        jdbcTemplate.update(UPDATE_SESSION, LocalDateTime.now(),obj.getLogin());
+        jdbcTemplate.update(UPDATE_SESSION_BY_ID, LocalDateTime.now(),obj.getId());
     }
 
-    public void update(String login) {
-        jdbcTemplate.update(UPDATE_SESSION, LocalDateTime.now(),login);
+    public void update(long id) {
+        jdbcTemplate.update(UPDATE_SESSION_BY_ID, LocalDateTime.now(),id);
     }
-
     @Override
     public List<SessionEntity> getAll() {
-        return jdbcTemplate.query(GET_ALL_SESSION, new SessionMapper());
+        List<SessionEntity> sessions =  jdbcTemplate.query(GET_ALL_SESSION, new SessionMapper());
+        return sessions == null || sessions.isEmpty() ? null : sessions;
     }
 
     public SessionEntity getSessionByUserLogin(String login) {
-        //Здесь может вылететь эксцепшен array of bounfds
-        List<SessionEntity> users = jdbcTemplate.query(GET_SESSION_BY_LOGIN, new SessionMapper(), login);
-        return users.get(0);
+        List<SessionEntity> sessions = jdbcTemplate.query(GET_SESSION_BY_LOGIN, new SessionMapper(), login);
+        return sessions == null || sessions.isEmpty() ? null : sessions.get(0);
     }
 
-    public boolean isSessionNotExist(String login) {
-        //Здесь может вылететь эксцепшен array of bounfds
-        List<SessionEntity> users = jdbcTemplate.query(GET_SESSION_BY_LOGIN, new SessionMapper(), login);
-        return users.isEmpty();
+    public SessionEntity getSessionByID(long id) {
+        List<SessionEntity> sessions = jdbcTemplate.query(GET_SESSION_BY_ID, new SessionMapper(), id);
+        return sessions == null || sessions.isEmpty() ? null : sessions.get(0);
     }
 
-    public List<SessionEntity> getAllOutsiding(LocalDateTime timeofbegin, LocalDateTime timerecentactivity) {
-        return jdbcTemplate.query(GET_ALL_OUTSIDING, new SessionMapper());
+    public boolean isSessionExist(long id) {
+        List<SessionEntity> sessions = jdbcTemplate.query(GET_SESSION_BY_ID, new SessionMapper(), id);
+        return sessions == null || sessions.isEmpty() ? false : true;
     }
 
-    public void deleteAllOutsiding(LocalDateTime timeofbegin) {
-        jdbcTemplate.update(DELETE_ALL_OUTSIDING,timeofbegin);
+    public List<SessionEntity> getAllOutsiding(LocalDateTime timeOfBegin, LocalDateTime timeRecentActivity) {
+         List<SessionEntity> sessions =  jdbcTemplate.query(GET_ALL_OUTSIDING, new SessionMapper(),timeOfBegin,timeRecentActivity);
+        return sessions == null || sessions.isEmpty() ? null : sessions;
+    }
+
+    public void deleteAllOutsiding(LocalDateTime timeOfBegin) {
+        jdbcTemplate.update(DELETE_ALL_OUTSIDING, timeOfBegin);
     }
 }
