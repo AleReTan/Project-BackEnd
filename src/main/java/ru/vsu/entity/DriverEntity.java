@@ -105,9 +105,6 @@ public class DriverEntity extends ObjectEntity {
                 ", lastName='" + lastName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", driverGeoData='" + driverGeoData + '\'' +
-                ", carId=" + carId +
-                ", id=" + id +
-                ", name='" + name + '\'' +
-                ", typeId=" + typeId;
+                ", carId=" + carId;
     }
 }
