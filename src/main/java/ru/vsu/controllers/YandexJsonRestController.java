@@ -6,20 +6,20 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import ru.vsu.services.serviceImpl.JsonService;
+import ru.vsu.services.serviceImpl.YandexJsonService;
 
 @RestController
-public class JsonRestController {
-    private JsonService jsonService;
+public class YandexJsonRestController {
+    private YandexJsonService yandexJsonService;
 
     @Autowired
-    public JsonRestController(JsonService jsonService) {
-        this.jsonService = jsonService;
+    public YandexJsonRestController(YandexJsonService yandexJsonService) {
+        this.yandexJsonService = yandexJsonService;
     }
 
     @RequestMapping(value = "/json", method = RequestMethod.GET)
     public ObjectNode getJson(@RequestHeader("Authorization") String a) {
-        return jsonService.createJson();
+        return yandexJsonService.createJson();
     }
 
 }

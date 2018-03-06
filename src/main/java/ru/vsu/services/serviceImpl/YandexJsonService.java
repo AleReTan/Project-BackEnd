@@ -11,36 +11,39 @@ import ru.vsu.entity.DriverEntity;
 import java.util.ArrayList;
 
 @Service
-public class JsonService {
+public class YandexJsonService {
     private DriverService driverService;
     private ObjectService objectService;
+    private ReferenceService referenceService;
+
+    //айди атрибута driver из order, который показывает какой водитель на заказе(в условиях нашей бд это атрибут с id = 18)
+    private static final int ON_ORDER_ATTRIBUTE = 18;
 
     @Autowired
-    public JsonService(DriverService driverService, ObjectService objectService) {
+    public YandexJsonService(DriverService driverService, ObjectService objectService, ReferenceService referenceService) {
         this.driverService = driverService;
         this.objectService = objectService;
+        this.referenceService = referenceService;
     }
 
     public ObjectNode createJson() {
-
 
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode mainNode = mapper.createObjectNode();
         ArrayNode mainArrayNode = mapper.createArrayNode();
         mainNode.put("type", "FeatureCollection");
         //driver: geoPosition, car: Model + Number, order: status
-        int driverNumber = 0;
         String[] geo;
         CarEntity car;
         ObjectNode objectNode1;
-        ArrayList<DriverEntity> driverEntityArrayList = (ArrayList<DriverEntity>) driverService.getAll();
+        ArrayList<DriverEntity> driverEntityArrayList = (ArrayList<DriverEntity>) driverService.getAll();//здесь можем получать разных водителей
         for (DriverEntity driver : driverEntityArrayList) {
             //TODO:а че с обработкой нулов
             geo = driver.getDriverGeoData().split(",");//кладем координаты в массив
             car = (CarEntity) objectService.findById(driver.getCarId(), CarEntity.class);
             objectNode1 = mapper.createObjectNode();
             objectNode1.put("type", "Feature");
-            objectNode1.put("id", driverNumber);
+            objectNode1.put("driverId", driver.getId());
             objectNode1.set("geometry", mapper.createObjectNode()
                     .put("type", "Point")
                     .set("coordinates", mapper.createArrayNode()
@@ -50,10 +53,17 @@ public class JsonService {
             objectNode1.set("properties", mapper.createObjectNode()
                     .put("balloonContent", car.getModel() + " " + car.getNumber())
                     .put("hintContent", car.getNumber()));
+            //тип иконки, в зависимости, на заказе водитель или нет, синий-свободен, красный-на заказе
+            String driverIconType;
+            if (referenceService.isReferenceExistByRefIdAndAttrId(driver.getId(), ON_ORDER_ATTRIBUTE)) {
+                driverIconType = "islands#redAutoCircleIcon";
+            } else {
+                driverIconType = "islands#blueAutoCircleIcon";
+            }
             objectNode1.set("options", mapper.createObjectNode()
-                    .put("preset", "islands#blueAutoCircleIcon"));
+                    .put("preset", driverIconType));
+
             mainArrayNode.add(objectNode1);
-            driverNumber++;
         }
 /*
         ObjectNode objectNode1 = mapper.createObjectNode();
