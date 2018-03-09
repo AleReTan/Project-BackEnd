@@ -43,7 +43,6 @@ public class YandexJsonService {
             car = (CarEntity) objectService.findById(driver.getCarId(), CarEntity.class);
             objectNode1 = mapper.createObjectNode();
             objectNode1.put("type", "Feature");
-            objectNode1.put("driverId", driver.getId());
             objectNode1.set("geometry", mapper.createObjectNode()
                     .put("type", "Point")
                     .set("coordinates", mapper.createArrayNode()
@@ -52,7 +51,8 @@ public class YandexJsonService {
                     ));
             objectNode1.set("properties", mapper.createObjectNode()
                     .put("balloonContent", car.getModel() + " " + car.getNumber())
-                    .put("hintContent", car.getNumber()));
+                    .put("hintContent", car.getNumber())
+                    .put("driverId", driver.getId()));
             //тип иконки, в зависимости, на заказе водитель или нет, синий-свободен, красный-на заказе
             String driverIconType;
             if (referenceService.isReferenceExistByRefIdAndAttrId(driver.getId(), ON_ORDER_ATTRIBUTE)) {
