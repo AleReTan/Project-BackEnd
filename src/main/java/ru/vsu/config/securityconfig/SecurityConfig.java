@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 import ru.vsu.services.security.MyUserDetailsService;
 import ru.vsu.services.serviceImpl.SessionService;
+import ru.vsu.services.serviceImpl.UserService;
 
 
 @Configuration
@@ -23,13 +24,14 @@ import ru.vsu.services.serviceImpl.SessionService;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private MyUserDetailsService myUserDetailsService;
-    private AppAuthenticationEntryPoint appAuthenticationEntryPoint;
+    private AppAuthenticationEntryPoint authenticationEntryPoint;
     private SessionService sessionService;
+    private UserService userService;
 
     @Autowired
     public SecurityConfig(MyUserDetailsService myUserDetailsService, AppAuthenticationEntryPoint appAuthenticationEntryPoint, SessionService sessionService) {
         this.myUserDetailsService = myUserDetailsService;
-        this.appAuthenticationEntryPoint = appAuthenticationEntryPoint;
+        this.authenticationEntryPoint = appAuthenticationEntryPoint;
         this.sessionService = sessionService;
     }
 
@@ -37,11 +39,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/rest/user/**").hasAuthority("ADMIN")
-                .antMatchers("/**").hasAuthority("USER")
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/login/**").hasAuthority("ADMIN")
+                .antMatchers("/drivers/**").hasAuthority("USER")
                 .and().httpBasic()
-                .authenticationEntryPoint(appAuthenticationEntryPoint);
-       // http.addFilterAfter(new SessionAuthentificationFilter(sessionService,), SessionAuthentificationFilter.class);
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .and().addFilterAfter(new SessionAuthentificationFilter( authenticationManager(),
+                authenticationEntryPoint, sessionService, userService),BasicAuthenticationFilter.class);
 
     }
 

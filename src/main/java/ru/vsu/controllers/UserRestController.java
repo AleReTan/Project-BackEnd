@@ -58,12 +58,11 @@ public class UserRestController {
         userService.delete(u);
     }
 
-}
-
-
-    /*@RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String getRole (@RequestHeader("Authorization") String a) {
-        когда пользователь заходит, то проверяется есть ли он в базе . назначается сессия и возвращается роль.
+      //  когда пользователь заходит, то проверяется есть ли он в базе . назначается сессия и возвращается роль.(
+        // роль пока не понятно должна ли в теле быть или в заголовку)
        String login = SecurityContextHolder.getContext().getAuthentication().getName();
        return userService.getUserByLogin(login).getRole();
-    }*/
+    }
+}

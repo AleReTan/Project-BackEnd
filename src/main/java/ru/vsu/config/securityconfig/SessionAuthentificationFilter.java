@@ -1,6 +1,7 @@
 package ru.vsu.config.securityconfig;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -10,6 +11,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.Assert;
 import org.springframework.web.filter.GenericFilterBean;
+import ru.vsu.entity.SessionEntity;
 import ru.vsu.services.serviceImpl.SessionService;
 import ru.vsu.services.serviceImpl.UserService;
 
@@ -22,7 +24,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class SessionAuthentificationFilter extends GenericFilterBean {
+    @Autowired
     private SessionService sessionService;
+
+    @Autowired
     private UserService userService;
 
 
@@ -33,19 +38,17 @@ public class SessionAuthentificationFilter extends GenericFilterBean {
     private String credentialsCharset = "UTF-8";
 
     private static final String BASE = "Base ";
-    private static final String SESSION = "Session ";
+    private static final String SESSION = "Session:";
 
-
-    @Autowired
-    public SessionAuthentificationFilter(SessionService sessionService, AuthenticationManager authenticationManager, UserService userService) {
+    public SessionAuthentificationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
-        this.sessionService = sessionService;
-        this.userService = userService;
         ignoreFailure = true;
     }
 
     public SessionAuthentificationFilter(AuthenticationManager authenticationManager,
-                                         AuthenticationEntryPoint authenticationEntryPoint) {
+                                         AuthenticationEntryPoint authenticationEntryPoint,SessionService sessionService,UserService userService) {
+        this.sessionService = sessionService;
+        this.userService = userService;
         this.authenticationManager = authenticationManager;
         this.authenticationEntryPoint = authenticationEntryPoint;
     }
@@ -66,13 +69,15 @@ public class SessionAuthentificationFilter extends GenericFilterBean {
         final boolean debug = logger.isDebugEnabled();
         final HttpServletRequest request = (HttpServletRequest) req;
         final HttpServletResponse response = (HttpServletResponse) res;
+        SessionEntity  userSession;
 
-        String header = request.getHeader("Authorization");
+        String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (header == null || !header.startsWith(BASE) || !header.startsWith(SESSION)) {
+        if (header == null || (!header.startsWith(BASE) && !header.startsWith(SESSION))) {
             chain.doFilter(request, response);
             return;
         }
+
 
         String authOption;
         if (header.startsWith(BASE)) {
@@ -89,6 +94,7 @@ public class SessionAuthentificationFilter extends GenericFilterBean {
             assert (tokensLength == 2 || tokensLength == 1);
             String username = " ";
             String password = " ";
+
             if (tokensLength == 2) {
                 username = tokens[0];
                 password = tokens[1];
@@ -102,7 +108,7 @@ public class SessionAuthentificationFilter extends GenericFilterBean {
             if (debug) {
                 logger.debug("Basic Authentication Authorization header found for user '" + username + "'");
             }
-
+//////////////////////////////Authentification//////////////////////////////////////////
             if (authenticationIsRequired(username)) {
                 UsernamePasswordAuthenticationToken authRequest =
                         new UsernamePasswordAuthenticationToken(username, password);
@@ -115,8 +121,25 @@ public class SessionAuthentificationFilter extends GenericFilterBean {
                 }
 
                 SecurityContextHolder.getContext().setAuthentication(authResult);
+
+//////////////////////Updating session////////////////////////////////////////////
+
+               if(authOption.equals(BASE)){
+                   sessionService.insert(username);
+                   userSession = sessionService.getSessionByUserLogin(username);
+               }else{
+                   userSession = sessionService.getSessionByUserLogin(username);
+                   sessionService.update(userSession.getId());
+               }
+               //дабавляем заголовок, содержащий id сессии
+                String originalInput = Long.toString(userSession.getId());
+                String token = SESSION + java.util.Base64.getEncoder().encodeToString(originalInput.getBytes());
+                response.addHeader(HttpHeaders.AUTHORIZATION,token);
+                System.out.println(response.getHeader(HttpHeaders.AUTHORIZATION));
+                //String role=userService.getUserByLogin(username).getRole();
+                /////////////////////////////////////////////////////////
+                //response.addHeader("ROLE", role);
                 onSuccessfulAuthentication(request, response, authResult);
-                sessionService.update(sessionService.getSessionByUserLogin(username));
             }
 
         } catch (AuthenticationException failed) {
@@ -159,7 +182,7 @@ public class SessionAuthentificationFilter extends GenericFilterBean {
 
         String token = new String(decoded, getCredentialsCharset(request));
 
-        if (authOption == "Base ") {
+        if (authOption.equals(BASE)) {
             int delim = token.indexOf(":");
 
             if (delim == -1) {
