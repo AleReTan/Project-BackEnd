@@ -58,11 +58,15 @@ public class ReferenceService implements MyService<ReferenceEntity> {
         return referenceDao.getReferencesByRefId(refId);
     }
 
-    public ReferenceEntity getReferencesByRefIdAndObjectId(long refId, long objectId) {
-        return referenceDao.getReferencesByRefIdAndObjectId(refId, objectId);
+    public ReferenceEntity getReferenceByRefIdAndObjectId(long refId, long objectId) {
+        return referenceDao.getReferenceByRefIdAndObjectId(refId, objectId);
     }
 
     public Map<Long, Long> getReferenceMapByObjectId(long objectId) {
         return referenceDao.getReferenceMapByObjectId(objectId);
+    }
+
+    public boolean isReferenceExistByRefIdAndAttrId(long refId, long attrId) {
+        return referenceDao.isReferenceExistByRefIdAndAttrId(refId, attrId);
     }
 }

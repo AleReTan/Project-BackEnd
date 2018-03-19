@@ -18,17 +18,21 @@ public class DriverEntity extends ObjectEntity {
     @ParamAttributeId(id = 4)
     private String phoneNumber;
 
+    @ParamAttributeId(id = 23)
+    private String driverGeoData;
+
     @Reference(attrId = 16)
     private long carId;
 
     public DriverEntity() {
     }
 
-    public DriverEntity(long id, String name, long typeId, String firstName, String lastName, String phoneNumber, long carId) {
+    public DriverEntity(long id, String name, long typeId, String firstName, String lastName, String phoneNumber, String driverGeoData, long carId) {
         super(id, name, typeId);
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
+        this.driverGeoData = driverGeoData;
         this.carId = carId;
     }
 
@@ -56,6 +60,14 @@ public class DriverEntity extends ObjectEntity {
         this.phoneNumber = phoneNumber;
     }
 
+    public String getDriverGeoData() {
+        return driverGeoData;
+    }
+
+    public void setDriverGeoData(String driverGeoData) {
+        this.driverGeoData = driverGeoData;
+    }
+
     public long getCarId() {
         return carId;
     }
@@ -73,13 +85,14 @@ public class DriverEntity extends ObjectEntity {
         return getCarId() == that.getCarId() &&
                 Objects.equals(getFirstName(), that.getFirstName()) &&
                 Objects.equals(getLastName(), that.getLastName()) &&
-                Objects.equals(getPhoneNumber(), that.getPhoneNumber());
+                Objects.equals(getPhoneNumber(), that.getPhoneNumber()) &&
+                Objects.equals(getDriverGeoData(), that.getDriverGeoData());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(super.hashCode(), getFirstName(), getLastName(), getPhoneNumber(), getCarId());
+        return Objects.hash(super.hashCode(), getFirstName(), getLastName(), getPhoneNumber(), getDriverGeoData(), getCarId());
     }
 
     @Override
@@ -91,9 +104,7 @@ public class DriverEntity extends ObjectEntity {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", carId=" + carId +
-                ", id=" + id +
-                ", name='" + name + '\'' +
-                ", typeId=" + typeId;
+                ", driverGeoData='" + driverGeoData + '\'' +
+                ", carId=" + carId;
     }
 }

@@ -7,9 +7,6 @@ CREATE SEQUENCE attribute_sequence
 CREATE SEQUENCE object_sequence
   START 1
   INCREMENT 1;
-CREATE SEQUENCE params_sequence
-  START 1
-  INCREMENT 1;
 
 CREATE TABLE object_type
 (
@@ -51,9 +48,6 @@ CREATE TABLE object
 
 CREATE TABLE params
 (
-  id        BIGINT DEFAULT nextval('params_sequence' :: REGCLASS) NOT NULL
-    CONSTRAINT params_pkey
-    PRIMARY KEY,
   attr_id   BIGINT                                                NOT NULL
     CONSTRAINT params_attribute_id_fk
     REFERENCES attribute
