@@ -3,54 +3,41 @@ package ru.vsu.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.vsu.entity.OrderEntity;
-import ru.vsu.facade.ServiceFacade;
+import ru.vsu.services.serviceImpl.OrderService;
 
 import java.util.List;
 
 @RestController
 public class OrderRestController {
-    private ServiceFacade serviceFacade;
-
+    private OrderService orderService;
 
     @Autowired
-    public OrderRestController(ServiceFacade serviceFacade) {
-        this.serviceFacade = serviceFacade;
-    }
-
-
-    @RequestMapping(value = "/ot", method = RequestMethod.GET)
-    public List test() {
-        //return serviceFacade.getCarService().getAll();
-        //System.out.println(serviceFacade.getObjectService().findById(1, OrderEntity.class).toString());
-        //System.out.println(serviceFacade.getObjectService().findById(2, CarEntity.class).toString());
-        //System.out.println(Arrays.toString(serviceFacade.getObjectService().getListOfObjectIdByObjectTypeId(6).toArray()));
-        //serviceFacade.getOrderService().insert((OrderEntity) serviceFacade.getObjectService().findById(1, OrderEntity.class));
-        return serviceFacade.getObjectTypeService().getAll();
-    }
-
-    @RequestMapping(value = "/orders/createOrder", method = RequestMethod.POST)
-    public void createOrder(@RequestBody OrderEntity o) {
-        serviceFacade.getOrderService().insert(o);
-    }
-
-    @RequestMapping(value = "/orders/updateOrder", method = RequestMethod.PATCH)
-    public void updateOrder(@RequestBody OrderEntity o) {
-        serviceFacade.getOrderService().update(o);
-    }
-
-    @RequestMapping(value = "/orders/deleteOrder", method = RequestMethod.DELETE)
-    public void deleteOrder(@RequestBody OrderEntity o) {
-        serviceFacade.getOrderService().delete(o);
+    public OrderRestController(OrderService orderService) {
+        this.orderService = orderService;
     }
 
     @RequestMapping(value = "/orders", method = RequestMethod.GET)
-    public List<OrderEntity> getOrders() {
-        return serviceFacade.getOrderService().getAll();
+    public List<OrderEntity> getOrders(@RequestHeader("Authorization") String a) {
+        return orderService.getAll();
     }
 
-    //TODO проверить надо
+    @RequestMapping(value = "/orders", method = RequestMethod.POST)
+    public void createOrder(@RequestBody OrderEntity o, @RequestHeader("Authorization") String a) {
+        orderService.insert(o);
+    }
+
+    @RequestMapping(value = "/orders", method = RequestMethod.PATCH)
+    public void updateOrder(@RequestBody OrderEntity o, @RequestHeader("Authorization") String a) {
+        orderService.update(o);
+    }
+
+    @RequestMapping(value = "/orders/{id}", method = RequestMethod.DELETE)
+    public void deleteOrder(@PathVariable("id") long id, @RequestHeader("Authorization") String a) {
+        orderService.delete(id);
+    }
+
     @RequestMapping(value = "/orders/{id}", method = RequestMethod.GET)
-    public OrderEntity getOrderById(@PathVariable("id") long id) {
-        return serviceFacade.getOrderService().getObjectById(id);
+    public OrderEntity getOrderById(@PathVariable("id") long id, @RequestHeader("Authorization") String a) {
+        return orderService.getObjectById(id);
     }
 }
