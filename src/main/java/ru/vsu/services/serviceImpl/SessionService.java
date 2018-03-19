@@ -51,6 +51,11 @@ public class SessionService implements MyService<SessionEntity> {
         sessionDao.update(id);
     }
 
+    public void updateDateBegin(Long id){
+        sessionDao.updateDateBegin(id);
+
+    }
+
     @Override
     public List<SessionEntity> getAll() {
         return sessionDao.getAll();
@@ -58,8 +63,10 @@ public class SessionService implements MyService<SessionEntity> {
 
     public void deleteAllOutsiding() {
         LocalDateTime currentDateTime = LocalDateTime.now();
+
         List<SessionEntity> sessionEntities = sessionDao.getAllOutsiding(currentDateTime.minusHours(24), currentDateTime.minusMinutes(20));
-        if (!sessionEntities.isEmpty()) {
+       // System.out.println("I am hire"+ LocalDateTime.now().toString());
+        if (sessionEntities!= null) {
             for (SessionEntity sessionEntity : sessionEntities) {
                 sessionDao.delete(sessionEntity);
             }

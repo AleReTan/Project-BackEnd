@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -29,10 +30,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserService userService;
 
     @Autowired
-    public SecurityConfig(MyUserDetailsService myUserDetailsService, AppAuthenticationEntryPoint appAuthenticationEntryPoint, SessionService sessionService) {
+    public SecurityConfig(MyUserDetailsService myUserDetailsService, AppAuthenticationEntryPoint appAuthenticationEntryPoint, SessionService sessionService,UserService userService) {
         this.myUserDetailsService = myUserDetailsService;
         this.authenticationEntryPoint = appAuthenticationEntryPoint;
         this.sessionService = sessionService;
+        this.userService = userService;
     }
 
     @Override
@@ -40,13 +42,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
-                .antMatchers("/login/**").hasAuthority("ADMIN")
+                .antMatchers("/login/**").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers("/drivers/**").hasAuthority("USER")
-                .and().httpBasic()
-                .authenticationEntryPoint(authenticationEntryPoint)
+                .antMatchers("/cars/**").hasAuthority("USER")
+               // .and().httpBasic()
+              //  .authenticationEntryPoint(authenticationEntryPoint)
                 .and().addFilterAfter(new SessionAuthentificationFilter( authenticationManager(),
                 authenticationEntryPoint, sessionService, userService),BasicAuthenticationFilter.class);
-
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
     @Override

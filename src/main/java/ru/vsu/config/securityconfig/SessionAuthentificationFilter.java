@@ -46,13 +46,12 @@ public class SessionAuthentificationFilter extends GenericFilterBean {
     }
 
     public SessionAuthentificationFilter(AuthenticationManager authenticationManager,
-                                         AuthenticationEntryPoint authenticationEntryPoint,SessionService sessionService,UserService userService) {
+                                         AuthenticationEntryPoint authenticationEntryPoint, SessionService sessionService, UserService userService) {
         this.sessionService = sessionService;
         this.userService = userService;
         this.authenticationManager = authenticationManager;
         this.authenticationEntryPoint = authenticationEntryPoint;
     }
-
     //~ Methods ========================================================================================================
 
     @Override
@@ -69,7 +68,7 @@ public class SessionAuthentificationFilter extends GenericFilterBean {
         final boolean debug = logger.isDebugEnabled();
         final HttpServletRequest request = (HttpServletRequest) req;
         final HttpServletResponse response = (HttpServletResponse) res;
-        SessionEntity  userSession;
+        SessionEntity userSession;
 
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 
@@ -78,14 +77,12 @@ public class SessionAuthentificationFilter extends GenericFilterBean {
             return;
         }
 
-
         String authOption;
         if (header.startsWith(BASE)) {
             authOption = BASE;
         } else {
             authOption = SESSION;
         }
-
         try {
 
             String[] tokens = extractAndDecodeHeader(header, request, authOption);
@@ -94,19 +91,14 @@ public class SessionAuthentificationFilter extends GenericFilterBean {
             assert (tokensLength == 2 || tokensLength == 1);
             String username = " ";
             String password = " ";
-
+            //если в токене логин и пароль
             if (tokensLength == 2) {
                 username = tokens[0];
                 password = tokens[1];
-
+                //если пришел id сессии в токене
             } else if (tokensLength == 1) {
-
                 username = sessionService.getSessionById(Long.valueOf(tokens[0])).getLogin();
                 password = userService.getUserByLogin(username).getPassword();
-            }
-
-            if (debug) {
-                logger.debug("Basic Authentication Authorization header found for user '" + username + "'");
             }
 //////////////////////////////Authentification//////////////////////////////////////////
             if (authenticationIsRequired(username)) {
@@ -115,39 +107,35 @@ public class SessionAuthentificationFilter extends GenericFilterBean {
                 authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
 
                 Authentication authResult = authenticationManager.authenticate(authRequest);
-
-                if (debug) {
-                    logger.debug("Authentication success: " + authResult);
-                }
-
+                System.out.println("До аустановления контекста" + request.getRequestURI());
                 SecurityContextHolder.getContext().setAuthentication(authResult);
 
 //////////////////////Updating session////////////////////////////////////////////
+                //тут надо подумать, чтобы ексцепшн не вылетел
+                userSession = sessionService.getSessionByUserLogin(username);
 
-               if(authOption.equals(BASE)){
-                   sessionService.insert(username);
-                   userSession = sessionService.getSessionByUserLogin(username);
-               }else{
-                   userSession = sessionService.getSessionByUserLogin(username);
-                   sessionService.update(userSession.getId());
-               }
-               //дабавляем заголовок, содержащий id сессии
+                if (authOption.equals(BASE)) {
+
+                    if (userSession != null) {
+                        sessionService.updateDateBegin(userSession.getId());
+                    } else {
+                        sessionService.insert(username);
+                        userSession = sessionService.getSessionByUserLogin(username);
+                    }
+                } else {
+                    sessionService.update(userSession.getId());
+                }
+                ////////////////////////дабавляем заголовок, содержащий id сессии//////////////
                 String originalInput = Long.toString(userSession.getId());
                 String token = SESSION + java.util.Base64.getEncoder().encodeToString(originalInput.getBytes());
-                response.addHeader(HttpHeaders.AUTHORIZATION,token);
-                System.out.println(response.getHeader(HttpHeaders.AUTHORIZATION));
-                //String role=userService.getUserByLogin(username).getRole();
-                /////////////////////////////////////////////////////////
-                //response.addHeader("ROLE", role);
+                response.addHeader(HttpHeaders.AUTHORIZATION, token);
+                System.out.println(request.getRequestURI());
+
                 onSuccessfulAuthentication(request, response, authResult);
             }
 
         } catch (AuthenticationException failed) {
             SecurityContextHolder.clearContext();
-
-            if (debug) {
-                logger.debug("Authentication request for failed: " + failed);
-            }
 
             onUnsuccessfulAuthentication(request, response, failed);
 
@@ -162,7 +150,6 @@ public class SessionAuthentificationFilter extends GenericFilterBean {
 
         chain.doFilter(request, response);
     }
-
 
     /**
      * Decodes the header into a username and password or session.
