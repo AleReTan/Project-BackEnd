@@ -11,7 +11,6 @@ CREATE SEQUENCE  session_id_sequence
 START 1
 INCREMENT 1;
 
-
 CREATE TABLE object_type
 (
   id     BIGINT DEFAULT nextval('object_type_sequence' :: REGCLASS) NOT NULL
@@ -85,11 +84,6 @@ CREATE TABLE users
   password VARCHAR(500) NOT NULL,
   role     VARCHAR(50)  NOT NULL
 );
-
-
-CREATE SEQUENCE  session_id_sequence
-START 1
-INCREMENT 1;
 
 create table users
 (
