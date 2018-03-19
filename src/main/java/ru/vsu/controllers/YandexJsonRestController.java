@@ -17,7 +17,7 @@ public class YandexJsonRestController {
         this.yandexJsonService = yandexJsonService;
     }
 
-    @RequestMapping(value = "/json", method = RequestMethod.GET)
+    @RequestMapping(value = "/allCarsJson", method = RequestMethod.GET)
     public ObjectNode getJson(@RequestHeader("Authorization") String a) {
         return yandexJsonService.createJson();
     }
