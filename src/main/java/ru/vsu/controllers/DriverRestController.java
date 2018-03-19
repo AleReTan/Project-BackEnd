@@ -40,4 +40,11 @@ public class DriverRestController {
     public DriverEntity getDriver(@PathVariable("id") long id, @RequestHeader("Authorization") String a) {
         return driverService.getObjectById(id);
     }
+
+    @RequestMapping(value = "/drivers/available", method = RequestMethod.GET)
+    public List<DriverEntity> getAvailableDrivers(@RequestHeader("Authorization") String a) {
+        return driverService.getAllAvailableDrivers();
+    }
+
+
 }

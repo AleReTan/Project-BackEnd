@@ -17,9 +17,13 @@ public class YandexJsonRestController {
         this.yandexJsonService = yandexJsonService;
     }
 
-    @RequestMapping(value = "/allCarsJson", method = RequestMethod.GET)
-    public ObjectNode getJson(@RequestHeader("Authorization") String a) {
-        return yandexJsonService.createJson();
+    @RequestMapping(value = "/allDriversJson", method = RequestMethod.GET)
+    public ObjectNode getJsonWithAllDrivers(@RequestHeader("Authorization") String a) {
+        return yandexJsonService.createJsonWithAllDrivers();
     }
 
+    @RequestMapping(value = "/availableDriversJson", method = RequestMethod.GET)
+    public ObjectNode getJsonWithAvailableDrivers(@RequestHeader("Authorization") String a) {
+        return yandexJsonService.createJsonWithAvailableDrivers();
+    }
 }
