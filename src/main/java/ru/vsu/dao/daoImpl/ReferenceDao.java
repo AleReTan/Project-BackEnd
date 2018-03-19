@@ -24,6 +24,7 @@ public class ReferenceDao implements Dao<ReferenceEntity> {
     private static final String GET_BY_REFERENCE = "SELECT * FROM  eav.reference WHERE eav.reference.reference = ?";
     private static final String GET_BY_REFERENCE_AND_OBJECT_ID = "SELECT * FROM  eav.reference WHERE eav.reference.reference = ? AND eav.reference.object_id";
     private static final String GET_MAP_BY_OBJECT_ID = "SELECT * FROM  eav.reference r WHERE r.object_id = ?";
+    private static final String GET_BY_REFERENCE_AND_ATTRIBUTE_ID = "SELECT count(*) FROM  eav.reference WHERE eav.reference.reference = ? AND eav.reference.attr_id = ?";
 
     @Autowired
     public ReferenceDao(JdbcTemplate jdbcTemplate) {
@@ -70,7 +71,7 @@ public class ReferenceDao implements Dao<ReferenceEntity> {
         return jdbcTemplate.query(GET_BY_REFERENCE, new ReferenceMapper(), refId);
     }
 
-    public ReferenceEntity getReferencesByRefIdAndObjectId(long refId, long objectId) {
+    public ReferenceEntity getReferenceByRefIdAndObjectId(long refId, long objectId) {
         return jdbcTemplate.queryForObject(GET_BY_REFERENCE_AND_OBJECT_ID, new ReferenceMapper(), refId, objectId);
     }
 
@@ -81,6 +82,21 @@ public class ReferenceDao implements Dao<ReferenceEntity> {
             returnMap.put(referenceEntity.getAttrId(), referenceEntity.getReference());
         }
         return returnMap;
+    }
+
+    /**
+     * Метод определяет, существует ли строка в базе по refId и attrId
+     * Например: Ищем, ссылается ли кто нибудь на водителя с айди 5(refId = 5) по атрибуту водитель на заказе(attrId = 18)
+     * То есть, назначен ли водитель на какой то заказ. Если вернет 0, записей нет, водитель не на заказе.
+     * Если вернет 1( по задумке вернуть может только 1 или 0), то запись есть, водитель закреплена за заказом.
+     *
+     * @param refId  то на кого ссылаемся
+     * @param attrId ссылаемся по этому атрибуту
+     * @return если запись есть, true, если нет, false
+     */
+    public boolean isReferenceExistByRefIdAndAttrId(long refId, long attrId) {
+        Integer count = jdbcTemplate.queryForObject(GET_BY_REFERENCE_AND_ATTRIBUTE_ID, Integer.class, refId, attrId);
+        return count > 0;
     }
 
 }
