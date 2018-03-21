@@ -19,7 +19,7 @@ public class MyAbstractEntityService<T extends ObjectEntity> implements MyServic
     private final Class<T> clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     private ObjectService<ObjectEntity> objectService;//или напрямую к дао?(что скорее всего не так)
     private ParamsService paramsService;
-    private ReferenceService referenceService;
+    protected ReferenceService referenceService;//TODO:можно ли протектед или в драйвер сервис как то по другому получать
 
     @Autowired
     public MyAbstractEntityService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService) {

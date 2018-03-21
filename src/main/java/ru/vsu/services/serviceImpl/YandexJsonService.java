@@ -26,8 +26,7 @@ public class YandexJsonService {
         this.referenceService = referenceService;
     }
 
-    public ObjectNode createJson() {
-
+    public ObjectNode createJsonWithAllDrivers() {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode mainNode = mapper.createObjectNode();
         ArrayNode mainArrayNode = mapper.createArrayNode();
@@ -65,20 +64,46 @@ public class YandexJsonService {
 
             mainArrayNode.add(objectNode1);
         }
-/*
-        ObjectNode objectNode1 = mapper.createObjectNode();
-        objectNode1.put("type", "Feature");
-        objectNode1.set("geometry", mapper.createObjectNode()
-                .put("type", "Point")
-                .set("coordinates", mapper.createArrayNode().add(55.831903).add(37.411961)));
-        objectNode1.set("properties", mapper.createObjectNode()
-                .put("balloonContent", "Auto x111xx36")
-                .put("hintContent", "x111xx36"));
-
-        mainArrayNode.add(objectNode1);
-*/
 
         mainNode.set("features", mainArrayNode);
         return mainNode;
     }
+
+    public ObjectNode createJsonWithAvailableDrivers() {
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode mainNode = mapper.createObjectNode();
+        ArrayNode mainArrayNode = mapper.createArrayNode();
+        mainNode.put("type", "FeatureCollection");
+        //driver: geoPosition, car: Model + Number, order: status
+        String[] geo;
+        CarEntity car;
+        ObjectNode objectNode1;
+        ArrayList<DriverEntity> driverEntityArrayList = (ArrayList<DriverEntity>) driverService.getAllAvailableDrivers();//здесь можем получать разных водителей
+        for (DriverEntity driver : driverEntityArrayList) {
+            //TODO:а че с обработкой нулов
+            geo = driver.getDriverGeoData().split(",");//кладем координаты в массив
+            car = (CarEntity) objectService.findById(driver.getCarId(), CarEntity.class);
+            objectNode1 = mapper.createObjectNode();
+            objectNode1.put("type", "Feature");
+            objectNode1.set("geometry", mapper.createObjectNode()
+                    .put("type", "Point")
+                    .set("coordinates", mapper.createArrayNode()
+                            .add(Double.parseDouble(geo[0]))
+                            .add(Double.parseDouble(geo[1]))
+                    ));
+            objectNode1.set("properties", mapper.createObjectNode()
+                    .put("balloonContent", car.getModel() + " " + car.getNumber())
+                    .put("hintContent", car.getNumber())
+                    .put("driverId", driver.getId()));
+            //тип иконки, в зависимости, на заказе водитель или нет, синий-свободен, красный-на заказе
+            String driverIconType = "islands#blueAutoCircleIcon";
+            objectNode1.set("options", mapper.createObjectNode()
+                    .put("preset", driverIconType));
+
+            mainArrayNode.add(objectNode1);
+        }
+        mainNode.set("features", mainArrayNode);
+        return mainNode;
+    }
+
 }
