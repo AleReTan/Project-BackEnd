@@ -13,11 +13,11 @@ import java.util.List;
 public class UserDao implements Dao<UserEntity> {
 
     private final JdbcTemplate jdbcTemplate;
-    private  static final String DELETE_USER = "DELETE  FROM  eav.users  WHERE eav.users.login = ?";
-    private  static final String ADD_USER = " INSERT INTO  eav.users VALUES (?,?,?)";
-    private  static final String UPDATE_USER = " UPDATE eav.users SET role = ? WHERE eav.users.login = ?";
-    private  static final String GET_ALL_USERS = "SELECT * FROM  eav.users";
-    private  static final String GET_USER_BY_LOGIN = "SELECT * FROM  eav.users  WHERE eav.users.login = ?";
+    private static final String DELETE_USER = "DELETE  FROM  eav.users  WHERE eav.users.login = ?";
+    private static final String ADD_USER = " INSERT INTO  eav.users VALUES (?,?,?)";
+    private static final String UPDATE_USER = " UPDATE eav.users SET role = ? WHERE eav.users.login = ?";
+    private static final String GET_ALL_USERS = "SELECT * FROM  eav.users";
+    private static final String GET_USER_BY_LOGIN = "SELECT * FROM  eav.users  WHERE eav.users.login = ?";
 
     @Autowired
     public UserDao(JdbcTemplate jdbcTemplate) {
@@ -50,7 +50,7 @@ public class UserDao implements Dao<UserEntity> {
 
     public UserEntity getUserByLogin(String login) {
         List<UserEntity> users = jdbcTemplate.query(GET_USER_BY_LOGIN, new UserMapper(), login);
-        return users.get(0);
+        return (users == null || users.isEmpty()) ? null : users.get(0);
     }
 
     public boolean isUserExist(String login) {

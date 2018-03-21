@@ -1,6 +1,6 @@
 package ru.vsu.config;
 
-import org.postgresql.ds.PGSimpleDataSource;
+import org.postgresql.ds.PGPoolingDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -15,18 +15,20 @@ import javax.sql.DataSource;
 @ComponentScan(basePackages = "ru.vsu")
 public class ServiceConfig {
 
-   @Bean
-   public DataSource getDataSource() {
-        PGSimpleDataSource source = new PGSimpleDataSource();
+    @Bean
+    public DataSource getDataSource() {
+        @SuppressWarnings("deprecation")
+        PGPoolingDataSource source = new PGPoolingDataSource();
         source.setServerName("localhost");
         source.setDatabaseName("postgres");
         source.setUser("postgres");
         source.setPassword("1234");
+        source.setMaxConnections(10);
         return source;
     }
 
     @Bean
-    public JdbcTemplate getJdbcTemplate(){
+    public JdbcTemplate getJdbcTemplate() {
         return new JdbcTemplate(getDataSource());
     }
 

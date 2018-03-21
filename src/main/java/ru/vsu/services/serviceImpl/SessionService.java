@@ -1,6 +1,8 @@
 package ru.vsu.services.serviceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Service;
 import ru.vsu.dao.daoImpl.SessionDao;
 import ru.vsu.dao.daoImpl.UserDao;
@@ -8,11 +10,17 @@ import ru.vsu.entity.SessionEntity;
 import ru.vsu.entity.UserEntity;
 import ru.vsu.services.MyService;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class SessionService implements MyService<SessionEntity> {
+
+    public static final String BASE = "Base ";
+    public static final String SESSION = "Session:";
+    public static final String LOGOUT = "Logout:";
 
     private SessionDao sessionDao;
 
@@ -53,7 +61,6 @@ public class SessionService implements MyService<SessionEntity> {
 
     public void updateDateBegin(Long id){
         sessionDao.updateDateBegin(id);
-
     }
 
     @Override
@@ -79,5 +86,30 @@ public class SessionService implements MyService<SessionEntity> {
 
     public SessionEntity getSessionById(long id) {
         return sessionDao.getSessionByID(id);
+    }
+
+    public static String[] extractAndDecodeHeader(String header, HttpServletRequest request, String authOption) throws IOException {
+
+        byte[] base64Token = header.substring(authOption.length()).getBytes("UTF-8");
+        byte[] decoded;
+
+        try {
+            decoded = Base64.decode(base64Token);
+        } catch (IllegalArgumentException e) {
+            throw new BadCredentialsException("Failed to decode basic authentication token");
+        }
+
+        String token = new String(decoded,"UTF-8");
+
+        if (authOption.equals(BASE)) {
+            int delim = token.indexOf(":");
+
+            if (delim == -1) {
+                throw new BadCredentialsException("Invalid basic authentication token");
+            }
+            return new String[]{token.substring(0, delim), token.substring(delim + 1)};
+        } else {
+            return new String[]{token};
+        }
     }
 }

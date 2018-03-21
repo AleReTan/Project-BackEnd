@@ -17,9 +17,10 @@ public class ScheduleTaskEntity {
 
     public ScheduleTaskEntity() {
     }
-    /*@Scheduled(cron = "0 * * ? * *")
+    @Scheduled(cron = "0 * * ? * *")
     //@Scheduled(cron = "0 0 0/24 ? * *")
     public void fixedDelaySchedule() {
+        System.out.println("i do deleteAllOutsiding");
         sessionService.deleteAllOutsiding();
-    }*/
+    }
     }

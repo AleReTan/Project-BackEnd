@@ -13,7 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.security.web.context.SecurityContextPersistenceFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import ru.vsu.services.security.MyUserDetailsService;
 import ru.vsu.services.serviceImpl.SessionService;
 import ru.vsu.services.serviceImpl.UserService;
@@ -43,12 +43,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .antMatchers("/login/**").hasAnyAuthority("ADMIN", "USER")
-                .antMatchers("/drivers/**").hasAuthority("USER")
-                .antMatchers("/cars/**").hasAuthority("USER")
-               // .and().httpBasic()
-              //  .authenticationEntryPoint(authenticationEntryPoint)
+                .antMatchers("/drivers/**").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers("/cars/**").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers("/json/**").hasAnyAuthority("ADMIN", "USER")
+                //.antMatchers("/json/**").hasAnyAuthority("ADMIN", "USER")
                 .and().addFilterAfter(new SessionAuthentificationFilter( authenticationManager(),
-                authenticationEntryPoint, sessionService, userService),BasicAuthenticationFilter.class);
+                authenticationEntryPoint, sessionService, userService),BasicAuthenticationFilter.class)
+                .logout().permitAll().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .addLogoutHandler(new SessionClearingLogoutHandler(sessionService)).logoutSuccessUrl("/successLogout");
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
