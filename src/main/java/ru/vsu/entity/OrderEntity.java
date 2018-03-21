@@ -31,6 +31,9 @@ public class OrderEntity extends ObjectEntity {
     @ParamAttributeId(id = 22)
     private String geoData;
 
+    @ParamAttributeId(id = 24)
+    private String destinationGeoData;
+
     @ParamAttributeId(id = 9)
     private String orderStartTime;
 
@@ -43,7 +46,7 @@ public class OrderEntity extends ObjectEntity {
     public OrderEntity() {
     }
 
-    public OrderEntity(long id, String name, long typeId, String clientFirstName, String clientLastName, String clientPhoneNumber, String address, long driverId, String orderCost, String geoData, String orderStartTime, String orderEndTime, String statusOrder) {
+    public OrderEntity(long id, String name, long typeId, String clientFirstName, String clientLastName, String clientPhoneNumber, String address, long driverId, String orderCost, String geoData, String destinationGeoData, String orderStartTime, String orderEndTime, String statusOrder) {
         super(id, name, typeId);
         this.clientFirstName = clientFirstName;
         this.clientLastName = clientLastName;
@@ -52,6 +55,7 @@ public class OrderEntity extends ObjectEntity {
         this.driverId = driverId;
         this.orderCost = orderCost;
         this.geoData = geoData;
+        this.destinationGeoData = destinationGeoData;
         this.orderStartTime = orderStartTime;
         this.orderEndTime = orderEndTime;
         this.statusOrder = statusOrder;
@@ -113,6 +117,14 @@ public class OrderEntity extends ObjectEntity {
         this.geoData = geoData;
     }
 
+    public String getDestinationGeoData() {
+        return destinationGeoData;
+    }
+
+    public void setDestinationGeoData(String destinationGeoData) {
+        this.destinationGeoData = destinationGeoData;
+    }
+
     public String getOrderStartTime() {
         return orderStartTime;
     }
@@ -150,6 +162,7 @@ public class OrderEntity extends ObjectEntity {
                 Objects.equals(getAddress(), that.getAddress()) &&
                 Objects.equals(getOrderCost(), that.getOrderCost()) &&
                 Objects.equals(getGeoData(), that.getGeoData()) &&
+                Objects.equals(getDestinationGeoData(), that.getDestinationGeoData()) &&
                 Objects.equals(getOrderStartTime(), that.getOrderStartTime()) &&
                 Objects.equals(getOrderEndTime(), that.getOrderEndTime()) &&
                 Objects.equals(getStatusOrder(), that.getStatusOrder());
@@ -158,7 +171,7 @@ public class OrderEntity extends ObjectEntity {
     @Override
     public int hashCode() {
 
-        return Objects.hash(super.hashCode(), getClientFirstName(), getClientLastName(), getClientPhoneNumber(), getAddress(), getDriverId(), getOrderCost(), getGeoData(), getOrderStartTime(), getOrderEndTime(), getStatusOrder());
+        return Objects.hash(super.hashCode(), getClientFirstName(), getClientLastName(), getClientPhoneNumber(), getAddress(), getDriverId(), getOrderCost(), getGeoData(), getDestinationGeoData(), getOrderStartTime(), getOrderEndTime(), getStatusOrder());
     }
 
     @Override
@@ -174,6 +187,7 @@ public class OrderEntity extends ObjectEntity {
                 ", driverId=" + driverId +
                 ", orderCost='" + orderCost + '\'' +
                 ", geoData='" + geoData + '\'' +
+                ", destinationGeoData='" + destinationGeoData + '\'' +
                 ", orderStartTime='" + orderStartTime + '\'' +
                 ", orderEndTime='" + orderEndTime + '\'' +
                 ", statusOrder='" + statusOrder + '\'';
