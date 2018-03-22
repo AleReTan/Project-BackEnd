@@ -92,12 +92,12 @@ public class SessionAuthentificationFilter extends GenericFilterBean {
             if (tokensLength == 2) {
                 username = tokens[0];
                 password = tokens[1];
-            //если пришел id сессии в токене
+                //если пришел id сессии в токене
             } else if (tokensLength == 1) {
                 SessionEntity session = sessionService.getSessionById(Long.valueOf(tokens[0]));
-                username = (session == null)? "" : session.getLogin();
+                username = (session == null) ? "" : session.getLogin();
                 UserEntity user = userService.getUserByLogin(username);
-                password = (user == null)? "" : user.getPassword();
+                password = (user == null) ? "" : user.getPassword();
             }
             //Authentification
             if (authenticationIsRequired(username)) {
@@ -166,7 +166,7 @@ public class SessionAuthentificationFilter extends GenericFilterBean {
             }
         } else {
             if (userSession != null) {
-            sessionService.update(userSession.getId());
+                sessionService.update(userSession.getId());
             }
         }
         ////////////////////////дабавляем заголовок, содержащий id сессии//////////////

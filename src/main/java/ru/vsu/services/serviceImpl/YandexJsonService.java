@@ -44,7 +44,9 @@ public class YandexJsonService {
             objectNode1.put("type", "Feature");
             objectNode1.set("geometry", mapper.createObjectNode()
                     .put("type", "Point")
+                    ////здесь вываливается
                     .set("coordinates", mapper.createArrayNode()
+
                             .add(Double.parseDouble(geo[0]))
                             .add(Double.parseDouble(geo[1]))
                     ));

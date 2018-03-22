@@ -54,8 +54,8 @@ public class UserRestController {
     }
     //удаление по логину
     @RequestMapping(value = "/admin/users/{login}", method = RequestMethod.DELETE)
-    public void deleteUser(@RequestBody UserEntity u,@RequestHeader("Authorization") String a) {
-        userService.delete(u);
+    public void deleteUser(@PathVariable("login") String login,@RequestHeader("Authorization") String a) {
+        userService.delete(login);
     }
 
 }
