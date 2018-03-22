@@ -156,13 +156,18 @@ public class SessionAuthentificationFilter extends GenericFilterBean {
         if (authOption.equals(SessionService.BASE)) {
 
             if (userSession != null) {
-                sessionService.updateDateBegin(userSession.getId());
+                sessionService.delete(userSession);
+                sessionService.insert(username);
+                userSession = sessionService.getSessionByUserLogin(username);
+                //sessionService.updateDateBegin(userSession.getId());
             } else {
                 sessionService.insert(username);
                 userSession = sessionService.getSessionByUserLogin(username);
             }
         } else {
+            if (userSession != null) {
             sessionService.update(userSession.getId());
+            }
         }
         ////////////////////////дабавляем заголовок, содержащий id сессии//////////////
         String originalInput = Long.toString(userSession.getId());

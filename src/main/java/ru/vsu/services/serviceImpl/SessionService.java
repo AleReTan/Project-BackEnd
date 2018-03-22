@@ -70,9 +70,11 @@ public class SessionService implements MyService<SessionEntity> {
 
     public void deleteAllOutsiding() {
         LocalDateTime currentDateTime = LocalDateTime.now();
+        System.out.println("I delete all outsiding in: " + currentDateTime);
+       // List<SessionEntity> sessionEntities = sessionDao.getAllOutsiding(currentDateTime.minusHours(24), currentDateTime.minusMinutes(20));
+        //Тест
+        List<SessionEntity> sessionEntities = sessionDao.getAllOutsiding(currentDateTime.minusHours(5), currentDateTime.minusMinutes(3));
 
-        List<SessionEntity> sessionEntities = sessionDao.getAllOutsiding(currentDateTime.minusHours(24), currentDateTime.minusMinutes(20));
-       // System.out.println("I am hire"+ LocalDateTime.now().toString());
         if (sessionEntities!= null) {
             for (SessionEntity sessionEntity : sessionEntities) {
                 sessionDao.delete(sessionEntity);

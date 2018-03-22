@@ -45,8 +45,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login/**").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers("/drivers/**").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers("/cars/**").hasAnyAuthority("ADMIN", "USER")
-                .antMatchers("/json/**").hasAnyAuthority("ADMIN", "USER")
-                //.antMatchers("/json/**").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers("/orders/**").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers("/allDriversJson/**").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers("/allDriversJson/**").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers("/availableDriversJson/**").hasAnyAuthority("ADMIN", "USER")
+
                 .and().addFilterAfter(new SessionAuthentificationFilter( authenticationManager(),
                 authenticationEntryPoint, sessionService, userService),BasicAuthenticationFilter.class)
                 .logout().permitAll().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
