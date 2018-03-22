@@ -43,4 +43,9 @@ public class CarRestController {
     public CarEntity getCar(@PathVariable("id") long id, @RequestHeader("Authorization") String a) {
         return carService.getObjectById(id);
     }
+
+    @RequestMapping(value = "/cars/available", method = RequestMethod.GET)
+    public List<CarEntity> getAvailableCars(@RequestHeader("Authorization") String a) {
+        return carService.getAllAvailableCars();
+    }
 }
