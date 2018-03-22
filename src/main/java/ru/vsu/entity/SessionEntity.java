@@ -1,24 +1,23 @@
 package ru.vsu.entity;
 
-import org.springframework.stereotype.Component;
+import ru.vsu.annotation.ObjectTypeId;
+import ru.vsu.annotation.ParamAttributeId;
+import ru.vsu.annotation.Reference;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Component
+
 public class SessionEntity {
-    public static String ID_SESSION = "id";
+
     public static String LOGIN = "login";
     public static String TIME_OF_BEGIN = "timeOfBegin";
     public static String TIME_RECENT_ACTIVITY = "timeRecentActivity";
 
-    private long id;
     private String login;
-    private LocalDateTime timeOfBegin;
-    private LocalDateTime timeRecentActivity;
+    private String timeOfBegin;
+    private String timeRecentActivity;
 
-    public SessionEntity(long id,String login, LocalDateTime timeOfBegin, LocalDateTime timeRecentActivity) {
-        this.id = id;
+    public SessionEntity(String login, String timeOfBegin, String timeRecentActivity) {
         this.login = login;
         this.timeOfBegin = timeOfBegin;
         this.timeRecentActivity = timeRecentActivity;
@@ -27,13 +26,6 @@ public class SessionEntity {
     public SessionEntity() {
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
     public String getLogin() {
         return login;
     }
@@ -42,19 +34,19 @@ public class SessionEntity {
         this.login = login;
     }
 
-    public LocalDateTime getTimeOfBegin() {
+    public String getTimeOfBegin() {
         return timeOfBegin;
     }
 
-    public void setTimeOfBegin(LocalDateTime timeOfBegin) {
+    public void setTimeOfBegin(String timeOfBegin) {
         this.timeOfBegin = timeOfBegin;
     }
 
-    public LocalDateTime getTimeRecentActivity() {
+    public String getTimeRecentActivity() {
         return timeRecentActivity;
     }
 
-    public void setTimeRecentActivity(LocalDateTime timeRecentActivity) {
+    public void setTimeRecentActivity(String timeRecentActivity) {
         this.timeRecentActivity = timeRecentActivity;
     }
 
@@ -64,17 +56,14 @@ public class SessionEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         SessionEntity that = (SessionEntity) o;
-        return  Objects.equals(this.id, that.getId()) &&
-                Objects.equals(this.login, that.getLogin())&&
+        return Objects.equals(this.login, that.getLogin())&&
                 Objects.equals(this.timeOfBegin, that.getTimeOfBegin()) &&
                 Objects.equals(this.timeRecentActivity, that.getTimeRecentActivity());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(),id, login, timeOfBegin, timeRecentActivity);
+        return Objects.hash(super.hashCode(),login, timeOfBegin, timeRecentActivity);
     }
-
-
 }
 
