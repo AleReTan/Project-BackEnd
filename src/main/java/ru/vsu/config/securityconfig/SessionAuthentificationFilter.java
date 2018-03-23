@@ -106,7 +106,7 @@ public class SessionAuthentificationFilter extends GenericFilterBean {
                 authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
 
                 Authentication authResult = authenticationManager.authenticate(authRequest);
-                System.out.println("До аустановления контекста" + request.getRequestURI());
+                System.out.println("До установления контекста" + request.getRequestURI());
                 SecurityContextHolder.getContext().setAuthentication(authResult);
                 onSuccessfulAuthentication(request, response, authResult, username, authOption);
             }

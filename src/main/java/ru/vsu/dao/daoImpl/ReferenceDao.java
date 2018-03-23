@@ -17,6 +17,7 @@ public class ReferenceDao implements Dao<ReferenceEntity> {
 
     private static final String DELETE = "DELETE  FROM  eav.reference WHERE eav.reference.object_id = ? AND eav.reference.attr_id=?";
     private static final String DELETE_BY_OBJECT_ID = "DELETE  FROM  eav.reference WHERE eav.reference.object_id = ?";
+    private static final String DELETE_BY_REFERENCE_ID = "DELETE  FROM  eav.reference WHERE eav.reference.reference = ?";
     private static final String INSERT = "INSERT INTO  eav.reference VALUES (? ,?, ?)";
     private static final String UPDATE = "UPDATE eav.reference SET reference = ? WHERE eav.reference.object_id = ? AND eav.reference.attr_id = ?";
     private static final String GET_ALL = "SELECT * FROM  eav.reference";
@@ -25,6 +26,7 @@ public class ReferenceDao implements Dao<ReferenceEntity> {
     private static final String GET_BY_REFERENCE_AND_OBJECT_ID = "SELECT * FROM  eav.reference WHERE eav.reference.reference = ? AND eav.reference.object_id";
     private static final String GET_MAP_BY_OBJECT_ID = "SELECT * FROM  eav.reference r WHERE r.object_id = ?";
     private static final String GET_BY_REFERENCE_AND_ATTRIBUTE_ID = "SELECT count(*) FROM  eav.reference WHERE eav.reference.reference = ? AND eav.reference.attr_id = ?";
+    private static final String GET_BY_OBJECT_ID_AND_ATTRIBUTE_ID = "SELECT count(*) FROM  eav.reference WHERE eav.reference.object_id = ? AND eav.reference.attr_id = ?";
 
     @Autowired
     public ReferenceDao(JdbcTemplate jdbcTemplate) {
@@ -40,6 +42,9 @@ public class ReferenceDao implements Dao<ReferenceEntity> {
         jdbcTemplate.update(DELETE_BY_OBJECT_ID, objectId);
     }
 
+    public void deleteByReferenceId(long referenceId) {
+        jdbcTemplate.update(DELETE_BY_REFERENCE_ID, referenceId);
+    }
     @Override
     public void insert(ReferenceEntity obj) {
         jdbcTemplate.update(INSERT, obj.getReference(), obj.getObjectId(), obj.getAttrId());
@@ -99,4 +104,8 @@ public class ReferenceDao implements Dao<ReferenceEntity> {
         return count > 0;
     }
 
+    public boolean isReferenceExistByObjectIdAndAttrId(long objectId, long attrId) {
+        Integer count = jdbcTemplate.queryForObject(GET_BY_OBJECT_ID_AND_ATTRIBUTE_ID, Integer.class, objectId, attrId);
+        return count > 0;
+    }
 }

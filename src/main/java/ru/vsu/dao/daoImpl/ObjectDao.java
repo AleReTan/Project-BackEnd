@@ -146,7 +146,11 @@ public class ObjectDao<T extends ObjectEntity> implements Dao<ObjectEntity> {
                     //отключаем проверку джавы на доступность полей
                     field.setAccessible(true);
                     // объекту newEntity ставим в качестве значения поля значение лежащие в аннотации
-                    field.set(newEntity, attributeReferenceMap.get(field.getAnnotation(Reference.class).attrId()));
+                    if (!(attributeReferenceMap.get(field.getAnnotation(Reference.class).attrId()) == null)) {
+                        field.set(newEntity, attributeReferenceMap.get(field.getAnnotation(Reference.class).attrId()));
+                    } else {
+                        field.set(newEntity, 0);//если не нашли в мапе ссылок, ставим полю значение 0
+                    }
                 }
             }
         } catch (InstantiationException e) {

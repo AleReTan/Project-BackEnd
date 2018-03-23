@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import ru.vsu.dao.daoImpl.SessionDao;
 import ru.vsu.dao.daoImpl.UserDao;
 import ru.vsu.entity.SessionEntity;
-import ru.vsu.entity.UserEntity;
 import ru.vsu.services.MyService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -68,9 +67,9 @@ public class SessionService implements MyService<SessionEntity> {
         return sessionDao.getAll();
     }
 
-    public void deleteAllOutsiding() {
+    public void deleteAllOutdated() {
         LocalDateTime currentDateTime = LocalDateTime.now();
-        System.out.println("I delete all outsiding in: " + currentDateTime);
+        System.out.println("I delete all outdated in: " + currentDateTime);
        // List<SessionEntity> sessionEntities = sessionDao.getAllOutsiding(currentDateTime.minusHours(24), currentDateTime.minusMinutes(20));
         //Тест
         List<SessionEntity> sessionEntities = sessionDao.getAllOutsiding(currentDateTime.minusHours(5), currentDateTime.minusMinutes(3));

@@ -35,7 +35,6 @@ public class CarRestController {
 
     @RequestMapping(value = "/cars/{id}", method = RequestMethod.DELETE)
     public void deleteCar(@PathVariable("id") long id, @RequestHeader("Authorization") String a) {
-        System.out.println(id + "from back controller");
         carService.delete(id);
     }
 

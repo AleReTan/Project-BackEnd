@@ -79,7 +79,12 @@ public class MyAbstractEntityService<T extends ObjectEntity> implements MyServic
             if (field.isAnnotationPresent(Reference.class)) {
                 try {
                     field.setAccessible(true);
-                    referenceService.update(field.getLong(obj), obj.getId(), field.getAnnotation(Reference.class).attrId());
+                    //если ссылка существует, меняем, если нет, то создаем новую, с переданным референсом
+                    if (referenceService.isReferenceExistByObjectIdAndAttrId(obj.getId(), field.getAnnotation(Reference.class).attrId())) {
+                        referenceService.update(field.getLong(obj), obj.getId(), field.getAnnotation(Reference.class).attrId());
+                    } else {
+                        referenceService.insert(field.getLong(obj), obj.getId(), field.getAnnotation(Reference.class).attrId());
+                    }
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }

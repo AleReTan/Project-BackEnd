@@ -27,6 +27,10 @@ public class ReferenceService implements MyService<ReferenceEntity> {
         referenceDao.deleteByObjectId(objectId);
     }
 
+    public void deleteByReferenceId(long referenceId) {
+        referenceDao.deleteByReferenceId(referenceId);
+    }
+
     @Override
     public void insert(ReferenceEntity obj) {
         referenceDao.insert(obj);
@@ -68,5 +72,9 @@ public class ReferenceService implements MyService<ReferenceEntity> {
 
     public boolean isReferenceExistByRefIdAndAttrId(long refId, long attrId) {
         return referenceDao.isReferenceExistByRefIdAndAttrId(refId, attrId);
+    }
+
+    public boolean isReferenceExistByObjectIdAndAttrId(long objectId, long attrId) {
+        return referenceDao.isReferenceExistByObjectIdAndAttrId(objectId, attrId);
     }
 }
