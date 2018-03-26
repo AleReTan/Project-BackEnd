@@ -68,6 +68,7 @@ public class ObjectDao<T extends ObjectEntity> implements Dao<ObjectEntity> {
     }
 
     public ObjectEntity getObjectEntityById(long id) {
+        if (id == 0) return null;
         ObjectEntity objectEntity = jdbcTemplate.queryForObject(GET_BY_ID, new ObjectMapper(), id);
         return objectEntity;
     }
@@ -76,40 +77,6 @@ public class ObjectDao<T extends ObjectEntity> implements Dao<ObjectEntity> {
         return jdbcTemplate.queryForList(GET_LIST_OF_OBJECT_ID, Long.class, objectTypeId);
 
     }
-/*
-    public Long getObjectIdByNameAndObjectTypeId(String name, long objectTypeId) {
-        String sql = "SELECT eav.object.id FROM  eav.object WHERE eav.object.name = ? AND eav.object.object_type_id = ?";
-        Long value = jdbcTemplate.queryForObject(sql, Long.class, name, objectTypeId);
-        return value;
-    }
-
-    public List<ObjectEntity> getObjectsByEntityObjectTypeId(ObjectTypeEntity obj) {
-        //String sql = "SELECT * FROM  eav.object WHERE eav.object.type_id = ?";
-        String sql = "SELECT * FROM  eav.object o " +
-                "JOIN eav.object_type ot ON o.object_type_id = ot.id " +
-                "WHERE ot.id = ?";
-        List<ObjectEntity> list = jdbcTemplate.query(sql, new ObjectMapper(), obj.getId());
-        return list;
-    }
-
-    public List<ObjectEntity> getObjectsByEntityAttrId(AttributeEntity obj) {
-        String sql = "SELECT o.* FROM  eav.object o " +
-                "JOIN eav.params p ON o.id = p.object_id " +
-                "JOIN eav.attribute a ON p.attr_id = a.id " +
-                "WHERE a.id = ?";
-        List<ObjectEntity> list = jdbcTemplate.query(sql, new ObjectMapper(), obj.getId());
-        return list;
-    }
-
-
-    public List<ObjectEntity> getObjectsByEntityReferenceRefId(ReferenceEntity obj) {
-        String sql = "SELECT o.* FROM  eav.object o " +
-                "JOIN eav.reference r ON o.id = r.reference " +
-                "WHERE r.reference = ?";
-        List<ObjectEntity> list = jdbcTemplate.query(sql, new ObjectMapper(), obj.getReference());
-        return list;
-    }
-*/
 
     /**
      * Метод позволяет собрать объект наследующийся от ObjectEntity с помощью рефлексии
@@ -126,6 +93,7 @@ public class ObjectDao<T extends ObjectEntity> implements Dao<ObjectEntity> {
         Map<Long, Long> attributeReferenceMap = referenceService.getReferenceMapByObjectId(id);
         //создаем экзмепляр объекта суперкласса
         ObjectEntity objectEntity = getObjectEntityById(id);
+        if (objectEntity == null) return null;
         try {
             //создаем экзмепляр объекта
             newEntity = (T) classEntity.getDeclaredConstructor().newInstance();

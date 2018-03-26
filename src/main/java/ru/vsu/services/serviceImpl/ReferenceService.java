@@ -27,8 +27,8 @@ public class ReferenceService implements MyService<ReferenceEntity> {
         referenceDao.deleteByObjectId(objectId);
     }
 
-    public void deleteByReferenceId(long referenceId) {
-        referenceDao.deleteByReferenceId(referenceId);
+    public void deleteByReferenceId(long objectId, long attributeId) {
+        referenceDao.deleteByObjectAndAttributeId(objectId, attributeId);
     }
 
     @Override
@@ -37,7 +37,8 @@ public class ReferenceService implements MyService<ReferenceEntity> {
     }
 
     public void insert(long reference, long objectId, long attributeId) {
-        referenceDao.insert(reference, objectId, attributeId);
+        if (reference != 0)
+            referenceDao.insert(reference, objectId, attributeId);
     }
 
     @Override
@@ -46,7 +47,10 @@ public class ReferenceService implements MyService<ReferenceEntity> {
     }
 
     public void update(long newReference, long objectId, long attributeId) {
-        referenceDao.update(newReference, objectId, attributeId);
+        if (newReference != 0)
+            referenceDao.update(newReference, objectId, attributeId);
+        else
+            deleteByReferenceId(objectId, attributeId);
     }
 
     @Override

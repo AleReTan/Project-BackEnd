@@ -8,25 +8,12 @@ import ru.vsu.services.serviceImpl.SessionService;
 
 @Component
 public class ScheduledTasks {
-    //Id который означает, что ссылки нет
-    private static final long VOID_REFERENCE_ID = 0;
 
     @Autowired
     private SessionService sessionService;
 
     @Autowired
     private ReferenceService referenceService;
-
-
-    @Scheduled(cron = "0 * * ? * *")// каждая минута
-    public void clearReferencesInDatabase() {
-        try {
-            System.out.println("perform reference table cleaning");
-            referenceService.deleteByReferenceId(VOID_REFERENCE_ID);
-        } catch (Exception e) {
-            e.getMessage();
-        }
-    }
 
     @Scheduled(cron = "0 * * ? * *")
     //0 */10 * ? * *

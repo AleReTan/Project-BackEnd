@@ -3,13 +3,13 @@ package ru.vsu.services.serviceImpl;
 import org.springframework.stereotype.Service;
 import ru.vsu.entity.CarEntity;
 import ru.vsu.entity.ObjectEntity;
-import ru.vsu.services.MyAbstractEntityService;
+import ru.vsu.services.AbstractEntityService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CarService extends MyAbstractEntityService<CarEntity> {
+public class CarService extends AbstractEntityService<CarEntity> {
     //айди атрибута car из driver, который показывает какая машина закреплена за водителем(в условиях нашей бд это атрибут с id = 16)
     private static final int ASSIGNED_TO_THE_DRIVER_ATTRIBUTE = 16;
 

@@ -17,7 +17,7 @@ public class ReferenceDao implements Dao<ReferenceEntity> {
 
     private static final String DELETE = "DELETE  FROM  eav.reference WHERE eav.reference.object_id = ? AND eav.reference.attr_id=?";
     private static final String DELETE_BY_OBJECT_ID = "DELETE  FROM  eav.reference WHERE eav.reference.object_id = ?";
-    private static final String DELETE_BY_REFERENCE_ID = "DELETE  FROM  eav.reference WHERE eav.reference.reference = ?";
+    private static final String DELETE_BY_OBJECT_ID_AND_ATTRIBUTE_ID = "DELETE  FROM  eav.reference WHERE eav.reference.object_id = ? AND eav.reference.attr_id = ?";
     private static final String INSERT = "INSERT INTO  eav.reference VALUES (? ,?, ?)";
     private static final String UPDATE = "UPDATE eav.reference SET reference = ? WHERE eav.reference.object_id = ? AND eav.reference.attr_id = ?";
     private static final String GET_ALL = "SELECT * FROM  eav.reference";
@@ -42,9 +42,10 @@ public class ReferenceDao implements Dao<ReferenceEntity> {
         jdbcTemplate.update(DELETE_BY_OBJECT_ID, objectId);
     }
 
-    public void deleteByReferenceId(long referenceId) {
-        jdbcTemplate.update(DELETE_BY_REFERENCE_ID, referenceId);
+    public void deleteByObjectAndAttributeId(long objectId, long attributeId) {
+        jdbcTemplate.update(DELETE_BY_OBJECT_ID_AND_ATTRIBUTE_ID, objectId, attributeId);
     }
+
     @Override
     public void insert(ReferenceEntity obj) {
         jdbcTemplate.update(INSERT, obj.getReference(), obj.getObjectId(), obj.getAttrId());

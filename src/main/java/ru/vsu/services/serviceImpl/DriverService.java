@@ -3,13 +3,13 @@ package ru.vsu.services.serviceImpl;
 import org.springframework.stereotype.Service;
 import ru.vsu.entity.DriverEntity;
 import ru.vsu.entity.ObjectEntity;
-import ru.vsu.services.MyAbstractEntityService;
+import ru.vsu.services.AbstractEntityService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class DriverService extends MyAbstractEntityService<DriverEntity> {
+public class DriverService extends AbstractEntityService<DriverEntity> {
     //айди атрибута driver из order, который показывает какой водитель на заказе(в условиях нашей бд это атрибут с id = 18)
     private static final int ON_ORDER_ATTRIBUTE = 18;
 

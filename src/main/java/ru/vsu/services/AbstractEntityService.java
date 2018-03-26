@@ -14,15 +14,15 @@ import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyAbstractEntityService<T extends ObjectEntity> implements MyService<T> {
+public class AbstractEntityService<T extends ObjectEntity> implements MyService<T> {
     //получение класса T
     private final Class<T> clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-    private ObjectService<ObjectEntity> objectService;//или напрямую к дао?(что скорее всего не так)
+    private ObjectService<ObjectEntity> objectService;
     private ParamsService paramsService;
-    protected ReferenceService referenceService;//TODO:можно ли протектед или в драйвер сервис как то по другому получать
+    protected ReferenceService referenceService;
 
     @Autowired
-    public MyAbstractEntityService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService) {
+    public AbstractEntityService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService) {
         this.objectService = objectService;
         this.paramsService = paramsService;
         this.referenceService = referenceService;
