@@ -26,6 +26,7 @@ public class YandexJsonService {
         this.referenceService = referenceService;
     }
 
+    //TODO строки в константы
     public ObjectNode createJsonWithAllDrivers() {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode mainNode = mapper.createObjectNode();

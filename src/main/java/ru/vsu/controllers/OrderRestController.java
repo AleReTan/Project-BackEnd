@@ -31,6 +31,21 @@ public class OrderRestController {
         orderService.update(o);
     }
 
+    @RequestMapping(value = "/orders/pickclient", method = RequestMethod.PATCH)
+    public void pickClient(@RequestBody OrderEntity o, @RequestHeader("Authorization") String a) {
+        orderService.pickClient(o);
+    }
+
+    @RequestMapping(value = "/orders/closeorder", method = RequestMethod.PATCH)
+    public void closeOrder(@RequestBody OrderEntity o, @RequestHeader("Authorization") String a) {
+        orderService.closeOrder(o);
+    }
+
+    @RequestMapping(value = "/orders/cancelorder", method = RequestMethod.PATCH)
+    public void cancelOrder(@RequestBody OrderEntity o, @RequestHeader("Authorization") String a) {
+        orderService.cancelOrder(o);
+    }
+
     @RequestMapping(value = "/orders/{id}", method = RequestMethod.DELETE)
     public void deleteOrder(@PathVariable("id") long id, @RequestHeader("Authorization") String a) {
         orderService.delete(id);
