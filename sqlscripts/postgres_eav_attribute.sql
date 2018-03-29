@@ -25,3 +25,4 @@ INSERT INTO eav.attribute (id, name, object_type_id, value_type, require)
 VALUES (23, 'driverGeoData', 8, 'String', TRUE);
 INSERT INTO eav.attribute (id, name, object_type_id, value_type, require)
 VALUES (24, 'destinationGeoData', 6, 'String', TRUE);
+INSERT INTO eav.attribute (id, name, object_type_id, value_type, require) VALUES (25, 'onShift', 8, 'String', TRUE);
