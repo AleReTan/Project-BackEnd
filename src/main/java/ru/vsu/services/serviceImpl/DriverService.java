@@ -12,6 +12,8 @@ import java.util.List;
 public class DriverService extends AbstractEntityService<DriverEntity> {
     //айди атрибута driver из order, который показывает какой водитель на заказе(в условиях нашей бд это атрибут с id = 18)
     private static final int ON_ORDER_ATTRIBUTE = 18;
+    private static final String TRUE = "true";
+
 
     public DriverService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService) {
         super(objectService, paramsService, referenceService);
@@ -26,5 +28,10 @@ public class DriverService extends AbstractEntityService<DriverEntity> {
             }
         }
         return listOfAvailableDrivers;
+    }
+
+    public boolean isDriverOnShift(long id) {
+        DriverEntity driverEntity = getObjectById(id);
+        return driverEntity.getOnShift().equals(TRUE);
     }
 }
