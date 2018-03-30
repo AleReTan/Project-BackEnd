@@ -12,6 +12,7 @@ import java.util.List;
 public class DriverService extends AbstractEntityService<DriverEntity> {
     //айди атрибута driver из order, который показывает какой водитель на заказе(в условиях нашей бд это атрибут с id = 18)
     private static final int ON_ORDER_ATTRIBUTE = 18;
+    private static final int CAR_ATTRIBUTE = 16;
     private static final String TRUE = "true";
 
 
@@ -25,6 +26,28 @@ public class DriverService extends AbstractEntityService<DriverEntity> {
         for (DriverEntity driverEntity : getAll()) {
             if (!referenceService.isReferenceExistByRefIdAndAttrId(driverEntity.getId(), ON_ORDER_ATTRIBUTE)) {
                 listOfAvailableDrivers.add(driverEntity);
+            }
+        }
+        return listOfAvailableDrivers;
+    }
+
+    public List<DriverEntity> getAllDriversOnCars() {
+        List<DriverEntity> listOfAvailableDrivers = new ArrayList<>();
+
+        for (DriverEntity driverEntity : getAll()) {
+            if (referenceService.isReferenceExistByObjectIdAndAttrId(driverEntity.getId(), CAR_ATTRIBUTE))
+                listOfAvailableDrivers.add(driverEntity);
+        }
+        return listOfAvailableDrivers;
+    }
+
+    public List<DriverEntity> getAllAvailableDriversOnCars() {
+        List<DriverEntity> listOfAvailableDrivers = new ArrayList<>();
+
+        for (DriverEntity driverEntity : getAll()) {
+            if (!referenceService.isReferenceExistByRefIdAndAttrId(driverEntity.getId(), ON_ORDER_ATTRIBUTE)) {
+                if (referenceService.isReferenceExistByObjectIdAndAttrId(driverEntity.getId(), CAR_ATTRIBUTE))
+                    listOfAvailableDrivers.add(driverEntity);
             }
         }
         return listOfAvailableDrivers;

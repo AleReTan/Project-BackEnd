@@ -18,7 +18,7 @@ public class OrderRestController {
 
     @RequestMapping(value = "/orders", method = RequestMethod.GET)
     public List<OrderEntity> getOrders(@RequestHeader("Authorization") String a) {
-        return orderService.getAll();
+        return orderService.getAll();//здесь меняем на getAllActiveOrders
     }
 
     @RequestMapping(value = "/orders", method = RequestMethod.POST)

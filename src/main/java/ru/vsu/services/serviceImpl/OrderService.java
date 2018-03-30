@@ -6,6 +6,8 @@ import ru.vsu.entity.OrderEntity;
 import ru.vsu.services.AbstractEntityService;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class OrderService extends AbstractEntityService<OrderEntity> {
@@ -41,11 +43,21 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
         super.update(obj);
     }
 
+    /**
+     * используется для установки статуса "забрал коиента"
+     *
+     * @param obj
+     */
     public void pickClient(OrderEntity obj) {
         obj.setStatusOrder(PICKED_CLIENT);
         super.update(obj);
     }
 
+    /**
+     * используется для отмены заказа: установка времени, статуса и ссылки на водителя
+     *
+     * @param obj
+     */
     public void cancelOrder(OrderEntity obj) {
         obj.setStatusOrder(ORDER_CANCELED);
         obj.setOrderEndTime(LocalDateTime.now().toString());
@@ -53,10 +65,29 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
         super.update(obj);
     }
 
+    /**
+     * используется для закрытия заказа: установка времени, статуса и ссылки на водителя
+     *
+     * @param obj
+     */
     public void closeOrder(OrderEntity obj) {
         obj.setStatusOrder(ORDER_COMPLETE);
         obj.setOrderEndTime(LocalDateTime.now().toString());
         obj.setDriverId(0);
         super.update(obj);
+    }
+
+    /**
+     * @return возвращает list заказов которые не завершены или не отменены
+     */
+    public List<OrderEntity> getAllActiveOrders() {
+        List<OrderEntity> listOfActiveOrders = new ArrayList<>();
+        for (OrderEntity orderEntity : getAll()) {
+            if (!(orderEntity.getStatusOrder().equals(ORDER_COMPLETE) ||
+                    orderEntity.getStatusOrder().equals(ORDER_CANCELED))) {
+                listOfActiveOrders.add(orderEntity);
+            }
+        }
+        return listOfActiveOrders;
     }
 }

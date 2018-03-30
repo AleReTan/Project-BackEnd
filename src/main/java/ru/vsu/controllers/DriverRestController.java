@@ -43,7 +43,7 @@ public class DriverRestController {
 
     @RequestMapping(value = "/drivers/available", method = RequestMethod.GET)
     public List<DriverEntity> getAvailableDrivers(@RequestHeader("Authorization") String a) {
-        return driverService.getAllAvailableDrivers();
+        return driverService.getAllAvailableDriversOnCars();
     }
 
 
