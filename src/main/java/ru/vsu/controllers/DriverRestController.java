@@ -3,6 +3,7 @@ package ru.vsu.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.vsu.entity.DriverEntity;
+import ru.vsu.entity.OrderEntity;
 import ru.vsu.services.serviceImpl.DriverService;
 
 import java.util.List;
@@ -49,6 +50,11 @@ public class DriverRestController {
     @RequestMapping(value = "/drivers/changeOnShift", method = RequestMethod.PATCH)
     public void changeOnShift(@RequestBody DriverEntity d, @RequestHeader("Authorization") String a) {
         driverService.changeOnShift(d);
+    }
+
+    @RequestMapping(value = "/drivers/getOrderByDriverId", method = RequestMethod.GET)
+    public OrderEntity getOrderEntityByDriverId(@RequestBody DriverEntity d, @RequestHeader("Authorization") String a) {
+        return driverService.getOrderEntityByDriverId(d.getId());
     }
 
 }

@@ -23,8 +23,11 @@ public class OrderRestController {
 
     @RequestMapping(value = "/orders", method = RequestMethod.POST)
     public void createOrder(@RequestBody OrderEntity o, @RequestHeader("Authorization") String a) {
-        orderService.insert(o);
-        
+        try {
+            orderService.insert(o);
+        } catch (IllegalArgumentException e) {
+            e.getMessage();
+        }
     }
 
     @RequestMapping(value = "/orders", method = RequestMethod.PATCH)

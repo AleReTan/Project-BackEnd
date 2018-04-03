@@ -1,8 +1,10 @@
 package ru.vsu.services.serviceImpl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.vsu.entity.DriverEntity;
 import ru.vsu.entity.ObjectEntity;
+import ru.vsu.entity.OrderEntity;
 import ru.vsu.services.AbstractEntityService;
 
 import java.util.ArrayList;
@@ -16,8 +18,12 @@ public class DriverService extends AbstractEntityService<DriverEntity> {
     private static final String TRUE = "true";
     private static final String FALSE = "false";
 
-    public DriverService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService) {
+    private OrderService orderService;
+
+    @Autowired
+    public DriverService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService, OrderService orderService) {
         super(objectService, paramsService, referenceService);
+        this.orderService = orderService;
     }
 
     public List<DriverEntity> getAllAvailableDrivers() {
@@ -77,5 +83,19 @@ public class DriverService extends AbstractEntityService<DriverEntity> {
         System.out.println(Boolean.toString(!isDriverOnShift(obj.getId())));
         obj.setOnShift(Boolean.toString(!isDriverOnShift(obj.getId())));
         super.update(obj);
+    }
+
+    /**
+     * возвращает заказ по водителю(если назначен), если не назначет вернет null
+     *
+     * @param id
+     * @return
+     */
+    public OrderEntity getOrderEntityByDriverId(long id) {
+        if (referenceService.isReferenceExistByRefIdAndAttrId(id, ON_ORDER_ATTRIBUTE)) {
+            return orderService.getObjectById(referenceService.getObjectIdByRefIdAndAttrId(id, ON_ORDER_ATTRIBUTE));
+        } else {
+            return null;
+        }
     }
 }

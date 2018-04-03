@@ -5,6 +5,7 @@ import ru.vsu.annotation.ObjectTypeId;
 import ru.vsu.annotation.ParamAttributeId;
 import ru.vsu.annotation.Reference;
 import ru.vsu.entity.ObjectEntity;
+import ru.vsu.services.serviceImpl.AttributeService;
 import ru.vsu.services.serviceImpl.ObjectService;
 import ru.vsu.services.serviceImpl.ParamsService;
 import ru.vsu.services.serviceImpl.ReferenceService;
@@ -20,6 +21,7 @@ public class AbstractEntityService<T extends ObjectEntity> implements MyService<
     private ObjectService<ObjectEntity> objectService;
     private ParamsService paramsService;
     protected ReferenceService referenceService;
+    private AttributeService attributeService;
 
     @Autowired
     public AbstractEntityService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService) {
@@ -48,7 +50,10 @@ public class AbstractEntityService<T extends ObjectEntity> implements MyService<
             if (field.isAnnotationPresent(ParamAttributeId.class)) {
                 try {
                     field.setAccessible(true);
-
+                    if (field.get(obj) == null &&
+                            attributeService.getIsRequiredByAttributeId(field.getAnnotation(ParamAttributeId.class).id())) {
+                        throw new IllegalArgumentException("Field " + field.getName() + "can't be null");
+                    }
                     paramsService.insert(field.getAnnotation(ParamAttributeId.class).id(), realObjectId, (String) field.get(obj));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
@@ -57,6 +62,10 @@ public class AbstractEntityService<T extends ObjectEntity> implements MyService<
             if (field.isAnnotationPresent(Reference.class)) {
                 try {
                     field.setAccessible(true);
+                    if (field.get(obj) == null &&
+                            attributeService.getIsRequiredByAttributeId(field.getAnnotation(Reference.class).attrId())) {
+                        throw new IllegalArgumentException("Field " + field.getName() + "can't be null");
+                    }
                     referenceService.insert(field.getLong(obj), realObjectId, field.getAnnotation(Reference.class).attrId());
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();

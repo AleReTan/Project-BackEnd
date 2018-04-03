@@ -18,6 +18,7 @@ public class AttributeDao implements Dao<AttributeEntity> {
     private static final String UPDATE = "UPDATE eav.attribute SET name = ? WHERE eav.attribute.id = ?";
     private static final String GET_ALL = "SELECT * FROM  eav.attribute";
     private static final String GET_BY_ID = "SELECT * FROM  eav.attribute WHERE eav.attribute.id = ?";
+    private static final String GET_REQUIRED_BY_ID = "SELECT eav.attribute.require FROM  eav.attribute WHERE eav.attribute.id = ?";
 
     @Autowired
     public AttributeDao(JdbcTemplate jdbcTemplate) {
@@ -46,7 +47,11 @@ public class AttributeDao implements Dao<AttributeEntity> {
     }
 
     public AttributeEntity getAttributeEntityById(long id) {
-        AttributeEntity attributeEntity = jdbcTemplate.queryForObject(GET_BY_ID, new AttributeMapper(), id);
-        return attributeEntity;
+        return jdbcTemplate.queryForObject(GET_BY_ID, new AttributeMapper(), id);
+    }
+
+    public boolean getIsRequiredByAttributeId(long id) {
+        return jdbcTemplate.queryForObject(GET_REQUIRED_BY_ID, Boolean.class, id);
     }
 }
+

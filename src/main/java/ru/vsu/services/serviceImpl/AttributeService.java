@@ -43,4 +43,14 @@ public class AttributeService implements MyService<AttributeEntity> {
     {
         return attributeDao.getAttributeEntityById(id);
     }
+
+    /**
+     * возвращает, обязательный ли атрибут с указанным id или нет
+     *
+     * @param id
+     * @return
+     */
+    public boolean getIsRequiredByAttributeId(long id) {
+        return attributeDao.getIsRequiredByAttributeId(id);
+    }
 }
