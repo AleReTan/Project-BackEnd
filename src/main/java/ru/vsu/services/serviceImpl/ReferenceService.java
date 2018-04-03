@@ -70,6 +70,10 @@ public class ReferenceService implements MyService<ReferenceEntity> {
         return referenceDao.getReferenceByRefIdAndObjectId(refId, objectId);
     }
 
+    public long getObjectIdByRefIdAndAttrId(long refId, long attrId) {
+        return referenceDao.getObjectIdByRefIdAndAttrId(refId, attrId);
+    }
+
     public Map<Long, Long> getReferenceMapByObjectId(long objectId) {
         return referenceDao.getReferenceMapByObjectId(objectId);
     }

@@ -90,4 +90,17 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
         }
         return listOfActiveOrders;
     }
+
+    /**
+     * @return возвращает list заказов которые "поиск водителя"
+     */
+    public List<OrderEntity> getAllOrdersWithoutDriver() {
+        List<OrderEntity> listOfOrdersWithoutDriver = new ArrayList<>();
+        for (OrderEntity orderEntity : getAll()) {
+            if (orderEntity.getStatusOrder().equals(FIND_DRIVER)) {
+                listOfOrdersWithoutDriver.add(orderEntity);
+            }
+        }
+        return listOfOrdersWithoutDriver;
+    }
 }

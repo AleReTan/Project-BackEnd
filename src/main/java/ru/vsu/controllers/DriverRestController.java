@@ -43,8 +43,12 @@ public class DriverRestController {
 
     @RequestMapping(value = "/drivers/available", method = RequestMethod.GET)
     public List<DriverEntity> getAvailableDrivers(@RequestHeader("Authorization") String a) {
-        return driverService.getAllAvailableDriversOnCars();
+        return driverService.getAllAvailableDriversOnShiftAndCars();
     }
 
+    @RequestMapping(value = "/drivers/changeOnShift", method = RequestMethod.PATCH)
+    public void changeOnShift(@RequestBody DriverEntity d, @RequestHeader("Authorization") String a) {
+        driverService.changeOnShift(d);
+    }
 
 }

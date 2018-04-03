@@ -24,6 +24,6 @@ public class YandexJsonRestController {
 
     @RequestMapping(value = "/availableDriversJson", method = RequestMethod.GET)
     public ObjectNode getJsonWithAvailableDrivers(@RequestHeader("Authorization") String a) {
-        return yandexJsonService.createJsonWithAvailableDrivers();
+        return yandexJsonService.createJsonWithAvailableDrivers();//подтягивает водителей на машинах
     }
 }

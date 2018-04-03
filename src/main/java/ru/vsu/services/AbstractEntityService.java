@@ -48,6 +48,7 @@ public class AbstractEntityService<T extends ObjectEntity> implements MyService<
             if (field.isAnnotationPresent(ParamAttributeId.class)) {
                 try {
                     field.setAccessible(true);
+
                     paramsService.insert(field.getAnnotation(ParamAttributeId.class).id(), realObjectId, (String) field.get(obj));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
@@ -79,7 +80,7 @@ public class AbstractEntityService<T extends ObjectEntity> implements MyService<
             if (field.isAnnotationPresent(Reference.class)) {
                 try {
                     field.setAccessible(true);
-                    //если ссылка существует, меняем, если нет, то создаем новую, с переданным референсом
+                    //если ссылка существует, меняем, причем если на 0, то референс удалится, если нет, то создаем новую, с переданным референсом,
                     if (referenceService.isReferenceExistByObjectIdAndAttrId(obj.getId(), field.getAnnotation(Reference.class).attrId())) {
                         referenceService.update(field.getLong(obj), obj.getId(), field.getAnnotation(Reference.class).attrId());
                     } else {

@@ -36,7 +36,7 @@ public class YandexJsonService {
         String[] geo;
         CarEntity car;
         ObjectNode objectNode1;
-        ArrayList<DriverEntity> driverEntityArrayList = (ArrayList<DriverEntity>) driverService.getAllDriversOnCars();//здесь можем получать разных водителей
+        ArrayList<DriverEntity> driverEntityArrayList = (ArrayList<DriverEntity>) driverService.getAllDriversOnShiftAndCars();//здесь можем получать разных водителей
         for (DriverEntity driver : driverEntityArrayList) {
             //TODO:а че с обработкой нулов
             geo = driver.getDriverGeoData().split(",");//кладем координаты в массив
@@ -81,7 +81,7 @@ public class YandexJsonService {
         String[] geo;
         CarEntity car;
         ObjectNode objectNode1;
-        ArrayList<DriverEntity> driverEntityArrayList = (ArrayList<DriverEntity>) driverService.getAllAvailableDriversOnCars();//здесь можем получать разных водителей
+        ArrayList<DriverEntity> driverEntityArrayList = (ArrayList<DriverEntity>) driverService.getAllAvailableDriversOnShiftAndCars();//здесь можем получать разных водителей
         for (DriverEntity driver : driverEntityArrayList) {
             geo = driver.getDriverGeoData().split(",");//кладем координаты в массив
             car = (CarEntity) objectService.findById(driver.getCarId(), CarEntity.class);

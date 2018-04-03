@@ -23,6 +23,7 @@ public class ReferenceDao implements Dao<ReferenceEntity> {
     private static final String GET_ALL = "SELECT * FROM  eav.reference";
     private static final String GET_BY_OBJECT_ID = "SELECT * FROM  eav.reference WHERE eav.reference.object_id = ?";
     private static final String GET_BY_REFERENCE = "SELECT * FROM  eav.reference WHERE eav.reference.reference = ?";
+    private static final String GET_OBJECT_ID_BY_REFERENCE_AND_ATTRIBUTE_ID = "SELECT eav.reference.object_id FROM  eav.reference WHERE eav.reference.reference = ? AND eav.reference.attr_id = ?";
     private static final String GET_BY_REFERENCE_AND_OBJECT_ID = "SELECT * FROM  eav.reference WHERE eav.reference.reference = ? AND eav.reference.object_id";
     private static final String GET_MAP_BY_OBJECT_ID = "SELECT * FROM  eav.reference r WHERE r.object_id = ?";
     private static final String GET_BY_REFERENCE_AND_ATTRIBUTE_ID = "SELECT count(*) FROM  eav.reference WHERE eav.reference.reference = ? AND eav.reference.attr_id = ?";
@@ -88,6 +89,10 @@ public class ReferenceDao implements Dao<ReferenceEntity> {
             returnMap.put(referenceEntity.getAttrId(), referenceEntity.getReference());
         }
         return returnMap;
+    }
+
+    public long getObjectIdByRefIdAndAttrId(long refId, long attrId) {
+        return jdbcTemplate.queryForObject(GET_OBJECT_ID_BY_REFERENCE_AND_ATTRIBUTE_ID, Long.class, refId, attrId);
     }
 
     /**

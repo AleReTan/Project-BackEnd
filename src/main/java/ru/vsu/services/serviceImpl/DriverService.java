@@ -14,7 +14,7 @@ public class DriverService extends AbstractEntityService<DriverEntity> {
     private static final int ON_ORDER_ATTRIBUTE = 18;
     private static final int CAR_ATTRIBUTE = 16;
     private static final String TRUE = "true";
-
+    private static final String FALSE = "false";
 
     public DriverService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService) {
         super(objectService, paramsService, referenceService);
@@ -31,24 +31,34 @@ public class DriverService extends AbstractEntityService<DriverEntity> {
         return listOfAvailableDrivers;
     }
 
-    public List<DriverEntity> getAllDriversOnCars() {
+    /**
+     * если водитель на машине и на смене, то добавим
+     *
+     * @return
+     */
+    public List<DriverEntity> getAllDriversOnShiftAndCars() {
         List<DriverEntity> listOfAvailableDrivers = new ArrayList<>();
 
         for (DriverEntity driverEntity : getAll()) {
-            if (referenceService.isReferenceExistByObjectIdAndAttrId(driverEntity.getId(), CAR_ATTRIBUTE))
+            if (referenceService.isReferenceExistByObjectIdAndAttrId(driverEntity.getId(), CAR_ATTRIBUTE) &&
+                    isDriverOnShift(driverEntity.getId()))
                 listOfAvailableDrivers.add(driverEntity);
         }
         return listOfAvailableDrivers;
     }
 
-    public List<DriverEntity> getAllAvailableDriversOnCars() {
+    /**
+     * если водитель на машине и на смене, а также не на заказе, то добавим
+     *
+     * @return
+     */
+    public List<DriverEntity> getAllAvailableDriversOnShiftAndCars() {
         List<DriverEntity> listOfAvailableDrivers = new ArrayList<>();
-
         for (DriverEntity driverEntity : getAll()) {
-            if (!referenceService.isReferenceExistByRefIdAndAttrId(driverEntity.getId(), ON_ORDER_ATTRIBUTE)) {
-                if (referenceService.isReferenceExistByObjectIdAndAttrId(driverEntity.getId(), CAR_ATTRIBUTE))
+            if (referenceService.isReferenceExistByObjectIdAndAttrId(driverEntity.getId(), CAR_ATTRIBUTE) &&
+                    isDriverOnShift(driverEntity.getId()))
+                if (!referenceService.isReferenceExistByRefIdAndAttrId(driverEntity.getId(), ON_ORDER_ATTRIBUTE))
                     listOfAvailableDrivers.add(driverEntity);
-            }
         }
         return listOfAvailableDrivers;
     }
@@ -56,5 +66,16 @@ public class DriverService extends AbstractEntityService<DriverEntity> {
     public boolean isDriverOnShift(long id) {
         DriverEntity driverEntity = getObjectById(id);
         return driverEntity.getOnShift().equals(TRUE);
+    }
+
+    /**
+     * меняет текущее значение атрибута "на смене" на противоположное
+     *
+     * @param obj
+     */
+    public void changeOnShift(DriverEntity obj) {
+        System.out.println(Boolean.toString(!isDriverOnShift(obj.getId())));
+        obj.setOnShift(Boolean.toString(!isDriverOnShift(obj.getId())));
+        super.update(obj);
     }
 }
