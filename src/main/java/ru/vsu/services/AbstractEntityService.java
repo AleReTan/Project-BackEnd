@@ -18,16 +18,17 @@ import java.util.List;
 public class AbstractEntityService<T extends ObjectEntity> implements MyService<T> {
     //получение класса T
     private final Class<T> clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-    private ObjectService<ObjectEntity> objectService;
-    private ParamsService paramsService;
+    protected ObjectService<ObjectEntity> objectService;
+    protected ParamsService paramsService;
     protected ReferenceService referenceService;
-    private AttributeService attributeService;
+    protected AttributeService attributeService;
 
     @Autowired
-    public AbstractEntityService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService) {
+    public AbstractEntityService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService, AttributeService attributeService) {
         this.objectService = objectService;
         this.paramsService = paramsService;
         this.referenceService = referenceService;
+        this.attributeService = attributeService;
     }
 
     @Override
@@ -50,8 +51,9 @@ public class AbstractEntityService<T extends ObjectEntity> implements MyService<
             if (field.isAnnotationPresent(ParamAttributeId.class)) {
                 try {
                     field.setAccessible(true);
-                    if (field.get(obj) == null &&
+                    if (field.get(obj).equals("") &&
                             attributeService.getIsRequiredByAttributeId(field.getAnnotation(ParamAttributeId.class).id())) {
+                        objectService.deleteByObjectId(realObjectId);
                         throw new IllegalArgumentException("Field " + field.getName() + "can't be null");
                     }
                     paramsService.insert(field.getAnnotation(ParamAttributeId.class).id(), realObjectId, (String) field.get(obj));
@@ -64,7 +66,8 @@ public class AbstractEntityService<T extends ObjectEntity> implements MyService<
                     field.setAccessible(true);
                     if (field.get(obj) == null &&
                             attributeService.getIsRequiredByAttributeId(field.getAnnotation(Reference.class).attrId())) {
-                        throw new IllegalArgumentException("Field " + field.getName() + "can't be null");
+                        objectService.deleteByObjectId(realObjectId);
+                        throw new IllegalArgumentException("Field " + field.getName() + " can't be null");
                     }
                     referenceService.insert(field.getLong(obj), realObjectId, field.getAnnotation(Reference.class).attrId());
                 } catch (IllegalAccessException e) {

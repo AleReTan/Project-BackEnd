@@ -58,4 +58,7 @@ public class ParamsService implements MyService<ParamsEntity> {
         return paramsDao.getParamsMapByObjectId(objectId);
     }
 
+    public long getObjectIdByAttributeIdAndValue(long attrId, String value) {
+        return paramsDao.getObjectIdByAttributeIdAndValue(attrId, value);
+    }
 }

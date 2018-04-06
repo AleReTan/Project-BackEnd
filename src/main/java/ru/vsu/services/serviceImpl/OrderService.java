@@ -18,8 +18,8 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
     private static final String ORDER_CANCELED = "Заказ отменен";
     private static final String PICKED_CLIENT = "Водитель с клиентом";
 
-    public OrderService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService) {
-        super(objectService, paramsService, referenceService);
+    public OrderService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService, AttributeService attributeService) {
+        super(objectService, paramsService, referenceService, attributeService);
     }
 
     @Override
@@ -32,6 +32,7 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
         }
         obj.setOrderStartTime(LocalDateTime.now().toString());
         obj.setOrderEndTime(STILL_GOES_ON);
+        obj.setName(obj.getOrderStartTime());
         super.insert(obj);
     }
 

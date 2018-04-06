@@ -27,10 +27,13 @@ public class DriverEntity extends ObjectEntity {
     @ParamAttributeId(id = 25)
     private String onShift;
 
+    @ParamAttributeId(id = 26)
+    private String login;
+
     public DriverEntity() {
     }
 
-    public DriverEntity(long id, String name, long typeId, String firstName, String lastName, String phoneNumber, String driverGeoData, long carId, String onShift) {
+    public DriverEntity(long id, String name, long typeId, String firstName, String lastName, String phoneNumber, String driverGeoData, long carId, String onShift, String login) {
         super(id, name, typeId);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -38,6 +41,7 @@ public class DriverEntity extends ObjectEntity {
         this.driverGeoData = driverGeoData;
         this.carId = carId;
         this.onShift = onShift;
+        this.login = login;
     }
 
     public String getFirstName() {
@@ -88,6 +92,14 @@ public class DriverEntity extends ObjectEntity {
         this.onShift = onShift;
     }
 
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -99,13 +111,14 @@ public class DriverEntity extends ObjectEntity {
                 Objects.equals(getLastName(), that.getLastName()) &&
                 Objects.equals(getPhoneNumber(), that.getPhoneNumber()) &&
                 Objects.equals(getDriverGeoData(), that.getDriverGeoData()) &&
-                Objects.equals(getOnShift(), that.getOnShift());
+                Objects.equals(getOnShift(), that.getOnShift()) &&
+                Objects.equals(getLogin(), that.getLogin());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(super.hashCode(), getFirstName(), getLastName(), getPhoneNumber(), getDriverGeoData(), getCarId(), getOnShift());
+        return Objects.hash(super.hashCode(), getFirstName(), getLastName(), getPhoneNumber(), getDriverGeoData(), getCarId(), getOnShift(), getLogin());
     }
 
     @Override
@@ -119,6 +132,7 @@ public class DriverEntity extends ObjectEntity {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", driverGeoData='" + driverGeoData + '\'' +
                 ", onShift='" + onShift + '\'' +
+                ", login='" + login + '\'' +
                 ", carId=" + carId;
     }
 }

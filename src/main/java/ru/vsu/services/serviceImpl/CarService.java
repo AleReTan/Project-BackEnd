@@ -13,8 +13,8 @@ public class CarService extends AbstractEntityService<CarEntity> {
     //айди атрибута car из driver, который показывает какая машина закреплена за водителем(в условиях нашей бд это атрибут с id = 16)
     private static final int ASSIGNED_TO_THE_DRIVER_ATTRIBUTE = 16;
 
-    public CarService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService) {
-        super(objectService, paramsService, referenceService);
+    public CarService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService, AttributeService attributeService) {
+        super(objectService, paramsService, referenceService, attributeService);
     }
 
     public List<CarEntity> getAllAvailableCars() {

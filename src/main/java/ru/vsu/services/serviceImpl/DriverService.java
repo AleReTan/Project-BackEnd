@@ -13,16 +13,17 @@ import java.util.List;
 @Service
 public class DriverService extends AbstractEntityService<DriverEntity> {
     //айди атрибута driver из order, который показывает какой водитель на заказе(в условиях нашей бд это атрибут с id = 18)
-    private static final int ON_ORDER_ATTRIBUTE = 18;
-    private static final int CAR_ATTRIBUTE = 16;
+    private static final long ON_ORDER_ATTRIBUTE = 18;
+    private static final long CAR_ATTRIBUTE = 16;
+    private static final long LOGIN_ATTRIBUTE = 26;
     private static final String TRUE = "true";
     private static final String FALSE = "false";
 
     private OrderService orderService;
 
     @Autowired
-    public DriverService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService, OrderService orderService) {
-        super(objectService, paramsService, referenceService);
+    public DriverService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService, OrderService orderService, AttributeService attributeService) {
+        super(objectService, paramsService, referenceService, attributeService);
         this.orderService = orderService;
     }
 
@@ -97,5 +98,17 @@ public class DriverService extends AbstractEntityService<DriverEntity> {
         } else {
             return null;
         }
+    }
+
+    /**
+     * возвращает айди водителя по связке айди атрибута "login" из таблицы attribute
+     * и строке login, поскольку login - примари кей в  users, значение уникальное
+     * и getObjectIdByAttributeIdAndValue вернет одну запись
+     *
+     * @param login
+     * @return
+     */
+    public long getDriverIdByLogin(String login) {
+        return paramsService.getObjectIdByAttributeIdAndValue(LOGIN_ATTRIBUTE, login);
     }
 }

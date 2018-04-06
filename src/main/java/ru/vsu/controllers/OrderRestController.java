@@ -1,6 +1,9 @@
 package ru.vsu.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.vsu.entity.OrderEntity;
 import ru.vsu.services.serviceImpl.OrderService;
@@ -22,12 +25,17 @@ public class OrderRestController {
     }
 
     @RequestMapping(value = "/orders", method = RequestMethod.POST)
-    public void createOrder(@RequestBody OrderEntity o, @RequestHeader("Authorization") String a) {
+    public ResponseEntity createOrder(@RequestBody OrderEntity o, @RequestHeader("Authorization") String a) {
+        //TODO в хедер, org.springframework.http.ResponseEntity#ResponseEntity(org.springframework.util.MultiValueMap<java.lang.String,java.lang.String>, org.springframework.http.HttpStatus)
+        //вместо e.getMessage() в response делать хедер
         try {
             orderService.insert(o);
         } catch (IllegalArgumentException e) {
-            e.getMessage();
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.add("Error message", e.getMessage());
+            return new ResponseEntity(httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/orders", method = RequestMethod.PATCH)
