@@ -54,7 +54,8 @@ public class AbstractEntityService<T extends ObjectEntity> implements MyService<
                     if (field.get(obj).equals("") &&
                             attributeService.getIsRequiredByAttributeId(field.getAnnotation(ParamAttributeId.class).id())) {
                         objectService.deleteByObjectId(realObjectId);
-                        throw new IllegalArgumentException("Field " + field.getName() + "can't be null");
+                        System.out.println("Field " + field.getName() + " can't be null");
+                        throw new IllegalArgumentException("Field " + field.getName() + " can't be null");
                     }
                     paramsService.insert(field.getAnnotation(ParamAttributeId.class).id(), realObjectId, (String) field.get(obj));
                 } catch (IllegalAccessException e) {
@@ -67,6 +68,7 @@ public class AbstractEntityService<T extends ObjectEntity> implements MyService<
                     if (field.get(obj) == null &&
                             attributeService.getIsRequiredByAttributeId(field.getAnnotation(Reference.class).attrId())) {
                         objectService.deleteByObjectId(realObjectId);
+                        System.out.println("Field " + field.getName() + " can't be null");
                         throw new IllegalArgumentException("Field " + field.getName() + " can't be null");
                     }
                     referenceService.insert(field.getLong(obj), realObjectId, field.getAnnotation(Reference.class).attrId());

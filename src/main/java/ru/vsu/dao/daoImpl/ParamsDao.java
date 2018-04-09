@@ -25,7 +25,7 @@ public class ParamsDao implements Dao<ParamsEntity> {
     private static final String GET_ALL = "SELECT * FROM  eav.params";
     private static final String GET_BY_ATTRIBUTE_ID_AND_OBJECT_ID = "SELECT * FROM  eav.params p WHERE p.object_id = ? AND p.attr_id = ?";
     private static final String GET_MAP_BY_OBJECT_ID = "SELECT * FROM  eav.params p WHERE p.object_id = ?";
-    private static final String GET_BY_ATTRIBUTE_ID_AND_VALUE = "SELECT eav.params.object_id FROM  eav.params p WHERE p.attr_id = ? AND p.value = ?";
+    private static final String GET_BY_ATTRIBUTE_ID_AND_VALUE = "SELECT p.object_id FROM  eav.params p WHERE p.attr_id = ? AND p.value = ?";
     @Autowired
     public ParamsDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
