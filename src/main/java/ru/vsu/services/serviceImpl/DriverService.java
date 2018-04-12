@@ -72,7 +72,7 @@ public class DriverService extends AbstractEntityService<DriverEntity> {
 
     public boolean isDriverOnShift(long id) {
         DriverEntity driverEntity = getObjectById(id);
-        return driverEntity.getOnShift().equals(TRUE);
+        return TRUE.equals(driverEntity.getOnShift());
     }
 
     /**
