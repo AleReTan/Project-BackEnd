@@ -26,8 +26,6 @@ public class OrderRestController {
 
     @RequestMapping(value = "/orders", method = RequestMethod.POST)
     public ResponseEntity createOrder(@RequestBody OrderEntity o, @RequestHeader("Authorization") String a) {
-        //TODO в хедер, org.springframework.http.ResponseEntity#ResponseEntity(org.springframework.util.MultiValueMap<java.lang.String,java.lang.String>, org.springframework.http.HttpStatus)
-        //вместо e.getMessage() в response делать хедер
         try {
             orderService.insert(o);
         } catch (IllegalArgumentException e) {
