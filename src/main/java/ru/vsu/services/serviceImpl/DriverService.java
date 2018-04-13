@@ -27,6 +27,12 @@ public class DriverService extends AbstractEntityService<DriverEntity> {
         this.orderService = orderService;
     }
 
+    @Override
+    public void insert(DriverEntity obj) {
+        obj.setOnShift(FALSE);
+        super.insert(obj);
+    }
+
     public List<DriverEntity> getAllAvailableDrivers() {
         List<DriverEntity> listOfAvailableDrivers = new ArrayList<>();
 

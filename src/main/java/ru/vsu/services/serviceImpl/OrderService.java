@@ -17,6 +17,7 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
     private static final String ORDER_COMPLETE = "Заказ завершен";
     private static final String ORDER_CANCELED = "Заказ отменен";
     private static final String PICKED_CLIENT = "Водитель с клиентом";
+    private static final long ORDER_TYPE_ID = 6;
 
     public OrderService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService, AttributeService attributeService) {
         super(objectService, paramsService, referenceService, attributeService);
@@ -25,6 +26,7 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
     @Override
     public void insert(OrderEntity obj) {
         //если водитель не 0, значит назначен, ставим статус - водитель движется, если 0, то поиск
+        obj.setTypeId(ORDER_TYPE_ID);
         if (obj.getDriverId() != 0) {
             obj.setStatusOrder(DRIVER_TO_CLIENT);
         } else {

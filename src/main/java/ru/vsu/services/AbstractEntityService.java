@@ -51,7 +51,7 @@ public class AbstractEntityService<T extends ObjectEntity> implements MyService<
             if (field.isAnnotationPresent(ParamAttributeId.class)) {
                 try {
                     field.setAccessible(true);
-                    if (field.get(obj).equals("") &&
+                    if (("".equals(field.get(obj)) || field.get(obj) == null) &&
                             attributeService.getIsRequiredByAttributeId(field.getAnnotation(ParamAttributeId.class).id())) {
                         objectService.deleteByObjectId(realObjectId);
                         System.out.println("Field " + field.getName() + " can't be null");
