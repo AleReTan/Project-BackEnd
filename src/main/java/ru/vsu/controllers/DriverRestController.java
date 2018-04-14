@@ -48,13 +48,24 @@ public class DriverRestController {
     }
 
     @RequestMapping(value = "/drivers/changeOnShift", method = RequestMethod.PATCH)
-    public void changeOnShift(@RequestBody DriverEntity d, @RequestHeader("Authorization") String a) {
-        driverService.changeOnShift(d);
+    public void changeOnShift(@RequestBody long id, @RequestHeader("Authorization") String a) {
+        driverService.changeOnShift(id);
     }
 
-    @RequestMapping(value = "/drivers/getOrderByDriverId", method = RequestMethod.GET)
-    public OrderEntity getOrderEntityByDriverId(@RequestBody DriverEntity d, @RequestHeader("Authorization") String a) {
-        return driverService.getOrderEntityByDriverId(d.getId());
+    @RequestMapping(value = "/drivers/{id}/getOrder", method = RequestMethod.GET)
+    public OrderEntity getOrderEntityByDriverId(@PathVariable long id, @RequestHeader("Authorization") String a) {
+
+        OrderEntity orderEntity = driverService.getOrderEntityByDriverId(id);
+        String print = (orderEntity != null)? orderEntity.toString():"null";
+        System.out.println(print);
+        return orderEntity;
     }
+
+    @RequestMapping(value = "/drivers/{id}/IsOnShift", method = RequestMethod.GET)
+    public String getDriverIsOnShift(@PathVariable("id") long id, @RequestHeader("Authorization") String a) {
+        return String.valueOf(driverService.isDriverOnShift(id));
+                //String.valueOf(driverService.isDriverOnShift(id));
+    }
+
 
 }

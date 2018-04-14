@@ -84,9 +84,11 @@ public class DriverService extends AbstractEntityService<DriverEntity> {
     /**
      * меняет текущее значение атрибута "на смене" на противоположное
      *
-     * @param obj
+     * @param id
      */
-    public void changeOnShift(DriverEntity obj) {
+    public void changeOnShift(long id) {
+
+        DriverEntity obj = getObjectById(id);
         System.out.println(Boolean.toString(!isDriverOnShift(obj.getId())));
         obj.setOnShift(Boolean.toString(!isDriverOnShift(obj.getId())));
         super.update(obj);
