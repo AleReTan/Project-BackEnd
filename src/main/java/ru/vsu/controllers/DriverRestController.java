@@ -64,8 +64,11 @@ public class DriverRestController {
     @RequestMapping(value = "/drivers/{id}/IsOnShift", method = RequestMethod.GET)
     public String getDriverIsOnShift(@PathVariable("id") long id, @RequestHeader("Authorization") String a) {
         return String.valueOf(driverService.isDriverOnShift(id));
-                //String.valueOf(driverService.isDriverOnShift(id));
     }
 
+    @RequestMapping(value = "/drivers/{id}/chageGeoLocation", method = RequestMethod.PATCH)
+    public void chageGeoLocation(@PathVariable("id") long id, @RequestBody String geoData, @RequestHeader("Authorization") String a) {
+         driverService.chageGeoLocation(id, geoData);
+    }
 
 }

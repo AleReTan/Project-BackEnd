@@ -119,4 +119,10 @@ public class DriverService extends AbstractEntityService<DriverEntity> {
     public long getDriverIdByLogin(String login) {
         return paramsService.getObjectIdByAttributeIdAndValue(LOGIN_ATTRIBUTE, login);
     }
+
+    public void chageGeoLocation(long id, String geoData) {
+        DriverEntity obj = getObjectById(id);
+        obj.setDriverGeoData(geoData);
+        super.update(obj);
+    }
 }
