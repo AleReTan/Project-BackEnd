@@ -18,7 +18,8 @@ public class DriverService extends AbstractEntityService<DriverEntity> {
     private static final long LOGIN_ATTRIBUTE = 26;
     private static final String TRUE = "true";
     private static final String FALSE = "false";
-
+    private static final String BASIC_GEO_DATA = "51.661035, 39.199017";//пл.Ленина
+    private static final long DRIVER_TYPE_ID = 8;
     private OrderService orderService;
 
     @Autowired
@@ -29,6 +30,9 @@ public class DriverService extends AbstractEntityService<DriverEntity> {
 
     @Override
     public void insert(DriverEntity obj) {
+        obj.setTypeId(DRIVER_TYPE_ID);
+        obj.setName(obj.getLastName() + " " + obj.getPhoneNumber());
+        obj.setDriverGeoData(BASIC_GEO_DATA);
         obj.setOnShift(FALSE);
         super.insert(obj);
     }
@@ -120,7 +124,7 @@ public class DriverService extends AbstractEntityService<DriverEntity> {
         return paramsService.getObjectIdByAttributeIdAndValue(LOGIN_ATTRIBUTE, login);
     }
 
-    public void chageGeoLocation(long id, String geoData) {
+    public void changeGeoLocation(long id, String geoData) {
         DriverEntity obj = getObjectById(id);
         obj.setDriverGeoData(geoData);
         super.update(obj);

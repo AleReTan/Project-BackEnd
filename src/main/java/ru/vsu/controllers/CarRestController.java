@@ -1,6 +1,9 @@
 package ru.vsu.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.vsu.entity.CarEntity;
 import ru.vsu.services.serviceImpl.CarService;
@@ -22,10 +25,17 @@ public class CarRestController {
         return carService.getAll();
     }
 
+    @SuppressWarnings("Duplicates")
     @RequestMapping(value = "/cars", method = RequestMethod.POST)
-    public void createCar(@RequestBody CarEntity c, @RequestHeader("Authorization") String a) {
-        c.setTypeId(7);
-        carService.insert(c);
+    public ResponseEntity createCar(@RequestBody CarEntity c, @RequestHeader("Authorization") String a) {
+        try {
+            carService.insert(c);
+        } catch (IllegalArgumentException e) {
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.add("Error message", e.getMessage());
+            return new ResponseEntity(httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/cars", method = RequestMethod.PATCH)

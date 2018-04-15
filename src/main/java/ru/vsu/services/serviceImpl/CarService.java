@@ -12,11 +12,24 @@ import java.util.List;
 public class CarService extends AbstractEntityService<CarEntity> {
     //айди атрибута car из driver, который показывает какая машина закреплена за водителем(в условиях нашей бд это атрибут с id = 16)
     private static final int ASSIGNED_TO_THE_DRIVER_ATTRIBUTE = 16;
+    private static final long CAR_TYPE_ID = 7;
 
     public CarService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService, AttributeService attributeService) {
         super(objectService, paramsService, referenceService, attributeService);
     }
 
+    @Override
+    public void insert(CarEntity obj) {
+        obj.setTypeId(CAR_TYPE_ID);
+        obj.setName(obj.getModel() + " " + obj.getNumber());
+        super.insert(obj);
+    }
+
+    @Override
+    public void update(CarEntity obj) {
+        obj.setName(obj.getModel() + " " + obj.getNumber());
+        super.update(obj);
+    }
     public List<CarEntity> getAllAvailableCars() {
         List<CarEntity> listOfAvailableCars = new ArrayList<>();
 

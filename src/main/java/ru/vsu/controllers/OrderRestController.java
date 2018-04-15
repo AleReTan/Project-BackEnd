@@ -24,6 +24,7 @@ public class OrderRestController {
         return orderService.getAll();//здесь меняем на getAllActiveOrders
     }
 
+    @SuppressWarnings("Duplicates")
     @RequestMapping(value = "/orders", method = RequestMethod.POST)
     public ResponseEntity createOrder(@RequestBody OrderEntity o, @RequestHeader("Authorization") String a) {
         try {
