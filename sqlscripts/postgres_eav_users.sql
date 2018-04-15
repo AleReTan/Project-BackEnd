@@ -5,3 +5,5 @@ INSERT INTO eav.users (login, password, role) VALUES ('dr2', '1234', 'DRIVER');
 INSERT INTO eav.users (login, password, role) VALUES ('dr3', '1234', 'DRIVER');
 INSERT INTO eav.users (login, password, role) VALUES ('dr4', '1234', 'DRIVER');
 INSERT INTO eav.users (login, password, role) VALUES ('dr5', '1234', 'DRIVER');
+INSERT INTO eav.users (login, password, role) VALUES ('driver10', '1234', 'DRIVER');
+INSERT INTO eav.users (login, password, role) VALUES ('ParkingVendor', '1111', 'VENDOR');

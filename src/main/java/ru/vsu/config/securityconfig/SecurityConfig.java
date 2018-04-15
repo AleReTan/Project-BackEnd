@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/allDriversJson/**").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers("/allDriversJson/**").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers("/availableDriversJson/**").hasAnyAuthority("ADMIN", "USER")
-
+                .antMatchers("/vendor/**").hasAnyAuthority("ADMIN", "VENDOR")
                 .and().addFilterAfter(new SessionAuthentificationFilter( authenticationManager(),
                 authenticationEntryPoint, sessionService, userService),BasicAuthenticationFilter.class)
                 .logout().permitAll().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

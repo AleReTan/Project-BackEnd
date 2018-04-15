@@ -78,7 +78,7 @@ public class DriverRestController {
     }
 
     @RequestMapping(value = "/drivers/{id}/changeGeoLocation", method = RequestMethod.PATCH)
-    public void chageGeoLocation(@PathVariable("id") long id, @RequestBody String geoData, @RequestHeader("Authorization") String a) {
+    public void changeGeoLocation(@PathVariable("id") long id, @RequestBody String geoData, @RequestHeader("Authorization") String a) {
         driverService.changeGeoLocation(id, geoData);
     }
 
