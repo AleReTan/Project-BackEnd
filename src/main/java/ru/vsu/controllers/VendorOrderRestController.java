@@ -1,6 +1,8 @@
 package ru.vsu.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.vsu.entity.VendorOrderEntity;
 import ru.vsu.services.serviceImpl.VendorOrderService;
@@ -15,7 +17,7 @@ public class VendorOrderRestController {
     }
 
     @RequestMapping(value = "/vendor/orders/create", method = RequestMethod.POST)
-    public void createOrder(@RequestBody VendorOrderEntity vendorOrder, @RequestHeader("Authorization") String a) {
-        vendorOrderService.processOrder(vendorOrder);
+    public ResponseEntity createOrder(@RequestBody VendorOrderEntity vendorOrder, @RequestHeader("Authorization") String a) {
+        return new ResponseEntity<>(vendorOrderService.processOrder(vendorOrder), HttpStatus.OK);
     }
 }
