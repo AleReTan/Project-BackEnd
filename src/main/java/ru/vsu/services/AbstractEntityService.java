@@ -45,7 +45,7 @@ public class AbstractEntityService<T extends ObjectEntity> implements MyService<
     }
 
     @Override
-    public void insert(T obj) {
+    public long insert(T obj) {
         long realObjectId = objectService.insertAndReturnId(obj);
         for (Field field : obj.getClass().getDeclaredFields()) {
             if (field.isAnnotationPresent(ParamAttributeId.class)) {
@@ -77,6 +77,7 @@ public class AbstractEntityService<T extends ObjectEntity> implements MyService<
                 }
             }
         }
+        return realObjectId;
     }
 
     @Override

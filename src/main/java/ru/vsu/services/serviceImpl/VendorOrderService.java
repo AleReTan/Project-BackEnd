@@ -38,7 +38,7 @@ public class VendorOrderService {
         newOrderFromVendor.setOrderEndTime(STILL_GOES_ON);
         newOrderFromVendor.setName(newOrderFromVendor.getOrderStartTime());
         newOrderFromVendor.setOrderCost("3000");//сюда метод считающий цену
-        abstractEntityService.insert(newOrderFromVendor);
+        newOrderFromVendor.setId(abstractEntityService.insert(newOrderFromVendor));
         return newOrderFromVendor;
     }
 }
