@@ -31,6 +31,7 @@ public class VendorOrderService {
         newOrderFromVendor.setAddress(obj.getAddress());
         newOrderFromVendor.setGeoData(obj.getGeoData());
         newOrderFromVendor.setDestinationGeoData(obj.getDestinationGeoData());
+        newOrderFromVendor.setCreator(obj.getCreator());
         newOrderFromVendor.setTypeId(ORDER_TYPE_ID);
         newOrderFromVendor.setDriverId(NO_DRIVER_ID);
         newOrderFromVendor.setStatusOrder(FIND_DRIVER);

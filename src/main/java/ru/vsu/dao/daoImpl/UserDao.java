@@ -34,8 +34,8 @@ public class UserDao implements Dao<UserEntity> {
     }
 
     @Override
-    public void insert(UserEntity obj) {
-        jdbcTemplate.update(ADD_USER, obj.getLogin(), obj.getPassword(), obj.getRole());
+    public long insert(UserEntity obj) {
+        return jdbcTemplate.update(ADD_USER, obj.getLogin(), obj.getPassword(), obj.getRole());
     }
 
     @Override

@@ -29,8 +29,8 @@ public class UserService implements MyService<UserEntity> {
     }
 
     @Override
-    public void insert(UserEntity obj) {
-        userDao.insert(obj);
+    public long insert(UserEntity obj) {
+        return userDao.insert(obj);
     }
 
     @Override

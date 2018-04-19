@@ -29,12 +29,12 @@ public class DriverService extends AbstractEntityService<DriverEntity> {
     }
 
     @Override
-    public void insert(DriverEntity obj) {
+    public long insert(DriverEntity obj) {
         obj.setTypeId(DRIVER_TYPE_ID);
         obj.setName(obj.getLastName() + " " + obj.getPhoneNumber());
         obj.setDriverGeoData(BASIC_GEO_DATA);
         obj.setOnShift(FALSE);
-        super.insert(obj);
+        return super.insert(obj);
     }
 
     public List<DriverEntity> getAllAvailableDrivers() {

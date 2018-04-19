@@ -24,8 +24,8 @@ public class AttributeService implements MyService<AttributeEntity> {
     }
 
     @Override
-    public void insert(AttributeEntity obj) {
-        attributeDao.insert(obj);
+    public long insert(AttributeEntity obj) {
+        return attributeDao.insert(obj);
     }
 
     @Override

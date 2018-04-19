@@ -31,8 +31,8 @@ public class AttributeDao implements Dao<AttributeEntity> {
     }
 
     @Override
-    public void insert(AttributeEntity obj) {
-        jdbcTemplate.update(INSERT, obj.getName(), obj.getObjectTypeId(), obj.getValueType(), obj.isRequire());
+    public long insert(AttributeEntity obj) {
+        return jdbcTemplate.update(INSERT, obj.getName(), obj.getObjectTypeId(), obj.getValueType(), obj.isRequire());
     }
 
     @Override

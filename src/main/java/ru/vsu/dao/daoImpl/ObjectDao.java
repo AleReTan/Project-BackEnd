@@ -48,8 +48,8 @@ public class ObjectDao<T extends ObjectEntity> implements Dao<ObjectEntity> {
     }
 
     @Override
-    public void insert(ObjectEntity obj) {
-        jdbcTemplate.update(INSERT, obj.getName(), obj.getTypeId());
+    public long insert(ObjectEntity obj) {
+        return jdbcTemplate.update(INSERT, obj.getName(), obj.getTypeId());
     }
 
     public Long insertAndReturnId(ObjectEntity obj) {

@@ -24,7 +24,7 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
     }
 
     @Override
-    public void insert(OrderEntity obj) {
+    public long insert(OrderEntity obj) {
         //если водитель не 0, значит назначен, ставим статус - водитель движется, если 0, то поиск
         obj.setTypeId(ORDER_TYPE_ID);
         if (obj.getDriverId() != 0) {
@@ -35,7 +35,7 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
         obj.setOrderStartTime(LocalDateTime.now().toString());
         obj.setOrderEndTime(STILL_GOES_ON);
         obj.setName(obj.getOrderStartTime());
-        super.insert(obj);
+        return super.insert(obj);
     }
 
     @Override

@@ -9,17 +9,19 @@ public class VendorOrderEntity {
     private String address;
     private String geoData;
     private String destinationGeoData;
+    private String creator;
 
     public VendorOrderEntity() {
     }
 
-    public VendorOrderEntity(String clientFirstName, String clientLastName, String clientPhoneNumber, String address, String geoData, String destinationGeoData) {
+    public VendorOrderEntity(String clientFirstName, String clientLastName, String clientPhoneNumber, String address, String geoData, String destinationGeoData, String creator) {
         this.clientFirstName = clientFirstName;
         this.clientLastName = clientLastName;
         this.clientPhoneNumber = clientPhoneNumber;
         this.address = address;
         this.geoData = geoData;
         this.destinationGeoData = destinationGeoData;
+        this.creator = creator;
     }
 
     public String getClientFirstName() {
@@ -70,6 +72,14 @@ public class VendorOrderEntity {
         this.destinationGeoData = destinationGeoData;
     }
 
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -80,13 +90,14 @@ public class VendorOrderEntity {
                 Objects.equals(getClientPhoneNumber(), that.getClientPhoneNumber()) &&
                 Objects.equals(getAddress(), that.getAddress()) &&
                 Objects.equals(getGeoData(), that.getGeoData()) &&
-                Objects.equals(getDestinationGeoData(), that.getDestinationGeoData());
+                Objects.equals(getDestinationGeoData(), that.getDestinationGeoData()) &&
+                Objects.equals(getCreator(), that.getCreator());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(getClientFirstName(), getClientLastName(), getClientPhoneNumber(), getAddress(), getGeoData(), getDestinationGeoData());
+        return Objects.hash(getClientFirstName(), getClientLastName(), getClientPhoneNumber(), getAddress(), getGeoData(), getDestinationGeoData(), getCreator());
     }
 
     @Override
@@ -97,6 +108,7 @@ public class VendorOrderEntity {
                 ", clientPhoneNumber='" + clientPhoneNumber + '\'' +
                 ", address='" + address + '\'' +
                 ", geoData='" + geoData + '\'' +
-                ", destinationGeoData='" + destinationGeoData;
+                ", destinationGeoData='" + destinationGeoData + '\'' +
+                ", creator='" + creator;
     }
 }

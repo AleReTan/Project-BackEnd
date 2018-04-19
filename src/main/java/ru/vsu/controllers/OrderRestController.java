@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 import ru.vsu.entity.OrderEntity;
 import ru.vsu.services.serviceImpl.OrderService;
@@ -28,6 +30,8 @@ public class OrderRestController {
     @RequestMapping(value = "/orders", method = RequestMethod.POST)
     public ResponseEntity createOrder(@RequestBody OrderEntity o, @RequestHeader("Authorization") String a) {
         try {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            o.setCreator(user.getUsername());
             orderService.insert(o);
         } catch (IllegalArgumentException e) {
             HttpHeaders httpHeaders = new HttpHeaders();

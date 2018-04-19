@@ -43,10 +43,13 @@ public class OrderEntity extends ObjectEntity {
     @ParamAttributeId(id = 11)
     private String statusOrder;
 
+    @ParamAttributeId(id = 29)
+    private String creator;
+
     public OrderEntity() {
     }
 
-    public OrderEntity(long id, String name, long typeId, String clientFirstName, String clientLastName, String clientPhoneNumber, String address, long driverId, String orderCost, String geoData, String destinationGeoData, String orderStartTime, String orderEndTime, String statusOrder) {
+    public OrderEntity(long id, String name, long typeId, String clientFirstName, String clientLastName, String clientPhoneNumber, String address, long driverId, String orderCost, String geoData, String destinationGeoData, String orderStartTime, String orderEndTime, String statusOrder, String creator) {
         super(id, name, typeId);
         this.clientFirstName = clientFirstName;
         this.clientLastName = clientLastName;
@@ -59,6 +62,7 @@ public class OrderEntity extends ObjectEntity {
         this.orderStartTime = orderStartTime;
         this.orderEndTime = orderEndTime;
         this.statusOrder = statusOrder;
+        this.creator = creator;
     }
 
     public String getClientFirstName() {
@@ -149,6 +153,14 @@ public class OrderEntity extends ObjectEntity {
         this.statusOrder = statusOrder;
     }
 
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -165,13 +177,14 @@ public class OrderEntity extends ObjectEntity {
                 Objects.equals(getDestinationGeoData(), that.getDestinationGeoData()) &&
                 Objects.equals(getOrderStartTime(), that.getOrderStartTime()) &&
                 Objects.equals(getOrderEndTime(), that.getOrderEndTime()) &&
-                Objects.equals(getStatusOrder(), that.getStatusOrder());
+                Objects.equals(getStatusOrder(), that.getStatusOrder()) &&
+                Objects.equals(getCreator(), that.getCreator());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(super.hashCode(), getClientFirstName(), getClientLastName(), getClientPhoneNumber(), getAddress(), getDriverId(), getOrderCost(), getGeoData(), getDestinationGeoData(), getOrderStartTime(), getOrderEndTime(), getStatusOrder());
+        return Objects.hash(super.hashCode(), getClientFirstName(), getClientLastName(), getClientPhoneNumber(), getAddress(), getDriverId(), getOrderCost(), getGeoData(), getDestinationGeoData(), getOrderStartTime(), getOrderEndTime(), getStatusOrder(), getCreator());
     }
 
     @Override
@@ -190,6 +203,7 @@ public class OrderEntity extends ObjectEntity {
                 ", destinationGeoData='" + destinationGeoData + '\'' +
                 ", orderStartTime='" + orderStartTime + '\'' +
                 ", orderEndTime='" + orderEndTime + '\'' +
+                ", creator='" + creator + '\'' +
                 ", statusOrder='" + statusOrder + '\'';
     }
 }

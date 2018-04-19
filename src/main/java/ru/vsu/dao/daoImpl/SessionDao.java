@@ -42,34 +42,36 @@ public class SessionDao implements Dao<SessionEntity> {
     }
 
     public void delete(long id) {
-        jdbcTemplate.update(DELETE_SESSION_BY_ID,id);
+        jdbcTemplate.update(DELETE_SESSION_BY_ID, id);
     }
 
     @Override
-    public void insert(SessionEntity obj) {
-        jdbcTemplate.update(ADD_SESSION, obj.getLogin(), obj.getTimeOfBegin(),obj.getTimeRecentActivity());
+    public long insert(SessionEntity obj) {
+        return jdbcTemplate.update(ADD_SESSION, obj.getLogin(), obj.getTimeOfBegin(), obj.getTimeRecentActivity());
     }
 
-    public void insert(String login) {
+    public long insert(String login) {
         LocalDateTime currentDateTime = LocalDateTime.now();
-        jdbcTemplate.update(ADD_SESSION,login, currentDateTime,currentDateTime);
+        return jdbcTemplate.update(ADD_SESSION, login, currentDateTime, currentDateTime);
     }
 
     @Override
     public void update(SessionEntity obj) {
-        jdbcTemplate.update(UPDATE_SESSION_BY_ID, LocalDateTime.now(),obj.getId());
+        jdbcTemplate.update(UPDATE_SESSION_BY_ID, LocalDateTime.now(), obj.getId());
     }
 
     public void update(long id) {
-        jdbcTemplate.update(UPDATE_SESSION_BY_ID, LocalDateTime.now(),id);
+        jdbcTemplate.update(UPDATE_SESSION_BY_ID, LocalDateTime.now(), id);
     }
+
     public void updateDateBegin(long id) {
         LocalDateTime localDateTime = LocalDateTime.now();
-        jdbcTemplate.update(UPDATE_ALL_IN_SESSION_BY_ID, localDateTime,localDateTime,id);
+        jdbcTemplate.update(UPDATE_ALL_IN_SESSION_BY_ID, localDateTime, localDateTime, id);
     }
+
     @Override
     public List<SessionEntity> getAll() {
-        List<SessionEntity> sessions =  jdbcTemplate.query(GET_ALL_SESSION, new SessionMapper());
+        List<SessionEntity> sessions = jdbcTemplate.query(GET_ALL_SESSION, new SessionMapper());
         return (sessions == null || sessions.isEmpty()) ? null : sessions;
     }
 
@@ -89,7 +91,7 @@ public class SessionDao implements Dao<SessionEntity> {
     }
 
     public List<SessionEntity> getAllOutsiding(LocalDateTime timeOfBegin, LocalDateTime timeRecentActivity) {
-         List<SessionEntity> sessions =  jdbcTemplate.query(GET_ALL_OUTSIDING, new SessionMapper(),timeOfBegin,timeRecentActivity);
+        List<SessionEntity> sessions = jdbcTemplate.query(GET_ALL_OUTSIDING, new SessionMapper(), timeOfBegin, timeRecentActivity);
         return (sessions == null || sessions.isEmpty()) ? null : sessions;
     }
 

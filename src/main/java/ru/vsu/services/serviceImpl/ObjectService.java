@@ -27,8 +27,8 @@ public class ObjectService<T extends ObjectEntity> implements MyService<ObjectEn
     }
 
     @Override
-    public void insert(ObjectEntity obj) {
-        objectDao.insert(obj);
+    public long insert(ObjectEntity obj) {
+        return objectDao.insert(obj);
     }
 
     public long insertAndReturnId(ObjectEntity obj) {

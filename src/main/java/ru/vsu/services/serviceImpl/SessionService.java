@@ -41,8 +41,8 @@ public class SessionService implements MyService<SessionEntity> {
     }
 
     @Override
-    public void insert(SessionEntity obj) {
-        sessionDao.insert(obj.getLogin());
+    public long insert(SessionEntity obj) {
+        return sessionDao.insert(obj.getLogin());
     }
 
     public void insert(String login) {

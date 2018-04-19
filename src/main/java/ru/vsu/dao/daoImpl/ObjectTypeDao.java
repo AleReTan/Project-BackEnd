@@ -29,8 +29,8 @@ public class ObjectTypeDao implements Dao<ObjectTypeEntity> {
     }
 
     @Override
-    public void insert(ObjectTypeEntity obj) {
-        jdbcTemplate.update(INSERT, obj.getName());
+    public long insert(ObjectTypeEntity obj) {
+        return jdbcTemplate.update(INSERT, obj.getName());
     }
 
     @Override

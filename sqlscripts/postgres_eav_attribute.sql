@@ -27,3 +27,7 @@ INSERT INTO eav.attribute (id, name, object_type_id, value_type, require)
 VALUES (24, 'destinationGeoData', 6, 'String', true);
 INSERT INTO eav.attribute (id, name, object_type_id, value_type, require) VALUES (25, 'onShift', 8, 'String', true);
 INSERT INTO eav.attribute (id, name, object_type_id, value_type, require) VALUES (26, 'login', 8, 'String', true);
+INSERT INTO eav.attribute (id, name, object_type_id, value_type, require)
+VALUES (27, 'vendorLogin', 10, 'String', true);
+INSERT INTO eav.attribute (id, name, object_type_id, value_type, require) VALUES (28, 'vendorURL', 10, 'String', true);
+INSERT INTO eav.attribute (id, name, object_type_id, value_type, require) VALUES (29, 'creator', 6, 'String', true);

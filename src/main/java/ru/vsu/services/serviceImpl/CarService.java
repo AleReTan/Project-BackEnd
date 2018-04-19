@@ -19,10 +19,10 @@ public class CarService extends AbstractEntityService<CarEntity> {
     }
 
     @Override
-    public void insert(CarEntity obj) {
+    public long insert(CarEntity obj) {
         obj.setTypeId(CAR_TYPE_ID);
         obj.setName(obj.getModel() + " " + obj.getNumber());
-        super.insert(obj);
+        return super.insert(obj);
     }
 
     @Override

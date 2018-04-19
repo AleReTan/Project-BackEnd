@@ -41,8 +41,8 @@ public class ParamsDao implements Dao<ParamsEntity> {
     }
 
     @Override
-    public void insert(ParamsEntity obj) {
-        jdbcTemplate.update(INSERT, obj.getAttrId(), obj.getObjectId(), obj.getValue());
+    public long insert(ParamsEntity obj) {
+        return jdbcTemplate.update(INSERT, obj.getAttrId(), obj.getObjectId(), obj.getValue());
     }
 
     public void insert(long attributeId, long objectId, String value) {

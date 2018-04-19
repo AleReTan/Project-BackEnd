@@ -23,8 +23,8 @@ public class ObjectTypeService implements MyService<ObjectTypeEntity>{
     }
 
     @Override
-    public void insert(ObjectTypeEntity obj) {
-        objectTypeDao.insert(obj);
+    public long insert(ObjectTypeEntity obj) {
+        return objectTypeDao.insert(obj);
     }
 
     @Override

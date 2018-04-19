@@ -32,8 +32,8 @@ public class ReferenceService implements MyService<ReferenceEntity> {
     }
 
     @Override
-    public void insert(ReferenceEntity obj) {
-        referenceDao.insert(obj);
+    public long insert(ReferenceEntity obj) {
+        return referenceDao.insert(obj);
     }
 
     public void insert(long reference, long objectId, long attributeId) {

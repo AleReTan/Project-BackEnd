@@ -48,8 +48,8 @@ public class ReferenceDao implements Dao<ReferenceEntity> {
     }
 
     @Override
-    public void insert(ReferenceEntity obj) {
-        jdbcTemplate.update(INSERT, obj.getReference(), obj.getObjectId(), obj.getAttrId());
+    public long insert(ReferenceEntity obj) {
+        return jdbcTemplate.update(INSERT, obj.getReference(), obj.getObjectId(), obj.getAttrId());
     }
 
     public void insert(long reference, long objectId, long attributeId) {
