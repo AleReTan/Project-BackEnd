@@ -31,3 +31,7 @@ INSERT INTO eav.attribute (id, name, object_type_id, value_type, require)
 VALUES (27, 'vendorLogin', 10, 'String', true);
 INSERT INTO eav.attribute (id, name, object_type_id, value_type, require) VALUES (28, 'vendorURL', 10, 'String', true);
 INSERT INTO eav.attribute (id, name, object_type_id, value_type, require) VALUES (29, 'creator', 6, 'String', true);
+INSERT INTO eav.attribute (id, name, object_type_id, value_type, require)
+VALUES (30, 'vendorAccessLogin', 10, 'String', true);
+INSERT INTO eav.attribute (id, name, object_type_id, value_type, require)
+VALUES (31, 'vendorAccessPassword', 10, 'String', true);

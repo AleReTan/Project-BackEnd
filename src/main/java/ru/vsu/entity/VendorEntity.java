@@ -11,14 +11,20 @@ public class VendorEntity extends ObjectEntity {
     private String vendorLogin;
     @ParamAttributeId(id = 28)
     private String vendorURL;
+    @ParamAttributeId(id = 30)
+    private String vendorAccessLogin;
+    @ParamAttributeId(id = 31)
+    private String vendorAccessPassword;
 
     public VendorEntity() {
     }
 
-    public VendorEntity(long id, String name, long typeId, String vendorLogin, String vendorURL) {
+    public VendorEntity(long id, String name, long typeId, String vendorLogin, String vendorURL, String vendorAccessLogin, String vendorAccessPassword) {
         super(id, name, typeId);
         this.vendorLogin = vendorLogin;
         this.vendorURL = vendorURL;
+        this.vendorAccessLogin = vendorAccessLogin;
+        this.vendorAccessPassword = vendorAccessPassword;
     }
 
     public String getVendorLogin() {
@@ -37,6 +43,22 @@ public class VendorEntity extends ObjectEntity {
         this.vendorURL = vendorURL;
     }
 
+    public String getVendorAccessLogin() {
+        return vendorAccessLogin;
+    }
+
+    public void setVendorAccessLogin(String vendorAccessLogin) {
+        this.vendorAccessLogin = vendorAccessLogin;
+    }
+
+    public String getVendorAccessPassword() {
+        return vendorAccessPassword;
+    }
+
+    public void setVendorAccessPassword(String vendorAccessPassword) {
+        this.vendorAccessPassword = vendorAccessPassword;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -44,13 +66,15 @@ public class VendorEntity extends ObjectEntity {
         if (!super.equals(o)) return false;
         VendorEntity that = (VendorEntity) o;
         return Objects.equals(getVendorLogin(), that.getVendorLogin()) &&
-                Objects.equals(getVendorURL(), that.getVendorURL());
+                Objects.equals(getVendorURL(), that.getVendorURL()) &&
+                Objects.equals(getVendorAccessLogin(), that.getVendorAccessLogin()) &&
+                Objects.equals(getVendorAccessPassword(), that.getVendorAccessPassword());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(super.hashCode(), getVendorLogin(), getVendorURL());
+        return Objects.hash(super.hashCode(), getVendorLogin(), getVendorURL(), getVendorAccessLogin(), getVendorAccessPassword());
     }
 
     @Override
@@ -59,7 +83,9 @@ public class VendorEntity extends ObjectEntity {
                 " id=" + id +
                 ", name='" + name + '\'' +
                 ", typeId=" + typeId +
-                "vendorLogin='" + vendorLogin + '\'' +
-                ", vendorURL='" + vendorURL;
+                ", vendorLogin='" + vendorLogin + '\'' +
+                ", vendorURL='" + vendorURL + '\'' +
+                ", vendorAccessLogin='" + vendorAccessLogin + '\'' +
+                ", vendorAccessPassword='" + vendorAccessPassword;
     }
 }

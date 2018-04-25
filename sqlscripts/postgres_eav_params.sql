@@ -60,6 +60,8 @@ INSERT INTO eav.params (attr_id, object_id, value) VALUES (13, 6, 'Audi');
 INSERT INTO eav.params (attr_id, object_id, value) VALUES (14, 6, 'Black');
 INSERT INTO eav.params (attr_id, object_id, value) VALUES (15, 6, 'Легковой');
 INSERT INTO eav.params (attr_id, object_id, value) VALUES (28, 257, 'localhost:1488');
+INSERT INTO eav.params (attr_id, object_id, value) VALUES (30, 257, 'TowlingService');
+INSERT INTO eav.params (attr_id, object_id, value) VALUES (31, 257, '1234');
 INSERT INTO eav.params (attr_id, object_id, value) VALUES (27, 257, 'ParkingVendor');
 INSERT INTO eav.params (attr_id, object_id, value) VALUES (26, 12, 'dr2');
 INSERT INTO eav.params (attr_id, object_id, value) VALUES (26, 27, 'dr3');

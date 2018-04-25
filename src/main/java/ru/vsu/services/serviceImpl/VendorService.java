@@ -1,10 +1,12 @@
 package ru.vsu.services.serviceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.vsu.entity.ObjectEntity;
 import ru.vsu.entity.VendorEntity;
 import ru.vsu.services.AbstractEntityService;
 
+@Service
 public class VendorService extends AbstractEntityService<VendorEntity> {
     private static final long VENDOR_LOGIN_ATTRIBUTE = 27;
 

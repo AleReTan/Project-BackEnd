@@ -1,12 +1,18 @@
 package ru.vsu.services.serviceImpl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import ru.vsu.entity.ObjectEntity;
 import ru.vsu.entity.OrderEntity;
+import ru.vsu.entity.VendorEntity;
 import ru.vsu.services.AbstractEntityService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -18,9 +24,14 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
     private static final String ORDER_CANCELED = "Заказ отменен";
     private static final String PICKED_CLIENT = "Водитель с клиентом";
     private static final long ORDER_TYPE_ID = 6;
+    private VendorService vendorService;
+    private VendorOrderService vendorOrderService;
 
-    public OrderService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService, AttributeService attributeService) {
+    @Autowired
+    public OrderService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService, AttributeService attributeService, VendorService vendorService, VendorOrderService vendorOrderService) {
         super(objectService, paramsService, referenceService, attributeService);
+        this.vendorService = vendorService;
+        this.vendorOrderService = vendorOrderService;
     }
 
     @Override
@@ -54,6 +65,7 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
     public void pickClient(OrderEntity obj) {
         obj.setStatusOrder(PICKED_CLIENT);
         super.update(obj);
+        sendUpdatedOrderToVendor(obj);
     }
 
     /**
@@ -78,6 +90,7 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
         obj.setOrderEndTime(LocalDateTime.now().toString());
         obj.setDriverId(0);
         super.update(obj);
+        sendUpdatedOrderToVendor(obj);
     }
 
     /**
@@ -105,5 +118,29 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
             }
         }
         return listOfOrdersWithoutDriver;
+    }
+
+    /**
+     * метод бросает вендору ордер с обновленным статусом
+     *
+     * @param obj
+     */
+    private void sendUpdatedOrderToVendor(OrderEntity obj) {
+//        long vendorId = vendorService.getVendorIdByLogin(obj.getCreator());
+//        VendorEntity vendor = vendorService.getObjectById(vendorId);
+//        vendor.getVendorURL();
+        for (VendorEntity vendor : vendorService.getAll()) {
+            if (obj.getCreator().equals(vendor.getVendorLogin())) {
+                String originalInput = vendor.getVendorAccessLogin() + ":" + vendor.getVendorAccessPassword();
+                String token = "Base " + Base64.getEncoder().encodeToString(originalInput.getBytes());
+                HttpHeaders httpHeaders = new HttpHeaders();
+                httpHeaders.add(HttpHeaders.AUTHORIZATION, token);
+                HttpEntity<OrderEntity> entity = new HttpEntity<>(vendorOrderService.updateOrderStatus(obj, obj.getStatusOrder()), httpHeaders);
+                new RestTemplate().patchForObject(
+                        vendor.getVendorURL(),
+                        entity,
+                        OrderEntity.class);
+            }
+        }
     }
 }
