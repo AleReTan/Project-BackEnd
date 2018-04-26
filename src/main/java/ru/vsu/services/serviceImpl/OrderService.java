@@ -28,7 +28,12 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
     private VendorOrderService vendorOrderService;
 
     @Autowired
-    public OrderService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService, AttributeService attributeService, VendorService vendorService, VendorOrderService vendorOrderService) {
+    public OrderService(ObjectService<ObjectEntity> objectService,
+                        ParamsService paramsService,
+                        ReferenceService referenceService,
+                        AttributeService attributeService,
+                        VendorService vendorService,
+                        VendorOrderService vendorOrderService) {
         super(objectService, paramsService, referenceService, attributeService);
         this.vendorService = vendorService;
         this.vendorOrderService = vendorOrderService;
