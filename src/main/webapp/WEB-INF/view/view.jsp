@@ -13,17 +13,7 @@
 
 </head>
 <body>
-    <table border="1" cellspacing="0" cellpadding="2">
-        <tr>
-            <td>id</td>v
-            <td>name</td>
-        </tr>
-        <c:forEach items="${objectTypes}" var="objectType">
-        <tr>
-            <td>${objectType.getId()}</td>
-            <td>${objectType.getName()}</td>
-        </tr>
-        </c:forEach>
+
 </body>
 </html>
 
