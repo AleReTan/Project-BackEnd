@@ -93,7 +93,6 @@ public class DriverService extends AbstractEntityService<DriverEntity> {
     public void changeOnShift(long id) {
 
         DriverEntity obj = getObjectById(id);
-        System.out.println(Boolean.toString(!isDriverOnShift(obj.getId())));
         obj.setOnShift(Boolean.toString(!isDriverOnShift(obj.getId())));
         super.update(obj);
     }
