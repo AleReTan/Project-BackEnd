@@ -9,18 +9,15 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 import ru.vsu.entity.OrderEntity;
 import ru.vsu.entity.VendorOrderEntity;
-import ru.vsu.services.serviceImpl.OrderService;
 import ru.vsu.services.serviceImpl.VendorOrderService;
 
 @RestController
 public class VendorOrderRestController {
     private VendorOrderService vendorOrderService;
-    private OrderService orderService;
 
     @Autowired
-    public VendorOrderRestController(VendorOrderService vendorOrderService, OrderService orderService) {
+    public VendorOrderRestController(VendorOrderService vendorOrderService) {
         this.vendorOrderService = vendorOrderService;
-        this.orderService = orderService;
     }
 
     @RequestMapping(value = "/vendor/orders", method = RequestMethod.POST)
@@ -38,8 +35,8 @@ public class VendorOrderRestController {
 
 
     @RequestMapping(value = "/vendor/orders/{id}", method = RequestMethod.GET)
-    public ResponseEntity<OrderEntity> deleteOrder(@PathVariable("id") long id, @RequestHeader("Authorization") String a) {
-        OrderEntity entity = orderService.getObjectById(id);
+    public ResponseEntity<OrderEntity> returnOrder(@PathVariable("id") long id, @RequestHeader("Authorization") String a) {
+        OrderEntity entity = vendorOrderService.getVendorOrderById(id);
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (entity.getCreator().equals(user.getUsername())) {
             return new ResponseEntity<>(entity, HttpStatus.OK);

@@ -5,6 +5,7 @@ INSERT INTO eav.object (id, name, object_type_id) VALUES (36, 'hdgf x321xx36', 7
 INSERT INTO eav.object (id, name, object_type_id) VALUES (27, 'driver 3', 8);
 INSERT INTO eav.object (id, name, object_type_id) VALUES (229, 'Car13', 7);
 INSERT INTO eav.object (id, name, object_type_id) VALUES (37, 'hgfd', 8);
-INSERT INTO eav.object (id, name, object_type_id) VALUES (5, 'Driver1', 8);
 INSERT INTO eav.object (id, name, object_type_id) VALUES (257, 'ParkingVendor1', 10);
+INSERT INTO eav.object (id, name, object_type_id) VALUES (5, 'Driver1', 8);
+INSERT INTO eav.object (id, name, object_type_id) VALUES (291, 'SoberDriverVendor', 10);
 INSERT INTO eav.object (id, name, object_type_id) VALUES (12, 'Driver2', 8);
