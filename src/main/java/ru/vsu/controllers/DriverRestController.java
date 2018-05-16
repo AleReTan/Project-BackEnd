@@ -8,16 +8,19 @@ import org.springframework.web.bind.annotation.*;
 import ru.vsu.entity.DriverEntity;
 import ru.vsu.entity.OrderEntity;
 import ru.vsu.services.serviceImpl.DriverService;
+import ru.vsu.services.serviceImpl.OrderService;
 
 import java.util.List;
 
 @RestController
 public class DriverRestController {
     private DriverService driverService;
+    private OrderService orderService;
 
     @Autowired
-    public DriverRestController(DriverService driverService) {
+    public DriverRestController(DriverService driverService, OrderService orderService) {
         this.driverService = driverService;
+        this.orderService = orderService;
     }
 
     @RequestMapping(value = "/drivers", method = RequestMethod.GET)
@@ -66,7 +69,7 @@ public class DriverRestController {
     @RequestMapping(value = "/drivers/{id}/getOrder", method = RequestMethod.GET)
     public OrderEntity getOrderEntityByDriverId(@PathVariable long id, @RequestHeader("Authorization") String a) {
 
-        OrderEntity orderEntity = driverService.getOrderEntityByDriverId(id);
+        OrderEntity orderEntity = orderService.getOrderEntityByDriverId(id);
         String print = (orderEntity != null) ? orderEntity.toString() : "null";
         System.out.println(print);
         return orderEntity;

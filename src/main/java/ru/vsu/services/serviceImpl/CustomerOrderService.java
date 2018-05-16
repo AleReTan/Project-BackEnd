@@ -1,15 +1,16 @@
 package ru.vsu.services.serviceImpl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.vsu.entity.CustomerOrderEntity;
 import ru.vsu.entity.ObjectEntity;
 import ru.vsu.entity.OrderEntity;
-import ru.vsu.entity.VendorOrderEntity;
 import ru.vsu.services.AbstractEntityService;
 
 import java.time.LocalDateTime;
 
 @Service
-public class VendorOrderService extends AbstractEntityService<OrderEntity> {
+public class CustomerOrderService extends AbstractEntityService<OrderEntity> {
     private static final String FIND_DRIVER = "Поиск водителя";
     private static final String GOES_TO_CLIENT = "Водитель движется к клиенту";
     private static final String PICKED_CLIENT = "Водитель с клиентом";
@@ -22,32 +23,35 @@ public class VendorOrderService extends AbstractEntityService<OrderEntity> {
     private static final String COMPLETED = "Completed";
     private static final String CANCELED = "Canceled";
     private static final long ORDER_TYPE_ID = 6;
-    private static final long NO_DRIVER_ID = 0;
+    private DriverService driverService;
 
-    public VendorOrderService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService, AttributeService attributeService) {
+    @Autowired
+    public CustomerOrderService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService, AttributeService attributeService, DriverService driverService) {
         super(objectService, paramsService, referenceService, attributeService);
+        this.driverService = driverService;
     }
 
-    public OrderEntity processOrder(VendorOrderEntity obj) {
-        OrderEntity newOrderFromVendor = new OrderEntity();
-        newOrderFromVendor.setClientFirstName(obj.getClientFirstName());
-        newOrderFromVendor.setClientLastName(obj.getClientLastName());
-        newOrderFromVendor.setClientPhoneNumber(obj.getClientPhoneNumber());
-        newOrderFromVendor.setAddress(obj.getAddress());
-        newOrderFromVendor.setGeoData(obj.getGeoData());
-        newOrderFromVendor.setDestinationGeoData(obj.getDestinationGeoData());
-        newOrderFromVendor.setCreator(obj.getCreator());
-        newOrderFromVendor.setTypeId(ORDER_TYPE_ID);
-        newOrderFromVendor.setDriverId(NO_DRIVER_ID);
-        newOrderFromVendor.setStatusOrder(FIND_DRIVER);
-        newOrderFromVendor.setOrderStartTime(LocalDateTime.now().toString());
-        newOrderFromVendor.setOrderEndTime(STILL_GOES_ON);
-        newOrderFromVendor.setName(newOrderFromVendor.getOrderStartTime());
-        newOrderFromVendor.setOrderCost("3000");//сюда метод считающий цену
-        newOrderFromVendor.setId(insert(newOrderFromVendor));
-        newOrderFromVendor.setStatusOrder(CREATED);
-        newOrderFromVendor.setOrderEndTime(STILL_IN_PROGRESS);
-        return newOrderFromVendor;
+    public OrderEntity processOrder(CustomerOrderEntity obj) {
+        OrderEntity newOrderFromCustomer = new OrderEntity();
+        newOrderFromCustomer.setClientFirstName(obj.getClientFirstName());
+        newOrderFromCustomer.setClientLastName(obj.getClientLastName());
+        newOrderFromCustomer.setClientPhoneNumber(obj.getClientPhoneNumber());
+        newOrderFromCustomer.setAddress(obj.getAddress());
+        newOrderFromCustomer.setGeoData(obj.getGeoData());
+        newOrderFromCustomer.setDestinationGeoData(obj.getDestinationGeoData());
+        newOrderFromCustomer.setCreator(obj.getCreator());
+        newOrderFromCustomer.setTypeId(ORDER_TYPE_ID);
+        newOrderFromCustomer.setDriverId(driverService.getClosestDriverId(obj.getGeoData()));
+        if (newOrderFromCustomer.getDriverId() == 0) newOrderFromCustomer.setStatusOrder(FIND_DRIVER);
+        else newOrderFromCustomer.setStatusOrder(GOES_TO_CLIENT);
+        newOrderFromCustomer.setOrderStartTime(LocalDateTime.now().toString());
+        newOrderFromCustomer.setOrderEndTime(STILL_GOES_ON);
+        newOrderFromCustomer.setName(newOrderFromCustomer.getOrderStartTime());
+        newOrderFromCustomer.setOrderCost("3000");//сюда метод считающий цену
+        newOrderFromCustomer.setId(insert(newOrderFromCustomer));
+        newOrderFromCustomer.setStatusOrder(CREATED);
+        newOrderFromCustomer.setOrderEndTime(STILL_IN_PROGRESS);
+        return newOrderFromCustomer;
     }
 
     public OrderEntity updateOrderStatus(OrderEntity obj, String status) {
@@ -65,7 +69,7 @@ public class VendorOrderService extends AbstractEntityService<OrderEntity> {
         return obj;
     }
 
-    public OrderEntity getVendorOrderById(long id) {
+    public OrderEntity getCustomerOrderById(long id) {
         OrderEntity orderEntity = getObjectById(id);
         if (STILL_GOES_ON.equals(orderEntity.getOrderEndTime()))
             orderEntity.setOrderEndTime(STILL_IN_PROGRESS);

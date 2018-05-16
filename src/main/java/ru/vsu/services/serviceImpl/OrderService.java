@@ -5,9 +5,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import ru.vsu.entity.CustomerEntity;
 import ru.vsu.entity.ObjectEntity;
 import ru.vsu.entity.OrderEntity;
-import ru.vsu.entity.VendorEntity;
 import ru.vsu.services.AbstractEntityService;
 
 import java.time.LocalDateTime;
@@ -24,19 +24,20 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
     private static final String ORDER_CANCELED = "Заказ отменен";
     private static final String PICKED_CLIENT = "Водитель с клиентом";
     private static final long ORDER_TYPE_ID = 6;
-    private VendorService vendorService;
-    private VendorOrderService vendorOrderService;
+    private static final long ON_ORDER_ATTRIBUTE = 18;
+    private CustomerService customerService;
+    private CustomerOrderService customerOrderService;
 
     @Autowired
     public OrderService(ObjectService<ObjectEntity> objectService,
                         ParamsService paramsService,
                         ReferenceService referenceService,
                         AttributeService attributeService,
-                        VendorService vendorService,
-                        VendorOrderService vendorOrderService) {
+                        CustomerService customerService,
+                        CustomerOrderService customerOrderService) {
         super(objectService, paramsService, referenceService, attributeService);
-        this.vendorService = vendorService;
-        this.vendorOrderService = vendorOrderService;
+        this.customerService = customerService;
+        this.customerOrderService = customerOrderService;
     }
 
     @Override
@@ -70,7 +71,7 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
     public void pickClient(OrderEntity obj) {
         obj.setStatusOrder(PICKED_CLIENT);
         super.update(obj);
-        sendUpdatedOrderToVendor(obj);
+        sendUpdatedOrderToCustomer(obj);
     }
 
     /**
@@ -95,7 +96,7 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
         obj.setOrderEndTime(LocalDateTime.now().toString());
         obj.setDriverId(0);
         super.update(obj);
-        sendUpdatedOrderToVendor(obj);
+        sendUpdatedOrderToCustomer(obj);
     }
 
     /**
@@ -126,23 +127,33 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
     }
 
     /**
+     * возвращает заказ по водителю(если назначен), если не назначет вернет null
+     *
+     * @param id
+     * @return
+     */
+    public OrderEntity getOrderEntityByDriverId(long id) {
+        if (referenceService.isReferenceExistByRefIdAndAttrId(id, ON_ORDER_ATTRIBUTE)) {
+            return getObjectById(referenceService.getObjectIdByRefIdAndAttrId(id, ON_ORDER_ATTRIBUTE));
+        } else {
+            return null;
+        }
+    }
+    /**
      * метод бросает вендору ордер с обновленным статусом
      *
      * @param obj
      */
-    private void sendUpdatedOrderToVendor(OrderEntity obj) {
-//        long vendorId = vendorService.getVendorIdByLogin(obj.getCreator());
-//        VendorEntity vendor = vendorService.getObjectById(vendorId);
-//        vendor.getVendorURL();
-        for (VendorEntity vendor : vendorService.getAll()) {
-            if (obj.getCreator().equals(vendor.getVendorLogin())) {
-                String originalInput = vendor.getVendorAccessLogin() + ":" + vendor.getVendorAccessPassword();
+    private void sendUpdatedOrderToCustomer(OrderEntity obj) {
+        for (CustomerEntity customer : customerService.getAll()) {
+            if (obj.getCreator().equals(customer.getCustomerLogin())) {
+                String originalInput = customer.getCustomerAccessLogin() + ":" + customer.getCustomerAccessPassword();
                 String token = "Base " + Base64.getEncoder().encodeToString(originalInput.getBytes());
                 HttpHeaders httpHeaders = new HttpHeaders();
                 httpHeaders.add(HttpHeaders.AUTHORIZATION, token);
-                HttpEntity<OrderEntity> entity = new HttpEntity<>(vendorOrderService.updateOrderStatus(obj, obj.getStatusOrder()), httpHeaders);
+                HttpEntity<OrderEntity> entity = new HttpEntity<>(customerOrderService.updateOrderStatus(obj, obj.getStatusOrder()), httpHeaders);
                 new RestTemplate().patchForObject(
-                        vendor.getVendorURL(),
+                        customer.getCustomerURL(),
                         entity,
                         OrderEntity.class);
             }

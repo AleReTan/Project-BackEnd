@@ -2,7 +2,7 @@ package ru.vsu.entity;
 
 import java.util.Objects;
 
-public class VendorOrderEntity {
+public class CustomerOrderEntity {
     private String clientFirstName;
     private String clientLastName;
     private String clientPhoneNumber;
@@ -11,10 +11,10 @@ public class VendorOrderEntity {
     private String destinationGeoData;
     private String creator;
 
-    public VendorOrderEntity() {
+    public CustomerOrderEntity() {
     }
 
-    public VendorOrderEntity(String clientFirstName, String clientLastName, String clientPhoneNumber, String address, String geoData, String destinationGeoData, String creator) {
+    public CustomerOrderEntity(String clientFirstName, String clientLastName, String clientPhoneNumber, String address, String geoData, String destinationGeoData, String creator) {
         this.clientFirstName = clientFirstName;
         this.clientLastName = clientLastName;
         this.clientPhoneNumber = clientPhoneNumber;
@@ -84,7 +84,7 @@ public class VendorOrderEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        VendorOrderEntity that = (VendorOrderEntity) o;
+        CustomerOrderEntity that = (CustomerOrderEntity) o;
         return Objects.equals(getClientFirstName(), that.getClientFirstName()) &&
                 Objects.equals(getClientLastName(), that.getClientLastName()) &&
                 Objects.equals(getClientPhoneNumber(), that.getClientPhoneNumber()) &&
@@ -102,7 +102,7 @@ public class VendorOrderEntity {
 
     @Override
     public String toString() {
-        return VendorOrderEntity.class.getSimpleName() +
+        return CustomerOrderEntity.class.getSimpleName() +
                 " clientFirstName='" + clientFirstName + '\'' +
                 ", clientLastName='" + clientLastName + '\'' +
                 ", clientPhoneNumber='" + clientPhoneNumber + '\'' +

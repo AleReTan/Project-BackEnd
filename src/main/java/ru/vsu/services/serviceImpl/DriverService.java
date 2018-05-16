@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.vsu.entity.DriverEntity;
 import ru.vsu.entity.ObjectEntity;
-import ru.vsu.entity.OrderEntity;
 import ru.vsu.services.AbstractEntityService;
 
 import java.util.ArrayList;
@@ -20,12 +19,10 @@ public class DriverService extends AbstractEntityService<DriverEntity> {
     private static final String FALSE = "false";
     private static final String BASIC_GEO_DATA = "51.661035, 39.199017";//пл.Ленина
     private static final long DRIVER_TYPE_ID = 8;
-    private OrderService orderService;
 
     @Autowired
-    public DriverService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService, OrderService orderService, AttributeService attributeService) {
+    public DriverService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService, AttributeService attributeService) {
         super(objectService, paramsService, referenceService, attributeService);
-        this.orderService = orderService;
     }
 
     @Override
@@ -98,20 +95,6 @@ public class DriverService extends AbstractEntityService<DriverEntity> {
     }
 
     /**
-     * возвращает заказ по водителю(если назначен), если не назначет вернет null
-     *
-     * @param id
-     * @return
-     */
-    public OrderEntity getOrderEntityByDriverId(long id) {
-        if (referenceService.isReferenceExistByRefIdAndAttrId(id, ON_ORDER_ATTRIBUTE)) {
-            return orderService.getObjectById(referenceService.getObjectIdByRefIdAndAttrId(id, ON_ORDER_ATTRIBUTE));
-        } else {
-            return null;
-        }
-    }
-
-    /**
      * возвращает айди водителя по связке айди атрибута "login" из таблицы attribute
      * и строке login, поскольку login - примари кей в  users, значение уникальное
      * и getObjectIdByAttributeIdAndValue вернет одну запись
@@ -128,4 +111,35 @@ public class DriverService extends AbstractEntityService<DriverEntity> {
         obj.setDriverGeoData(geoData);
         super.update(obj);
     }
+
+    public long getClosestDriverId(String geoPosition) {
+        List<DriverEntity> allAvailableDrivers = getAllAvailableDriversOnShiftAndCars();
+        double minDistance = Double.MAX_VALUE;
+        double currentDistance;
+        long closestDriverId = 0;
+        ArrayList<Double> targetGeo = parseGeoData(geoPosition);
+        ArrayList<Double> driverGeo;
+        //если нет свободных, ставим 0, то есть поиск водителя
+        if (allAvailableDrivers.isEmpty()) return 0;
+        for (DriverEntity driver : allAvailableDrivers) {
+            driverGeo = parseGeoData(driver.getDriverGeoData());
+            currentDistance = Math.sqrt(
+                    Math.pow(targetGeo.get(0) - driverGeo.get(0), 2) +
+                            Math.pow(targetGeo.get(1) - driverGeo.get(1), 2));
+            if (minDistance > currentDistance) {
+                minDistance = currentDistance;
+                closestDriverId = driver.getId();
+            }
+        }
+        return closestDriverId;
+    }
+
+    private ArrayList<Double> parseGeoData(String geoData) {
+        ArrayList<Double> arrayGeoData = new ArrayList<Double>();
+        for (String geo : geoData.split(",")) {
+            arrayGeoData.add(Double.parseDouble(geo));
+        }
+        return arrayGeoData;
+    }
+
 }

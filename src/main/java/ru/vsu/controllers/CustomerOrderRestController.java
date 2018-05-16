@@ -7,25 +7,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
+import ru.vsu.entity.CustomerOrderEntity;
 import ru.vsu.entity.OrderEntity;
-import ru.vsu.entity.VendorOrderEntity;
-import ru.vsu.services.serviceImpl.VendorOrderService;
+import ru.vsu.services.serviceImpl.CustomerOrderService;
 
 @RestController
-public class VendorOrderRestController {
-    private VendorOrderService vendorOrderService;
+public class CustomerOrderRestController {
+    private CustomerOrderService customerOrderService;
 
     @Autowired
-    public VendorOrderRestController(VendorOrderService vendorOrderService) {
-        this.vendorOrderService = vendorOrderService;
+    public CustomerOrderRestController(CustomerOrderService customerOrderService) {
+        this.customerOrderService = customerOrderService;
     }
 
-    @RequestMapping(value = "/vendor/orders", method = RequestMethod.POST)
-    public ResponseEntity<OrderEntity> createOrder(@RequestBody VendorOrderEntity vendorOrder, @RequestHeader("Authorization") String a) {
+    @RequestMapping(value = "/customer/orders", method = RequestMethod.POST)
+    public ResponseEntity<OrderEntity> createOrder(@RequestBody CustomerOrderEntity customerOrder, @RequestHeader("Authorization") String a) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        vendorOrder.setCreator(user.getUsername());
+        customerOrder.setCreator(user.getUsername());
         try {
-            return new ResponseEntity<>(vendorOrderService.processOrder(vendorOrder), HttpStatus.OK);
+            return new ResponseEntity<>(customerOrderService.processOrder(customerOrder), HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add("Error message", e.getMessage());
@@ -34,9 +34,9 @@ public class VendorOrderRestController {
     }
 
 
-    @RequestMapping(value = "/vendor/orders/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/customer/orders/{id}", method = RequestMethod.GET)
     public ResponseEntity<OrderEntity> returnOrder(@PathVariable("id") long id, @RequestHeader("Authorization") String a) {
-        OrderEntity entity = vendorOrderService.getVendorOrderById(id);
+        OrderEntity entity = customerOrderService.getCustomerOrderById(id);
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (entity.getCreator().equals(user.getUsername())) {
             return new ResponseEntity<>(entity, HttpStatus.OK);
