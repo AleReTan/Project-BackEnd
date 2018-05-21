@@ -108,7 +108,8 @@ public class DriverService extends AbstractEntityService<DriverEntity> {
 
     public void changeGeoLocation(long id, String geoData) {
         DriverEntity obj = getObjectById(id);
-        obj.setDriverGeoData(geoData);
+        //geoData.substring(1,geoData.length()-1)
+        obj.setDriverGeoData(geoData.replace("\"", ""));
         super.update(obj);
     }
 

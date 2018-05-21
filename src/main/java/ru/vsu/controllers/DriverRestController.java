@@ -70,8 +70,6 @@ public class DriverRestController {
     public OrderEntity getOrderEntityByDriverId(@PathVariable long id, @RequestHeader("Authorization") String a) {
 
         OrderEntity orderEntity = orderService.getOrderEntityByDriverId(id);
-        String print = (orderEntity != null) ? orderEntity.toString() : "null";
-        System.out.println(print);
         return orderEntity;
     }
 
