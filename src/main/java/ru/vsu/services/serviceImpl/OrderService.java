@@ -11,6 +11,7 @@ import ru.vsu.entity.OrderEntity;
 import ru.vsu.services.AbstractEntityService;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -27,6 +28,7 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
     private static final long ON_ORDER_ATTRIBUTE = 18;
     private CustomerService customerService;
     private CustomerOrderService customerOrderService;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
     @Autowired
     public OrderService(ObjectService<ObjectEntity> objectService,
@@ -49,9 +51,10 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
         } else {
             obj.setStatusOrder(FIND_DRIVER);
         }
-        obj.setOrderStartTime(LocalDateTime.now().toString());
+
+        obj.setOrderStartTime(LocalDateTime.now().format(formatter));
         obj.setOrderEndTime(STILL_GOES_ON);
-        obj.setName(obj.getOrderStartTime());
+        obj.setName("Заказ от " + obj.getOrderStartTime());
         return super.insert(obj);
     }
 

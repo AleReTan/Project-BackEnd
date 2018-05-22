@@ -3,10 +3,10 @@ package ru.vsu.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.web.bind.annotation.*;
-import ru.vsu.entity.CarEntity;
-import ru.vsu.entity.DriverEntity;
-import ru.vsu.entity.UserEntity;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import ru.vsu.services.serviceImpl.DriverService;
 import ru.vsu.services.serviceImpl.UserService;
 

@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.vsu.dao.daoImpl.UserDao;
 import ru.vsu.entity.UserEntity;
+
 import java.util.Arrays;
 
 @Service
