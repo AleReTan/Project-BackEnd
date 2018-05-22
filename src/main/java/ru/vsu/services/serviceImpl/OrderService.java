@@ -11,6 +11,7 @@ import ru.vsu.entity.OrderEntity;
 import ru.vsu.services.AbstractEntityService;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -51,8 +52,7 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
         } else {
             obj.setStatusOrder(FIND_DRIVER);
         }
-
-        obj.setOrderStartTime(LocalDateTime.now().format(formatter));
+        obj.setOrderStartTime(LocalDateTime.now(ZoneId.of("Europe/Moscow")).format(formatter));
         obj.setOrderEndTime(STILL_GOES_ON);
         obj.setName("Заказ от " + obj.getOrderStartTime());
         return super.insert(obj);
@@ -151,11 +151,11 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
         for (CustomerEntity customer : customerService.getAll()) {
             if (obj.getCreator().equals(customer.getCustomerLogin())) {
                 String originalInput = customer.getCustomerAccessLogin() + ":" + customer.getCustomerAccessPassword();
-                String token = "Base " + Base64.getEncoder().encodeToString(originalInput.getBytes());
+                String token = "Basic " + Base64.getEncoder().encodeToString(originalInput.getBytes());
                 HttpHeaders httpHeaders = new HttpHeaders();
                 httpHeaders.add(HttpHeaders.AUTHORIZATION, token);
                 HttpEntity<OrderEntity> entity = new HttpEntity<>(customerOrderService.updateOrderStatus(obj, obj.getStatusOrder()), httpHeaders);
-                new RestTemplate().patchForObject(
+                new RestTemplate().postForObject(
                         customer.getCustomerURL(),
                         entity,
                         OrderEntity.class);

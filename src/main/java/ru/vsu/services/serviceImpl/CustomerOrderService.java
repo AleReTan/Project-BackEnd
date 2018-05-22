@@ -8,6 +8,8 @@ import ru.vsu.entity.OrderEntity;
 import ru.vsu.services.AbstractEntityService;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class CustomerOrderService extends AbstractEntityService<OrderEntity> {
@@ -24,6 +26,7 @@ public class CustomerOrderService extends AbstractEntityService<OrderEntity> {
     private static final String CANCELED = "Canceled";
     private static final long ORDER_TYPE_ID = 6;
     private DriverService driverService;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
     @Autowired
     public CustomerOrderService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService, AttributeService attributeService, DriverService driverService) {
@@ -44,9 +47,9 @@ public class CustomerOrderService extends AbstractEntityService<OrderEntity> {
         newOrderFromCustomer.setDriverId(driverService.getClosestDriverId(obj.getGeoData()));
         if (newOrderFromCustomer.getDriverId() == 0) newOrderFromCustomer.setStatusOrder(FIND_DRIVER);
         else newOrderFromCustomer.setStatusOrder(GOES_TO_CLIENT);
-        newOrderFromCustomer.setOrderStartTime(LocalDateTime.now().toString());
+        newOrderFromCustomer.setOrderStartTime(LocalDateTime.now(ZoneId.of("Europe/Moscow")).format(formatter));
         newOrderFromCustomer.setOrderEndTime(STILL_GOES_ON);
-        newOrderFromCustomer.setName(newOrderFromCustomer.getOrderStartTime());
+        newOrderFromCustomer.setName("Заказ от " + newOrderFromCustomer.getOrderStartTime());
         newOrderFromCustomer.setOrderCost("3000");//сюда метод считающий цену
         newOrderFromCustomer.setId(insert(newOrderFromCustomer));
         newOrderFromCustomer.setStatusOrder(CREATED);
