@@ -38,7 +38,6 @@ public class YandexJsonService {
         ObjectNode objectNode1;
         ArrayList<DriverEntity> driverEntityArrayList = (ArrayList<DriverEntity>) driverService.getAllDriversOnShiftAndCars();//здесь можем получать разных водителей
         for (DriverEntity driver : driverEntityArrayList) {
-            //TODO:а че с обработкой нулов
             geo = driver.getDriverGeoData().split(",");//кладем координаты в массив
             car = (CarEntity) objectService.findById(driver.getCarId(), CarEntity.class);
             objectNode1 = mapper.createObjectNode();
@@ -52,7 +51,7 @@ public class YandexJsonService {
                             .add(Double.parseDouble(geo[1]))
                     ));
             objectNode1.set("properties", mapper.createObjectNode()
-                    .put("balloonContent", car.getModel() + " " + car.getNumber())
+                    .put("balloonContent", car.getModel() + " " + car.getNumber() + "\n" + driver.getPhoneNumber())
                     .put("hintContent", car.getNumber())
                     .put("driverId", driver.getId()));
             //тип иконки, в зависимости, на заказе водитель или нет, синий-свободен, красный-на заказе
@@ -94,7 +93,7 @@ public class YandexJsonService {
                             .add(Double.parseDouble(geo[1]))
                     ));
             objectNode1.set("properties", mapper.createObjectNode()
-                    .put("balloonContent", car.getModel() + " " + car.getNumber())
+                    .put("balloonContent", car.getModel() + " " + car.getNumber() + "\n" + driver.getPhoneNumber())
                     .put("hintContent", car.getNumber())
                     .put("driverId", driver.getId()));
             //тип иконки, в зависимости, на заказе водитель или нет, синий-свободен, красный-на заказе
