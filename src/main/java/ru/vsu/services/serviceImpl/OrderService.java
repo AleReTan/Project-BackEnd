@@ -29,7 +29,7 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
     private static final long ON_ORDER_ATTRIBUTE = 18;
     private CustomerService customerService;
     private CustomerOrderService customerOrderService;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
     @Autowired
     public OrderService(ObjectService<ObjectEntity> objectService,
@@ -84,7 +84,7 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
      */
     public void cancelOrder(OrderEntity obj) {
         obj.setStatusOrder(ORDER_CANCELED);
-        obj.setOrderEndTime(LocalDateTime.now().toString());
+        obj.setOrderEndTime(LocalDateTime.now(ZoneId.of("Europe/Moscow")).format(formatter));
         obj.setDriverId(0);
         super.update(obj);
     }
@@ -96,7 +96,7 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
      */
     public void closeOrder(OrderEntity obj) {
         obj.setStatusOrder(ORDER_COMPLETE);
-        obj.setOrderEndTime(LocalDateTime.now().toString());
+        obj.setOrderEndTime(LocalDateTime.now(ZoneId.of("Europe/Moscow")).format(formatter));
         obj.setDriverId(0);
         super.update(obj);
         sendUpdatedOrderToCustomer(obj);
@@ -142,6 +142,7 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
             return null;
         }
     }
+
     /**
      * метод бросает вендору ордер с обновленным статусом
      *
@@ -150,15 +151,19 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
     private void sendUpdatedOrderToCustomer(OrderEntity obj) {
         for (CustomerEntity customer : customerService.getAll()) {
             if (obj.getCreator().equals(customer.getCustomerLogin())) {
-                String originalInput = customer.getCustomerAccessLogin() + ":" + customer.getCustomerAccessPassword();
-                String token = "Basic " + Base64.getEncoder().encodeToString(originalInput.getBytes());
-                HttpHeaders httpHeaders = new HttpHeaders();
-                httpHeaders.add(HttpHeaders.AUTHORIZATION, token);
-                HttpEntity<OrderEntity> entity = new HttpEntity<>(customerOrderService.updateOrderStatus(obj, obj.getStatusOrder()), httpHeaders);
-                new RestTemplate().postForObject(
-                        customer.getCustomerURL(),
-                        entity,
-                        OrderEntity.class);
+                if (!("".equals(customer.getCustomerURL()) &&
+                        "".equals(customer.getCustomerAccessLogin()) &&
+                        "".equals(customer.getCustomerAccessPassword()))) {
+                    String originalInput = customer.getCustomerAccessLogin() + ":" + customer.getCustomerAccessPassword();
+                    String token = "Basic " + Base64.getEncoder().encodeToString(originalInput.getBytes());
+                    HttpHeaders httpHeaders = new HttpHeaders();
+                    httpHeaders.add(HttpHeaders.AUTHORIZATION, token);
+                    HttpEntity<OrderEntity> entity = new HttpEntity<>(customerOrderService.updateOrderStatus(obj, obj.getStatusOrder()), httpHeaders);
+                    new RestTemplate().postForObject(
+                            customer.getCustomerURL(),
+                            entity,
+                            OrderEntity.class);
+                }
             }
         }
     }

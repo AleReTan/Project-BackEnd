@@ -26,7 +26,7 @@ public class CustomerOrderService extends AbstractEntityService<OrderEntity> {
     private static final String CANCELED = "Canceled";
     private static final long ORDER_TYPE_ID = 6;
     private DriverService driverService;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
     @Autowired
     public CustomerOrderService(ObjectService<ObjectEntity> objectService, ParamsService paramsService, ReferenceService referenceService, AttributeService attributeService, DriverService driverService) {
