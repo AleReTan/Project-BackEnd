@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import ru.vsu.entity.CustomerEntity;
 import ru.vsu.entity.ObjectEntity;
@@ -74,7 +75,13 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
     public void pickClient(OrderEntity obj) {
         obj.setStatusOrder(PICKED_CLIENT);
         super.update(obj);
-        sendUpdatedOrderToCustomer(obj);
+        try {
+            sendUpdatedOrderToCustomer(obj);
+        } catch (HttpStatusCodeException e) {
+            System.out.println("http code " + e.getStatusCode() +
+                    " " + e.getMessage());
+        }
+
     }
 
     /**
@@ -99,7 +106,12 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
         obj.setOrderEndTime(LocalDateTime.now(ZoneId.of("Europe/Moscow")).format(formatter));
         obj.setDriverId(0);
         super.update(obj);
-        sendUpdatedOrderToCustomer(obj);
+        try {
+            sendUpdatedOrderToCustomer(obj);
+        } catch (HttpStatusCodeException e) {
+            System.out.println("http code " + e.getStatusCode() +
+                    " " + e.getMessage());
+        }
     }
 
     /**
@@ -159,6 +171,8 @@ public class OrderService extends AbstractEntityService<OrderEntity> {
                     HttpHeaders httpHeaders = new HttpHeaders();
                     httpHeaders.add(HttpHeaders.AUTHORIZATION, token);
                     HttpEntity<OrderEntity> entity = new HttpEntity<>(customerOrderService.updateOrderStatus(obj, obj.getStatusOrder()), httpHeaders);
+                    System.out.println("Send following order to customer: ");
+                    System.out.println(entity);
                     new RestTemplate().postForObject(
                             customer.getCustomerURL(),
                             entity,
