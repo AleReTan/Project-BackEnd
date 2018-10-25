@@ -10,14 +10,14 @@
     <version>1.0-deploy</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-framework-version>4.3.14.RELEASE</spring-framework-version>
+        <spring-framework-version>4.3.18</spring-framework-version>
         <springsecurity-version>3.2.6.RELEASE</springsecurity-version>
         <spring-security-version>3.2.5.RELEASE</spring-security-version>
         <postgresql-version>42.1.4</postgresql-version>
         <servlet-version>3.1.0</servlet-version>
         <maven-war-plugin-version>3.2.0</maven-war-plugin-version>
         <jstl-version>1.2</jstl-version>
-        <spring-security-version>3.2.5.RELEASE</spring-security-version>
+        <spring-security-version>4.1.1</spring-security-version>
     </properties>
     <dependencies>
         <!-- Spring-->
